@@ -22,7 +22,7 @@
         <input type="text" placeholder="리뷰" />
       </div>
       <div class="row-container">
-        <button>저장</button>
+        <button @click="saveLocation">저장</button>
         <button>취소</button>
         <button>🏞️</button>
       </div>
@@ -33,6 +33,7 @@
 <script setup>
 import { defineModel } from "vue";
 import { CustomMarker, InfoWindow } from "vue3-google-map";
+import { locationAPI } from "../services/location.api.js";
 
 const isActive = defineModel("isActive", { default: false });
 const lat = defineModel("lat", { default: -1 });
@@ -41,6 +42,10 @@ const markerIcon = require("@/assets/add_location.svg");
 
 function closeRegistration() {
   isActive.value = false;
+}
+
+function saveLocation() {
+  console.log("check", locationAPI.postLocation());
 }
 </script>
 
