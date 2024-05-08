@@ -18,7 +18,7 @@
     </Marker> -->
 
     <template v-if="isActive">
-      <PlaceRegistration
+      <LocationRegistration
         v-model:isActive="isActive"
         v-model:lat="registrationWindowInfo.lat"
         v-model:lng="registrationWindowInfo.lng"
@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import PlaceRegistration from "./PlaceRegistration.vue";
+import LocationRegistration from "./LocationRegistration.vue";
 import { GoogleMap } from "vue3-google-map";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
