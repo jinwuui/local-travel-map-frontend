@@ -4,6 +4,7 @@ export default class LocationAPIService {
   constructor() {
     this.axiosInstance = axios.create({
       baseURL: process.env.VUE_APP_BASE_URL + "/locations",
+      headers: { "Content-Type": "application/json" },
     });
   }
 
@@ -21,7 +22,7 @@ export default class LocationAPIService {
   }
 
   async postLocation(location) {
-    return this._axiosCall({ method: "post", data: location });
+    return this._axiosCall({ method: "post", data: JSON.stringify(location) });
   }
 }
 

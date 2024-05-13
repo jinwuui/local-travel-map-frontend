@@ -17,9 +17,9 @@
     <div>
       <div class="col-container">
         <p>등록하기</p>
-        <input type="text" placeholder="설명" />
-        <input type="text" placeholder="평점 (1~5)" />
-        <input type="text" placeholder="리뷰" />
+        <input type="text" placeholder="이름" v-model="location.name" />
+        <input type="number" placeholder="평점" v-model="location.rating" />
+        <textarea placeholder="설명" v-model="location.description" />
       </div>
       <div class="row-container">
         <button @click="saveLocation">저장</button>
@@ -31,21 +31,28 @@
 </template>
 
 <script setup>
-import { defineModel } from "vue";
+import { defineModel, ref } from "vue";
 import { CustomMarker, InfoWindow } from "vue3-google-map";
-import { locationAPI } from "../services/location.api.js";
+import { locationAPI } from "../services/location.api";
+import Location from "../models/Location";
 
 const isActive = defineModel("isActive", { default: false });
 const lat = defineModel("lat", { default: -1 });
 const lng = defineModel("lng", { default: -1 });
 const markerIcon = require("@/assets/add_location.svg");
 
+const location = ref(new Location());
+
 function closeRegistration() {
   isActive.value = false;
 }
 
 function saveLocation() {
-  console.log("check", locationAPI.postLocation());
+  if (location.value.isValid()) {
+    locationAPI.postLocation(location.value);
+  } else {
+    alert("잘못된 입력");
+  }
 }
 </script>
 
