@@ -8,15 +8,7 @@
     @click="openRegistration"
     draggableCursor="default"
   >
-    <MarkerCluster> 다른 사람들이 올린 마커들 </MarkerCluster>
-    <!-- <Marker :options="{ position: center }">
-      <InfoWindow v-model="registerWindowInfo.visible">
-        <div>
-          <button>Save</button>
-        </div>
-      </InfoWindow>
-    </Marker> -->
-
+    <LocationCluster />
     <template v-if="isActive">
       <LocationRegistration
         v-model:isActive="isActive"
@@ -29,12 +21,12 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import LocationCluster from "./LocationCluster.vue";
 import LocationRegistration from "./LocationRegistration.vue";
 import { GoogleMap } from "vue3-google-map";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 const center = ref({ lat: 35.16748, lng: 129.11503 });
-
 const mapRef = ref(null);
 watch(
   () => mapRef.value?.ready,
