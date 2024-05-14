@@ -1,58 +1,49 @@
 <template>
   <div :class="{ sidebar: true, 'is-open': isOpen }">
-    <button @click="toggleMenu">Toggle Menu</button>
-    <h1>Menu</h1>
+    <h1>🏠</h1>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#">저장</a></li>
+      <li><a href="#">최근</a></li>
+      <li><a href="#">설정</a></li>
+      <li><a href="#">공지</a></li>
     </ul>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      isActive: true,
-      isOpen: true,
-    };
-  },
-  methods: {
-    toggleMenu() {
-      this.isOpen = !this.isOpen;
-    },
-  },
-};
+<script setup>
+import { ref } from "vue";
+
+const isOpen = ref(true);
 </script>
 
 <style scoped>
 .sidebar {
-  width: 250px;
+  display: flex;
+  flex-direction: column;
+
+  width: 50px;
+  padding: 10px;
   height: 100vh;
-  background-color: grey;
-  color: black;
+
   position: fixed;
   left: 0;
   top: 0;
-  transition: transform 0.3s ease;
-  transform: translateX(100);
-  padding: 20px;
-  /* z-index: 1000; */
-}
 
-.sidebar .is-open {
-  transform: translateX(0);
+  background-color: grey;
+  align-items: center;
 }
-
-ul {
-  list-style-type: none;
+.sidebar h1 {
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.sidebar ul {
+  list-style: none;
   padding: 0;
-}
+  margin: 0;
 
-li a {
-  color: white;
-  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 </style>
