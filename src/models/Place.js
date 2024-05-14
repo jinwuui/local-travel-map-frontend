@@ -1,4 +1,4 @@
-export default class Location {
+export default class Place {
   constructor(name = "", description = "", rating = 0) {
     console.log("this is cons", name, description, rating);
     this.name = name;

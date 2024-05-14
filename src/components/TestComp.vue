@@ -25,7 +25,7 @@
           :options="openedMarker.options"
           @closeclick="openMarker(null)"
         >
-          <img src="../assets/add_location.svg" />
+          <img src="../assets/add_place.svg" />
           <p>Marker</p>
         </InfoWindow>
       </MarkerCluster>
@@ -62,7 +62,7 @@ export default defineComponent({
       open: false,
       center: { lat: 35.16748, lng: 129.11503 },
       openedMarker: false,
-      locations: [
+      places: [
         { options: { position: { lat: 35.16748, lng: 129.11503 } } },
         { options: { position: { lat: 35.16748, lng: 129.11503 } } },
       ],
@@ -80,7 +80,7 @@ export default defineComponent({
       if (!this.ready) {
         return [];
       }
-      return this.locations;
+      return this.places;
     },
   },
   methods: {

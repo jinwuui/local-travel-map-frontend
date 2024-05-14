@@ -8,9 +8,9 @@
     @click="openRegistration"
     draggableCursor="default"
   >
-    <LocationCluster />
+    <PlaceCluster />
     <template v-if="isActive">
-      <LocationRegistration
+      <PlaceRegistration
         v-model:isActive="isActive"
         v-model:lat="registrationWindowInfo.lat"
         v-model:lng="registrationWindowInfo.lng"
@@ -21,8 +21,8 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import LocationCluster from "./LocationCluster.vue";
-import LocationRegistration from "./LocationRegistration.vue";
+import PlaceCluster from "./PlaceCluster.vue";
+import PlaceRegistration from "./NewPlace.vue";
 import { GoogleMap } from "vue3-google-map";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
@@ -42,7 +42,7 @@ watch(
 // const markerIcon = computed(() =>
 //   mapRef.value?.ready
 //     ? {
-//         url: "@/assets/add_location.svg",
+//         url: "@/assets/add_place.svg",
 //         scaledSize: new mapRef.value.api.Size(20, 20),
 //       }
 //     : null

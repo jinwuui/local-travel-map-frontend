@@ -1,10 +1,10 @@
 <template>
   <MarkerCluster>
     <Marker
-      v-for="(location, i) in locations"
+      v-for="(place, i) in places"
       :key="i"
-      :options="{ position: location.postion }"
-      @click="openInfoTab(location)"
+      :options="{ position: place.postion }"
+      @click="openInfoTab(place)"
     />
   </MarkerCluster>
 </template>
@@ -12,7 +12,7 @@
 <script setup>
 import { Marker, MarkerCluster } from "vue3-google-map";
 
-const locations = [
+const places = [
   {
     postion: { lat: -31.56391, lng: 147.154312 },
     name: "loc",
@@ -153,7 +153,7 @@ const locations = [
   },
 ];
 
-function openInfoTab(location) {
-  console.log("openInfoTab", location);
+function openInfoTab(place) {
+  console.log("openInfoTab", place);
 }
 </script>

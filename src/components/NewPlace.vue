@@ -17,12 +17,12 @@
     <div>
       <div class="col-container">
         <p>등록하기</p>
-        <input type="text" placeholder="이름" v-model="location.name" />
-        <input type="number" placeholder="평점" v-model="location.rating" />
-        <textarea placeholder="설명" v-model="location.description" />
+        <input type="text" placeholder="이름" v-model="place.name" />
+        <input type="number" placeholder="평점" v-model="place.rating" />
+        <textarea placeholder="설명" v-model="place.description" />
       </div>
       <div class="row-container">
-        <button @click="saveLocation">저장</button>
+        <button @click="savePlace">저장</button>
         <button>취소</button>
         <button>🏞️</button>
       </div>
@@ -33,23 +33,23 @@
 <script setup>
 import { defineModel, ref } from "vue";
 import { CustomMarker, InfoWindow } from "vue3-google-map";
-import { locationAPI } from "../services/location.api";
-import Location from "../models/Location";
+import { placeAPI } from "../services/place.api";
+import Place from "../models/Place";
 
 const isActive = defineModel("isActive", { default: false });
 const lat = defineModel("lat", { default: -1 });
 const lng = defineModel("lng", { default: -1 });
-const markerIcon = require("@/assets/add_location.svg");
+const markerIcon = require("@/assets/add_place.svg");
 
-const location = ref(new Location());
+const place = ref(new Place());
 
 function closeRegistration() {
   isActive.value = false;
 }
 
-function saveLocation() {
-  if (location.value.isValid()) {
-    locationAPI.postLocation(location.value);
+function savePlace() {
+  if (place.value.isValid()) {
+    placeAPI.postPlace(place.value);
   } else {
     alert("잘못된 입력");
   }
