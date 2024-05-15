@@ -10,7 +10,7 @@
   >
     <PlaceCluster />
     <template v-if="isActive">
-      <PlaceRegistration
+      <NewPlace
         v-model:isActive="isActive"
         v-model:lat="registrationWindowInfo.lat"
         v-model:lng="registrationWindowInfo.lng"
@@ -22,8 +22,9 @@
 <script setup>
 import { ref, watch } from "vue";
 import PlaceCluster from "./PlaceCluster.vue";
-import PlaceRegistration from "./NewPlace.vue";
+import NewPlace from "./NewPlace.vue";
 import { GoogleMap } from "vue3-google-map";
+import { fetchPlaceMarkers } from "./states/places";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 const center = ref({ lat: 35.16748, lng: 129.11503 });
@@ -34,8 +35,7 @@ watch(
     if (!ready) return;
 
     console.log("map ready");
-    // do something with the api using `mapRef.value.ap˜i`
-    // or with the map instance using `mapRef.value.map`
+    fetchPlaceMarkers();
   }
 );
 
