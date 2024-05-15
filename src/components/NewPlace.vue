@@ -17,12 +17,13 @@
     <div>
       <div class="col-container">
         <p>등록하기</p>
-        <input type="text" placeholder="이름" v-model="place.name" />
-        <input type="number" placeholder="평점" v-model="place.rating" />
-        <textarea placeholder="설명" v-model="place.description" />
+        <input type="text" placeholder="이름" v-model="newPlace.name" />
+        <input type="number" placeholder="평점" v-model="newPlace.rating" />
+        <input type="text" placeholder="카테고리" v-model="newPlace.category" />
+        <textarea placeholder="설명" v-model="newPlace.description" />
       </div>
       <div class="row-container">
-        <button @click="savePlace">저장</button>
+        <button @click="addPlace">저장</button>
         <button>취소</button>
         <button>🏞️</button>
       </div>
@@ -31,28 +32,17 @@
 </template>
 
 <script setup>
-import { defineModel, ref } from "vue";
+import { defineModel } from "vue";
 import { CustomMarker, InfoWindow } from "vue3-google-map";
-import { placeAPI } from "../services/place.api";
-import Place from "../models/Place";
+import { newPlace, addPlace } from "./states/new-place";
 
 const isActive = defineModel("isActive", { default: false });
 const lat = defineModel("lat", { default: -1 });
 const lng = defineModel("lng", { default: -1 });
 const markerIcon = require("@/assets/add_place.svg");
 
-const place = ref(new Place());
-
 function closeRegistration() {
   isActive.value = false;
-}
-
-function savePlace() {
-  if (place.value.isValid()) {
-    placeAPI.postPlace(place.value);
-  } else {
-    alert("잘못된 입력");
-  }
 }
 </script>
 

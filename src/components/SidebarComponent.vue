@@ -8,10 +8,12 @@
       <li><a href="#">공지</a></li>
     </ul>
   </div>
+  <SelectedPlaceTab />
 </template>
 
 <script setup>
 import { ref } from "vue";
+import SelectedPlaceTab from "./SelectedPlaceTab.vue";
 
 const isOpen = ref(true);
 </script>
@@ -31,6 +33,7 @@ const isOpen = ref(true);
 
   background-color: grey;
   align-items: center;
+  z-index: 1000;
 }
 .sidebar h1 {
   margin: 0;

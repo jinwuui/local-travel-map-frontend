@@ -1,159 +1,54 @@
 <template>
-  <MarkerCluster>
-    <Marker
-      v-for="(place, i) in places"
-      :key="i"
-      :options="{ position: place.postion }"
-      @click="openInfoTab(place)"
-    />
-  </MarkerCluster>
+  <template v-if="places.value.length != 0">
+    <MarkerCluster>
+      <CustomMarker
+        v-for="(place, i) in places.value"
+        :key="i"
+        @click.stop="clickMarker(place, i)"
+        :options="{
+          position: { lat: place.lat, lng: place.lng },
+          anchorPoint: 'BOTTOM_CENTER',
+          zindex: 1000,
+        }"
+      >
+        <img
+          v-if="i == selectedPlaceIndex"
+          id="selected-marker"
+          :src="selectedMarkerIcon"
+        />
+        <img v-else id="basic-marker" :src="markerIcon" />
+      </CustomMarker>
+    </MarkerCluster>
+  </template>
 </template>
 
 <script setup>
-import { Marker, MarkerCluster } from "vue3-google-map";
+import { ref, watch } from "vue";
+import { MarkerCluster, CustomMarker } from "vue3-google-map";
+import { selectPlace } from "./states/selected-place";
+import { places } from "./states/places";
 
-const places = [
-  {
-    postion: { lat: -31.56391, lng: 147.154312 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -33.718234, lng: 150.363181 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -33.727111, lng: 150.371124 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -33.848588, lng: 151.209834 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -33.851702, lng: 151.216968 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -34.671264, lng: 150.863657 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -35.304724, lng: 148.662905 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -36.817685, lng: 175.699196 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -36.828611, lng: 175.790222 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.75, lng: 145.116667 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.759859, lng: 145.128708 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.765015, lng: 145.133858 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.770104, lng: 145.143299 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.7737, lng: 145.145187 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.774785, lng: 145.137978 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -37.819616, lng: 144.968119 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -38.330766, lng: 144.695692 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -39.927193, lng: 175.053218 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -41.330162, lng: 174.865694 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -42.734358, lng: 147.439506 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -42.734358, lng: 147.501315 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -42.735258, lng: 147.438 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-  {
-    postion: { lat: -43.999792, lng: 170.463352 },
-    name: "loc",
-    description: "desc",
-    rating: 2,
-  },
-];
+const markerIcon = require("@/assets/place.svg");
+const selectedMarkerIcon = require("@/assets/selected_place.svg");
 
-function openInfoTab(place) {
-  console.log("openInfoTab", place);
+const selectedPlaceIndex = ref(null);
+
+watch(places, () => {
+  console.log("places updated:", places);
+});
+
+function clickMarker(place, index) {
+  selectedPlaceIndex.value = index;
+  selectPlace(place);
 }
 </script>
+
+<style>
+#selected-marker {
+  height: 40px;
+  width: 40px;
+  /* display: block; */
+  /* margin-left: 50%; */
+  /* transform: translateX(25%); */
+}
+</style>
