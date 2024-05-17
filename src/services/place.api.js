@@ -11,9 +11,9 @@ export default class PlaceAPIService {
   async _axiosCall(config) {
     try {
       const { data } = await this.axiosInstance.request(config);
-      return [null, data];
+      return data;
     } catch (error) {
-      return [error];
+      return error;
     }
   }
 

@@ -1,7 +1,7 @@
 <template>
   <CustomMarker
     :options="{
-      position: { lat: lat, lng: lng },
+      position: { lat: newPlace.lat, lng: newPlace.lng },
       anchorPoint: 'BOTTOM_CENTER',
     }"
   >
@@ -9,10 +9,10 @@
   </CustomMarker>
   <InfoWindow
     :options="{
-      position: { lat: lat, lng: lng },
+      position: { lat: newPlace.lat, lng: newPlace.lng },
       pixelOffset: { width: 0, height: -35 },
     }"
-    @closeclick="closeRegistration"
+    @closeclick="closeForm"
   >
     <div>
       <div class="col-container">
@@ -23,7 +23,7 @@
         <textarea placeholder="설명" v-model="newPlace.description" />
       </div>
       <div class="row-container">
-        <button @click="addPlace">저장</button>
+        <button @click="addNewPlace">저장</button>
         <button>취소</button>
         <button>🏞️</button>
       </div>
@@ -32,18 +32,12 @@
 </template>
 
 <script setup>
-import { defineModel } from "vue";
 import { CustomMarker, InfoWindow } from "vue3-google-map";
-import { newPlace, addPlace } from "./states/new-place";
+import useNewPlace from "@/components/states/useNewPlace";
 
-const isActive = defineModel("isActive", { default: false });
-const lat = defineModel("lat", { default: -1 });
-const lng = defineModel("lng", { default: -1 });
+const { closeForm, newPlace, addNewPlace } = useNewPlace();
+
 const markerIcon = require("@/assets/add_place.svg");
-
-function closeRegistration() {
-  isActive.value = false;
-}
 </script>
 
 <style scoped>

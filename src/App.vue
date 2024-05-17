@@ -1,22 +1,19 @@
 <template>
   <div>
-    <map-component></map-component>
-    <sidebar-component></sidebar-component>
-    <!-- <test-comp></test-comp> -->
+    <MapPage />
+    <AppSidebar />
   </div>
 </template>
 
 <script>
-import MapComponent from "./components/MapComponent.vue";
-import SidebarComponent from "./components/SidebarComponent.vue";
-// import TestComp from "./components/TestComp.vue";
+import MapPage from "./components/MapPage.vue";
+import AppSidebar from "./components/AppSidebar.vue";
 
 export default {
   name: "App",
   components: {
-    MapComponent,
-    SidebarComponent,
-    // TestComp,
+    MapPage,
+    AppSidebar,
   },
 };
 </script>

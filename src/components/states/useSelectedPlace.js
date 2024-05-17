@@ -1,5 +1,5 @@
+import { reactive, computed } from "vue";
 import Place from "@/models/Place";
-import { reactive } from "vue";
 import { placeAPI } from "@/services/place.api";
 
 const selectedPlace = reactive({ value: null });
@@ -16,4 +16,12 @@ const selectPlace = async (marker) => {
   });
 };
 
-export { selectedPlace, selectPlace };
+export default function useSelectedPlace() {
+  console.log("func - - - useSelectedPlace");
+  return {
+    selectedPlace: computed(() => selectedPlace.value),
+    selectPlace,
+  };
+}
+
+// export { selectedPlace, selectPlace };

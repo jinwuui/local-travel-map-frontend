@@ -1,12 +1,12 @@
 <template>
   <div class="tab">
     <img src="../assets/logo.png" alt="Description of the image" />
-    <template v-if="selectedPlace.value != null">
-      <p>{{ selectedPlace.value.name }}</p>
-      <p>{{ selectedPlace.value.rating }}</p>
-      <p>{{ selectedPlace.value.description }}</p>
-      <p>{{ selectedPlace.value.lat }}</p>
-      <p>{{ selectedPlace.value.lng }}</p>
+    <template v-if="selectedPlace != null">
+      <p>{{ selectedPlace.name }}</p>
+      <p>{{ selectedPlace.rating }}</p>
+      <p>{{ selectedPlace.description }}</p>
+      <p>{{ selectedPlace.lat }}</p>
+      <p>{{ selectedPlace.lng }}</p>
     </template>
     <ul class="comments">
       <li>댓글1</li>
@@ -18,19 +18,9 @@
 </template>
 
 <script setup>
-// import { computed, watch } from "vue";
-import { selectedPlace } from "./states/selected-place";
+import useSelectedPlace from "@/components/states/useSelectedPlace";
 
-// const place = computed(() => state.selectedPlace);
-// const details = computed(() => state.placeDetails);
-
-// watch(place, (newPlace) => {
-//   console.log("place updated:", newPlace);
-// });
-
-// watch(details, (newDetails) => {
-//   console.log("details updated:", newDetails);
-// });
+const { selectedPlace } = useSelectedPlace();
 </script>
 
 <style>
