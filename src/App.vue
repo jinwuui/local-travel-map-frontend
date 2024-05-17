@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import MapPage from "./components/MapPage.vue";
-import AppSidebar from "./components/AppSidebar.vue";
+import MapPage from "@/components/MapPage.vue";
+import AppSidebar from "@/components/AppSidebar.vue";
 
 export default {
   name: "App",

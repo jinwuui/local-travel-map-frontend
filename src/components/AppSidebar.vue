@@ -13,7 +13,7 @@
 
 <script setup>
 import { ref } from "vue";
-import SelectedPlaceTab from "./SelectedPlaceTab.vue";
+import SelectedPlaceTab from "@/components/SelectedPlaceTab.vue";
 
 const isOpen = ref(true);
 </script>
