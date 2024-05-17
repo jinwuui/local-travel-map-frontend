@@ -1,5 +1,5 @@
 import { reactive, computed } from "vue";
-import Place from "@/models/Place";
+import PlaceDetail from "@/models/PlaceDetail";
 import { placeAPI } from "@/services/place.api";
 
 const selectedPlace = reactive({ value: null });
@@ -8,7 +8,7 @@ const selectPlace = async (marker) => {
   const placeDetails = await placeAPI.fetchPlaceDetails(marker.placeId);
   console.log("selectPlace", placeDetails, marker);
 
-  selectedPlace.value = Place.fromMarkerAndDetails({
+  selectedPlace.value = PlaceDetail.fromPlace({
     marker: marker,
     name: placeDetails?.name ?? "default name",
     description: placeDetails?.description ?? "default description",
@@ -23,5 +23,3 @@ export default function useSelectedPlace() {
     selectPlace,
   };
 }
-
-// export { selectedPlace, selectPlace };
