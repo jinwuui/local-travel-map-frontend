@@ -22,22 +22,56 @@
         <input type="text" placeholder="카테고리" v-model="newPlace.category" />
         <textarea placeholder="설명" v-model="newPlace.description" />
       </div>
+      <div v-if="imageUrls.length" class="image-preview">
+        <div
+          v-for="(url, index) in imageUrls"
+          :key="index"
+          class="preview-container"
+        >
+          <img :src="url" alt="Image preview" />
+        </div>
+      </div>
       <div class="row-container">
-        <button @click="addNewPlace">저장</button>
+        <button @click="addNewPlace(selectedFiles)">저장</button>
         <button>취소</button>
-        <button>🏞️</button>
+        <div class="file-upload">
+          <label for="file-input" class="file-upload-button">사진 추가</label>
+          <input
+            id="file-input"
+            type="file"
+            accept="image/*"
+            @change="onFileChange"
+            multiple
+          />
+        </div>
       </div>
     </div>
   </InfoWindow>
 </template>
 
 <script setup>
+import { ref, onBeforeUnmount } from "vue";
 import { CustomMarker, InfoWindow } from "vue3-google-map";
 import useNewPlace from "@/components/states/useNewPlace";
 
 const { closeForm, newPlace, addNewPlace } = useNewPlace();
 
 const markerIcon = require("@/assets/add_place.svg");
+
+const selectedFiles = ref([]);
+const imageUrls = ref([]);
+
+function onFileChange(event) {
+  const files = Array.from(event.target.files);
+
+  selectedFiles.value = files;
+  imageUrls.value = files.map((file) => URL.createObjectURL(file));
+}
+
+onBeforeUnmount(() => {
+  // 컴포넌트가 소멸되기 전에 URL 객체 해제
+  imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
+});
 </script>
 
 <style scoped>
@@ -55,5 +89,30 @@ const markerIcon = require("@/assets/add_place.svg");
   padding: 5px; /* 패딩 추가 */
   gap: 5px; /* 요소들 사이의 간격 */
   flex-wrap: wrap; /* 필요한 경우 다음 줄로 넘김 */
+}
+
+.file-upload {
+  display: inline-block;
+  position: relative;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  padding: 3px;
+}
+.file-upload input[type="file"] {
+  display: none;
+}
+
+.image-preview {
+  margin-top: 10px;
+}
+.preview-container {
+  display: inline-block;
+  margin: 5px;
+}
+.preview-container img {
+  max-width: 100px;
+  max-height: 100px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
 }
 </style>

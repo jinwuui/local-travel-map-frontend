@@ -6,6 +6,11 @@ export default class PlaceAPIService {
       baseURL: process.env.VUE_APP_BASE_URL + "/places",
       headers: { "Content-Type": "application/json" },
     });
+
+    this.multipartInstance = axios.create({
+      baseURL: process.env.VUE_APP_BASE_URL + "/places",
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   }
 
   async _axiosCall(config) {
@@ -17,8 +22,20 @@ export default class PlaceAPIService {
     }
   }
 
-  async addPlace(place) {
-    return this._axiosCall({ method: "post", data: JSON.stringify(place) });
+  async _axiosMultipartCall(config) {
+    try {
+      const { data } = await this.multipartInstance.request(config);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async addPlace(placeFormData) {
+    return this._axiosMultipartCall({
+      method: "post",
+      data: placeFormData,
+    });
   }
 
   // TODO: 브라우저 창에 보이는 경도/위도 값으로 조회 가능하도록 변경
