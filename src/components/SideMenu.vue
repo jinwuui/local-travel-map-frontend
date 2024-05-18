@@ -8,13 +8,10 @@
       <li><a href="#">공지</a></li>
     </ul>
   </div>
-  <SelectedPlaceTab />
 </template>
 
 <script setup>
 import { ref } from "vue";
-import SelectedPlaceTab from "@/components/SelectedPlaceTab.vue";
-
 const isOpen = ref(true);
 </script>
 

@@ -1,19 +1,22 @@
 <template>
   <div>
     <MapPage />
-    <AppSidebar />
+    <SideMenu />
+    <SideTab />
   </div>
 </template>
 
 <script>
 import MapPage from "@/components/MapPage.vue";
-import AppSidebar from "@/components/AppSidebar.vue";
+import SideMenu from "@/components/SideMenu.vue";
+import SideTab from "@/components/SideTab.vue";
 
 export default {
   name: "App",
   components: {
     MapPage,
-    AppSidebar,
+    SideMenu,
+    SideTab,
   },
 };
 </script>
