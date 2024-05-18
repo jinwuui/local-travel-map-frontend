@@ -14,7 +14,7 @@ async function fetch(params) {
 
   const existed = new Set(state.places.map((item) => item.placeId));
 
-  fetched.places.forEach((newItem) => {
+  fetched.places?.forEach((newItem) => {
     if (!existed.has(newItem.placeId)) {
       state.places.push(new Place(newItem));
       existed.add(newItem.placeId); // Set에 새로운 id 추가
