@@ -2,6 +2,7 @@
 node_modules
 /dist
 Todo.md
+src/assets/dev/*
 
 
 # local env files
