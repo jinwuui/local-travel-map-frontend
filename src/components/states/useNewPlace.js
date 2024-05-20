@@ -3,7 +3,7 @@ import { placeAPI } from "@/services/place.api";
 import { reactive, computed, ref } from "vue";
 
 const isFormOpen = ref(false);
-
+const step = ref(0);
 const newPlace = reactive({ value: null });
 
 async function addNewPlace(photoFiles) {
@@ -28,17 +28,30 @@ async function addNewPlace(photoFiles) {
   }
 }
 
-function closeForm() {
-  newPlace.value = null;
-  isFormOpen.value = false;
+function prevStep() {
+  step.value--;
+  console.log("  -- prevStep", step.value);
+}
+
+function nextStep() {
+  step.value++;
+  console.log("  -- nextStep", step.value);
 }
 
 function openForm(event) {
-  isFormOpen.value = true;
+  console.log("-- openForm");
   newPlace.value = new NewPlace({
     lat: event.latLng.lat(),
     lng: event.latLng.lng(),
   });
+  isFormOpen.value = true;
+  step.value = 0;
+}
+
+function closeForm() {
+  console.log("-- closeForm");
+  newPlace.value = null;
+  isFormOpen.value = false;
 }
 
 export default function useNewPlace() {
@@ -49,5 +62,9 @@ export default function useNewPlace() {
 
     newPlace: computed(() => newPlace.value),
     addNewPlace,
+
+    step: computed(() => step.value),
+    prevStep,
+    nextStep,
   };
 }

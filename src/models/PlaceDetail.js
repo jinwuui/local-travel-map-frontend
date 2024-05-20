@@ -5,24 +5,29 @@ export default class PlaceDetail extends Place {
     placeId,
     lat,
     lng,
+    name,
     category,
-    name = "",
     description = "",
     rating = 0,
   }) {
-    super({ placeId: placeId, lat: lat, lng: lng, category: category });
-    this.name = name;
+    super({
+      placeId: placeId,
+      lat: lat,
+      lng: lng,
+      name: name,
+      category: category,
+    });
     this.description = description;
     this.rating = rating;
   }
 
-  static fromPlace({ marker, name, description, rating }) {
+  static fromPlace({ place, description, rating }) {
     return new PlaceDetail({
-      placeId: marker.placeId,
-      lat: marker.lat,
-      lng: marker.lng,
-      category: marker.category,
-      name: name,
+      placeId: place.placeId,
+      lat: place.lat,
+      lng: place.lng,
+      name: place.name,
+      category: place.category,
       description: description,
       rating: rating,
     });
