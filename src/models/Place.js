@@ -1,9 +1,9 @@
 export default class Place {
-  constructor({ placeId, lat, lng, name, category }) {
+  constructor({ placeId, lat, lng, name, categories }) {
     this.placeId = placeId;
     this.lat = lat;
     this.lng = lng;
     this.name = name;
-    this.category = category;
+    this.categories = categories;
   }
 }

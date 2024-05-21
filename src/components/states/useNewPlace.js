@@ -1,10 +1,28 @@
 import NewPlace from "@/models/NewPlace";
 import { placeAPI } from "@/services/place.api";
 import { reactive, computed, ref } from "vue";
+import usePlace from "@/components/states/usePlace";
+
+const { addPlaceOnMap } = usePlace();
 
 const isFormOpen = ref(false);
 const step = ref(0);
 const newPlace = reactive({ value: null });
+
+function changeRating(rating) {
+  rating = Math.min(Math.max(rating, 0), 5);
+  newPlace.value.rating = rating;
+}
+
+function toggleCategory(category) {
+  if (newPlace.value.categories.includes(category)) {
+    newPlace.value.categories = newPlace.value.categories.filter(
+      (c) => c !== category
+    );
+  } else {
+    newPlace.value.categories.push(category);
+  }
+}
 
 async function addNewPlace(photoFiles) {
   if (newPlace.value.isValid()) {
@@ -19,7 +37,10 @@ async function addNewPlace(photoFiles) {
       console.log(`formData: ${key}:`, value);
     }
 
-    await placeAPI.addPlace(formData);
+    const result = await placeAPI.addPlace(formData);
+    result.lat = parseFloat(result.lat);
+    result.lng = parseFloat(result.lng);
+    addPlaceOnMap(result);
 
     // TODO: 로딩 보여주기 -> 저장 완료 -> places에 넣기 -> 창 닫기
     closeForm();
@@ -56,6 +77,9 @@ function closeForm() {
 
 export default function useNewPlace() {
   return {
+    changeRating,
+    toggleCategory,
+
     isFormOpen: computed(() => isFormOpen.value),
     openForm,
     closeForm,

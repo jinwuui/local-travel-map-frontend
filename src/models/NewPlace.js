@@ -6,7 +6,7 @@ export default class NewPlace {
     description,
 
     rating = null,
-    category = null,
+    categories = [],
     photos = [],
   }) {
     this.lat = lat;
@@ -15,7 +15,7 @@ export default class NewPlace {
     this.description = description;
 
     this.rating = rating;
-    this.category = category;
+    this.categories = categories;
     this.photos = photos;
   }
 
@@ -38,7 +38,13 @@ export default class NewPlace {
 
     for (const key in this) {
       if (Object.prototype.hasOwnProperty.call(this, key)) {
-        formData.append(key, this[key]);
+        if (Array.isArray(this[key])) {
+          this[key].forEach((item) => {
+            formData.append(`${key}[]`, item);
+          });
+        } else {
+          formData.append(key, this[key]);
+        }
       }
     }
 
