@@ -59,7 +59,12 @@
                 class="preview-container file-upload"
                 @click="triggerFileInput"
               >
-                <div>사진</div>
+                <div>
+                  <p>
+                    사진<br />
+                    <small>{{ selectedFiles.length }} / 3</small>
+                  </p>
+                </div>
                 <input
                   ref="fileInput"
                   id="file-input"
@@ -304,6 +309,15 @@ textarea {
 
   flex: 0 0 auto;
   margin-right: 10px;
+}
+
+.preview-container p {
+  margin: 0;
+  text-align: center;
+}
+
+.preview-container p small {
+  font-size: 0.8em;
 }
 
 .file-upload {

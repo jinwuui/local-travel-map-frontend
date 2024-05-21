@@ -30,9 +30,10 @@ export default {
 
 @font-face {
   font-family: "DungGeunMo";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
-    format("woff");
+  src: url("./assets/fonts/DungGeunMo.woff2") format("woff2"),
+    url("./assets/fonts/DungGeunMo.woff") format("woff");
   font-weight: normal;
   font-style: normal;
+  /* font-display: swap; */
 }
 </style>
