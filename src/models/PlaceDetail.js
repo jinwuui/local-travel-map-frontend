@@ -6,7 +6,7 @@ export default class PlaceDetail extends Place {
     lat,
     lng,
     name,
-    category,
+    categories,
     description = "",
     rating = 0,
   }) {
@@ -15,7 +15,7 @@ export default class PlaceDetail extends Place {
       lat: lat,
       lng: lng,
       name: name,
-      category: category,
+      categories: categories,
     });
     this.description = description;
     this.rating = rating;
@@ -27,7 +27,7 @@ export default class PlaceDetail extends Place {
       lat: place.lat,
       lng: place.lng,
       name: place.name,
-      category: place.category,
+      categories: place.categories,
       description: description,
       rating: rating,
     });

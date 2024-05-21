@@ -25,6 +25,12 @@ async function fetch(params) {
   loading.value = false;
 }
 
+function addPlaceOnMap(newPlace) {
+  loading.value = true;
+  state.places.push(new Place(newPlace));
+  loading.value = false;
+}
+
 const { selectedPlace } = useSelectedPlace();
 
 watch(selectedPlace, (newSelectedPlace) => {
@@ -37,10 +43,10 @@ watch(selectedPlace, (newSelectedPlace) => {
 });
 
 export default function usePlace() {
-  console.log("func - - - usePlace");
   return {
     loading: computed(() => loading.value),
     places: computed(() => state.places),
     fetch,
+    addPlaceOnMap,
   };
 }

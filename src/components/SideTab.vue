@@ -51,7 +51,7 @@ import SearchBar from "@/components/SearchBar.vue";
 const { selectedPlace } = useSelectedPlace();
 </script>
 
-<style>
+<style scoped>
 .side-tab {
   font-family: "DungGeunMo";
 
