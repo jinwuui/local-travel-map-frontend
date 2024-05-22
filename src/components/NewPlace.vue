@@ -180,14 +180,17 @@ textarea {
   /* border: 1px solid #111; */
 }
 
-.new-place-border {
+.new-place > div {
   font-family: "DungGeunMo";
-  padding: 2px;
-  border-radius: 6px;
   background-color: rgb(35, 54, 80);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 1.7px 1.7px 3px rgba(0, 0, 0, 0.9);
   color: white;
   overflow: auto;
+}
+
+.new-place-border {
+  border-radius: 6px;
+  padding: 2px;
 }
 
 .new-place-form {
@@ -209,17 +212,11 @@ textarea {
   width: 40%;
   display: flex;
   justify-content: center;
-  font-family: "DungGeunMo";
   font-size: 1.3em;
-
   padding: 2px;
   padding-bottom: 0px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  background-color: rgb(35, 54, 80);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: white;
-  overflow: auto;
 }
 
 .step-title-text {
