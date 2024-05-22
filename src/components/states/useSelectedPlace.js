@@ -5,12 +5,13 @@ import { placeAPI } from "@/services/place.api";
 const selectedPlace = reactive({ value: null });
 
 const selectPlace = async (place) => {
-  const placeDetail = await placeAPI.fetchPlaceDetails(place.placeId);
+  const fetched = await placeAPI.fetchPlaceDetails(place.placeId);
 
   selectedPlace.value = PlaceDetail.fromPlace({
     place: place,
-    description: placeDetail.placeDetails?.description || "기본 설명",
-    rating: placeDetail.placeDetails?.rating || 0,
+    description: fetched.placeDetails?.description || "기본 설명",
+    rating: fetched.placeDetails?.rating || 0,
+    photos: fetched.placeDetails?.photos,
   });
 };
 

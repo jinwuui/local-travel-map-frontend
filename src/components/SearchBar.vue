@@ -48,7 +48,7 @@ input {
     top: 2%;
     left: 100px;
     right: auto;
-    width: 300px;
+    width: 330px;
     max-width: none;
     z-index: 1001;
   }
