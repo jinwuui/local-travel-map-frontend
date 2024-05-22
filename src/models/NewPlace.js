@@ -5,7 +5,7 @@ export default class NewPlace {
     name,
     description,
 
-    rating = null,
+    rating = 0,
     categories = [],
     photos = [],
   }) {
@@ -52,7 +52,7 @@ export default class NewPlace {
   }
 
   static isRatingValid(rating) {
-    return rating == null || (1 <= rating && rating <= 5);
+    return 0 <= rating && rating <= 5;
   }
 
   static isLatitudeValid(lat) {
