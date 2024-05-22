@@ -183,7 +183,7 @@ textarea {
 .new-place > div {
   font-family: "DungGeunMo";
   background-color: rgb(35, 54, 80);
-  box-shadow: 1.7px 1.7px 3px rgba(0, 0, 0, 0.9);
+  box-shadow: 1.5px 1.5px 2px rgba(0, 0, 0, 0.7);
   color: white;
   overflow: auto;
 }

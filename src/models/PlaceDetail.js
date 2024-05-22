@@ -9,6 +9,7 @@ export default class PlaceDetail extends Place {
     categories,
     description = "",
     rating = 0,
+    photos = [],
   }) {
     super({
       placeId: placeId,
@@ -19,9 +20,10 @@ export default class PlaceDetail extends Place {
     });
     this.description = description;
     this.rating = rating;
+    this.photos = photos;
   }
 
-  static fromPlace({ place, description, rating }) {
+  static fromPlace({ place, description, rating, photos }) {
     return new PlaceDetail({
       placeId: place.placeId,
       lat: place.lat,
@@ -30,6 +32,7 @@ export default class PlaceDetail extends Place {
       categories: place.categories,
       description: description,
       rating: rating,
+      photos: photos,
     });
   }
 
