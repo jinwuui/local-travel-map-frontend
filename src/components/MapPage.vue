@@ -1,24 +1,28 @@
 <template>
-  <GoogleMap
-    id="map"
-    ref="mapRef"
-    :api-key="apiKey"
-    :center="mapCenter"
-    :zoom="15"
-    @click="openForm"
-    draggableCursor="default"
-  >
-    <span v-if="loading">Loading places</span>
-    <div v-else><PlaceCluster /></div>
+  <div>
+    <GoogleMap
+      id="map"
+      ref="mapRef"
+      :api-key="apiKey"
+      :center="mapCenter"
+      :zoom="15"
+      @click="openForm"
+      draggableCursor="default"
+    >
+      <span v-if="loading">Loading places</span>
+      <div v-else><PlaceCluster /></div>
 
-    <NewPlace v-if="isFormOpen" />
-  </GoogleMap>
+      <NewPlace v-if="isFormOpen" />
+    </GoogleMap>
+    <CategorySearchBar />
+  </div>
 </template>
 
 <script setup>
 import { onMounted } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
+import CategorySearchBar from "@/components/CategorySearchBar.vue";
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlace from "@/components/NewPlace.vue";
 
