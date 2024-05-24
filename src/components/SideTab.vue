@@ -4,7 +4,7 @@
     <div class="side-tab" v-if="selectedPlace != null">
       <div class="info-window">
         <img
-          :src="getImageUrl(selectedPlace.photos[0].filename)"
+          :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
           alt="Image"
           class="info-image desktop"
         />
@@ -39,7 +39,7 @@
 
         <p>{{ selectedPlace.description }}</p>
         <img
-          :src="getImageUrl(selectedPlace.photos[0].filename)"
+          :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
           alt="Image"
           class="info-image mobile"
         />
@@ -47,7 +47,11 @@
     </div>
     <div class="side-tab" v-else>
       <div class="info-window">
-        <img :src="getImageUrl()" alt="Image" class="info-image desktop" />
+        <img
+          :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
+          alt="Image"
+          class="info-image desktop"
+        />
         <h2>제목 로딩 중...</h2>
         <div class="rating-and-category">
           <div class="rating">
@@ -55,7 +59,11 @@
           </div>
         </div>
         <p>설명 로딩 중...</p>
-        <img :src="getImageUrl()" alt="Image" class="info-image mobile" />
+        <img
+          :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
+          alt="Image"
+          class="info-image mobile"
+        />
       </div>
     </div>
     <ul class="comments">
@@ -74,12 +82,7 @@ import SearchBar from "@/components/SearchBar.vue";
 const { selectedPlace } = useSelectedPlace();
 const ratingActivedIcon = require("@/assets/pixels/rating_star_23px.png");
 const ratingUnactivedIcon = require("@/assets/pixels/rating_star_unactived_23px.png");
-
-function getImageUrl(imageName) {
-  console.log("getImageUrl", imageName);
-  if (imageName) return `${process.env.VUE_APP_BASE_IMAGE_URL}/${imageName}`;
-  return process.env.VUE_APP_DEFAULT_IMAGE_URL;
-}
+const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
 </script>
 
 <style scoped>

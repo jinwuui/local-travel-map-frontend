@@ -3,7 +3,7 @@
     id="map"
     ref="mapRef"
     :api-key="apiKey"
-    :center="center"
+    :center="mapCenter"
     :zoom="15"
     @click="openForm"
     draggableCursor="default"
@@ -16,30 +16,23 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlace from "@/components/NewPlace.vue";
 
+import useMap from "@/components/states/useMap";
 import usePlace from "@/components/states/usePlace";
 import useNewPlace from "@/components/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
-const center = ref({ lat: 35.16748, lng: 129.11503 });
-const mapRef = ref(null);
 
+const { mapRef, mapCenter } = useMap();
 const { loading, fetch } = usePlace();
 const { isFormOpen, openForm } = useNewPlace();
 
-watch(
-  () => mapRef.value?.ready,
-  (ready) => {
-    if (!ready) return;
-
-    fetch();
-  }
-);
+onMounted(async () => await fetch());
 </script>
 
 <style>
