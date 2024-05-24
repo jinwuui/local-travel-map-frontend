@@ -22,12 +22,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  width: 100%;
-  height: 100%;
-}
-
 @font-face {
   font-family: "DungGeunMo";
   src: url("./assets/fonts/DungGeunMo.woff2") format("woff2"),
@@ -35,5 +29,11 @@ export default {
   font-weight: normal;
   font-style: normal;
   /* font-display: swap; */
+}
+
+#app {
+  font-family: "DungGeunMo", Avenir, Helvetica, Arial, sans-serif;
+  width: 100%;
+  height: 100%;
 }
 </style>

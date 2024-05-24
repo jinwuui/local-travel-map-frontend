@@ -8,19 +8,23 @@ const loading = ref(false);
 const places = reactive({ value: [] });
 
 async function fetch(params) {
-  console.log("-- fetch start", places.value);
+  console.log("-- fetch: params=", params);
   loading.value = true;
 
   const fetched = await placeAPI.fetchPlaces(params);
 
-  const existed = new Set(places.value.map((item) => item.placeId));
+  if (params) {
+    places.value = fetched.places?.map((item) => new Place(item));
+  } else {
+    const existed = new Set(places.value.map((item) => item.placeId));
 
-  fetched.places?.forEach((newItem) => {
-    if (!existed.has(newItem.placeId)) {
-      places.value.push(new Place(newItem));
-      existed.add(newItem.placeId); // Set에 새로운 id 추가
-    }
-  });
+    fetched.places?.forEach((newItem) => {
+      if (!existed.has(newItem.placeId)) {
+        places.value.push(new Place(newItem));
+        existed.add(newItem.placeId); // Set에 새로운 id 추가
+      }
+    });
+  }
 
   console.log("-- fetched", places.value);
   loading.value = false;

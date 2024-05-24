@@ -39,13 +39,13 @@ export default class PlaceAPIService {
   }
 
   // TODO: 브라우저 창에 보이는 경도/위도 값으로 조회 가능하도록 변경
-  async fetchPlaces(category = "default") {
-    return this._axiosCall({
-      method: "get",
-      params: {
-        category: category,
-      },
-    });
+  async fetchPlaces(params) {
+    const config = { method: "get" };
+    if (params) {
+      config.params = params;
+    }
+
+    return this._axiosCall(config);
   }
 
   async fetchPlace(placeId) {
