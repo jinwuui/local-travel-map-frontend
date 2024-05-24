@@ -15,10 +15,17 @@ const selectPlace = async (place) => {
   });
 };
 
+const selectPlaceById = async (placeId) => {
+  const fetched = await placeAPI.fetchPlace(placeId);
+
+  selectedPlace.value = PlaceDetail.fromJson(fetched.place);
+};
+
 export default function useSelectedPlace() {
   console.log("func - - - useSelectedPlace");
   return {
     selectedPlace: computed(() => selectedPlace.value),
     selectPlace,
+    selectPlaceById,
   };
 }

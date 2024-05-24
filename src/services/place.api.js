@@ -48,8 +48,12 @@ export default class PlaceAPIService {
     });
   }
 
-  async fetchPlaceDetails(placeId) {
+  async fetchPlace(placeId) {
     return this._axiosCall({ method: "get", url: `/${placeId}` });
+  }
+
+  async fetchPlaceDetails(placeId) {
+    return this._axiosCall({ method: "get", url: `/${placeId}/details` });
   }
 
   async updatePlace(placeId, place, password) {
