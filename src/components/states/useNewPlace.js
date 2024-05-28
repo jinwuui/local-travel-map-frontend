@@ -1,6 +1,8 @@
+import { reactive, computed, ref } from "vue";
+import imageCompression from "browser-image-compression";
+
 import NewPlace from "@/models/NewPlace";
 import { placeAPI } from "@/services/place.api";
-import { reactive, computed, ref } from "vue";
 import usePlace from "@/components/states/usePlace";
 
 const { addPlaceOnMap } = usePlace();
@@ -24,29 +26,58 @@ function toggleCategory(category) {
   }
 }
 
-async function addNewPlace(photoFiles) {
+async function addNewPlace(imageFiles) {
   if (newPlace.value.isValid()) {
-    const formData = newPlace.value.toFormData();
+    console.log("imagefiles", imageFiles);
+    try {
+      let compressedImageFiles = null;
+      if (imageFiles) {
+        compressedImageFiles = await Promise.all(
+          imageFiles.map(async (file) => await compressImageFile(file))
+        );
+        console.log("--compressedImageFiles", compressedImageFiles);
+      }
 
-    photoFiles?.forEach((file) => {
-      formData.append("photos", file);
-    });
+      const formData = newPlace.value.toFormData();
 
-    // Check if FormData contains the data
-    for (const [key, value] of formData.entries()) {
-      console.log(`formData: ${key}:`, value);
+      imageFiles?.forEach((file) => {
+        console.log("--image file", file);
+        formData.append("photos", file);
+      });
+
+      // Check if FormData contains the data
+      for (const [key, value] of formData.entries()) {
+        console.log(`formData: ${key}:`, value);
+      }
+
+      const result = await placeAPI.addPlace(formData);
+      result.lat = parseFloat(result.lat);
+      result.lng = parseFloat(result.lng);
+      addPlaceOnMap(result);
+
+      // TODO: 로딩 보여주기 -> 저장 완료 -> places에 넣기 -> 창 닫기
+      closeForm();
+    } catch (error) {
+      console.error("Error during add new place", error);
+      throw error;
     }
-
-    const result = await placeAPI.addPlace(formData);
-    result.lat = parseFloat(result.lat);
-    result.lng = parseFloat(result.lng);
-    addPlaceOnMap(result);
-
-    // TODO: 로딩 보여주기 -> 저장 완료 -> places에 넣기 -> 창 닫기
-    closeForm();
   } else {
     alert("부정확한 입력");
   }
+}
+
+async function compressImageFile(imageFile) {
+  const options = {
+    maxSizeMB: 0.5,
+    maxWidthOrHeight: 1024,
+    useWebWorker: true,
+  };
+
+  const compressedBlob = await imageCompression(imageFile, options);
+  const compressedImage = new File([compressedBlob], imageFile.name, {
+    type: imageFile.type,
+  });
+  return compressedImage;
 }
 
 function prevStep() {
@@ -61,10 +92,21 @@ function nextStep() {
 
 function openForm(event) {
   console.log("-- openForm");
-  newPlace.value = new NewPlace({
-    lat: event.latLng.lat(),
-    lng: event.latLng.lng(),
-  });
+  if (newPlace.value) {
+    newPlace.value.setLatLng(event.latLng.lat(), event.latLng.lng());
+  } else {
+    if (event.latLng) {
+      newPlace.value = new NewPlace({
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      });
+    } else {
+      newPlace.value = new NewPlace({
+        lat: 35.16748,
+        lng: 129.11503,
+      });
+    }
+  }
   isFormOpen.value = true;
   step.value = 0;
 }

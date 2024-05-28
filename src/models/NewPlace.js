@@ -51,6 +51,11 @@ export default class NewPlace {
     return formData;
   }
 
+  setLatLng(lat, lng) {
+    this.lat = lat;
+    this.lng = lng;
+  }
+
   static isRatingValid(rating) {
     return 0 <= rating && rating <= 5;
   }

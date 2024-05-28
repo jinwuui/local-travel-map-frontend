@@ -29,7 +29,7 @@ export default class PlaceDetail extends Place {
 
   getFirstPhoto() {
     return this.photos.length > 0
-      ? process.env.VUE_APP_BASE_IMAGE_URL + "/" + this.photos[0].filename
+      ? process.env.VUE_APP_THUMB_IMAGE_URL + this.photos[0].filename
       : process.env.VUE_APP_DEFAULT_IMAGE_URL;
   }
 
