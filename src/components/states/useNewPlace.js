@@ -10,6 +10,12 @@ const { addPlaceOnMap } = usePlace();
 const isFormOpen = ref(false);
 const step = ref(0);
 const newPlace = reactive({ value: null });
+const isLoading = ref(false);
+
+function markerDragend(event) {
+  newPlace.value.lat = event.latLng.lat();
+  newPlace.value.lng = event.latLng.lng();
+}
 
 function changeRating(rating) {
   rating = Math.min(Math.max(rating, 0), 5);
@@ -27,6 +33,8 @@ function toggleCategory(category) {
 }
 
 async function addNewPlace(imageFiles) {
+  isLoading.value = true;
+
   if (newPlace.value.isValid()) {
     console.log("imagefiles", imageFiles);
     try {
@@ -64,6 +72,8 @@ async function addNewPlace(imageFiles) {
   } else {
     alert("부정확한 입력");
   }
+
+  isLoading.value = false;
 }
 
 async function compressImageFile(imageFile) {
@@ -90,23 +100,14 @@ function nextStep() {
   console.log("  -- nextStep", step.value);
 }
 
-function openForm(event) {
+function openForm(lat, lng) {
   console.log("-- openForm");
-  if (newPlace.value) {
-    newPlace.value.setLatLng(event.latLng.lat(), event.latLng.lng());
-  } else {
-    if (event.latLng) {
-      newPlace.value = new NewPlace({
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      });
-    } else {
-      newPlace.value = new NewPlace({
-        lat: 35.16748,
-        lng: 129.11503,
-      });
-    }
-  }
+
+  newPlace.value = new NewPlace({
+    lat: lat,
+    lng: lng,
+  });
+
   isFormOpen.value = true;
   step.value = 0;
 }
@@ -119,10 +120,12 @@ function closeForm() {
 
 export default function useNewPlace() {
   return {
+    markerDragend,
     changeRating,
     toggleCategory,
 
     isFormOpen: computed(() => isFormOpen.value),
+    isLoading: computed(() => isLoading.value),
     openForm,
     closeForm,
 
