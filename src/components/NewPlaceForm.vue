@@ -67,7 +67,11 @@
       </button>
     </div>
   </div>
+  <div v-if="isLoading" class="loading-overlay">
+    <div class="loading-message">Loading...</div>
+  </div>
 </template>
+
 <script setup>
 import { ref, onBeforeUnmount } from "vue";
 import useNewPlace from "@/components/states/useNewPlace";
@@ -81,6 +85,7 @@ const {
   step,
   prevStep,
   nextStep,
+  isLoading,
 } = useNewPlace();
 
 const firstInput = ref(null);
@@ -310,5 +315,19 @@ textarea {
 
 .step-change button:hover {
   background-color: #1f4c7a; /* 호버 시 배경 색상 */
+}
+
+.loading-overlay {
+  position: fixed;
+  border-radius: 6px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 다른 요소 위에 표시되도록 z-index를 높게 설정 */
 }
 </style>
