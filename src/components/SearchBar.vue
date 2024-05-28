@@ -99,7 +99,7 @@ const handleKeydown = (event) => {
   right: 10px;
   width: 300px;
   max-width: 100%;
-  z-index: 1001; /* SideTab 위에 오도록 설정 */
+  z-index: 3000; /* SideTab 위에 오도록 설정 */
 }
 
 .search-bar-border {

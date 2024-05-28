@@ -30,6 +30,7 @@ async function fetchByCategory(category) {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  top: 11.55px;
   padding-bottom: 10px;
   left: 470px;
 }

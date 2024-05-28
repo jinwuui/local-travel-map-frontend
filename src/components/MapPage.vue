@@ -12,9 +12,10 @@
       <span v-if="loading">Loading places</span>
       <div v-else><PlaceCluster /></div>
 
-      <NewPlace v-if="isFormOpen" />
+      <NewPlace v-if="false" />
     </GoogleMap>
     <CategorySearchBar />
+    <NewPlaceButton @click="openForm" />
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import { GoogleMap } from "vue3-google-map";
 import CategorySearchBar from "@/components/CategorySearchBar.vue";
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlace from "@/components/NewPlace.vue";
+import NewPlaceButton from "@/components/NewPlaceButton.vue";
 
 import useMap from "@/components/states/useMap";
 import usePlace from "@/components/states/usePlace";
@@ -34,7 +36,7 @@ const apiKey = process.env.VUE_APP_MAP_KEY;
 
 const { mapRef, mapCenter } = useMap();
 const { loading, fetch } = usePlace();
-const { isFormOpen, openForm } = useNewPlace();
+const { openForm } = useNewPlace();
 
 onMounted(async () => await fetch());
 </script>
