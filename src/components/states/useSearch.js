@@ -1,5 +1,8 @@
 import { computed, ref } from "vue";
+
 import { searchAPI } from "@/services/search.api";
+import { debounce } from "@/utils/commonUtils";
+
 import useSelectedPlace from "@/components/states/useSelectedPlace";
 import useMap from "@/components/states/useMap";
 
@@ -15,8 +18,12 @@ const selectedIndex = ref(-1);
 const inputText = ref(null);
 const tempQuery = ref(null);
 
+const lastQuery = ref(null);
+const lastSuggestions = ref(null);
+
 function setInputText(value) {
   inputText.value = value;
+  debounce(autocomplete(inputText.value), 500);
 }
 
 async function autocomplete(query) {
@@ -27,10 +34,23 @@ async function autocomplete(query) {
     return;
   }
 
-  // TODO: focus를 잃었다가 찾으면 api 보내지 말고 이전 기록 바로 보여주기
   const trimmedQuery = query.trim();
   if (trimmedQuery.length == 0) return;
+  if (trimmedQuery === lastQuery.value) {
+    // TODO: focus를 잃었다가 찾으면 api 보내지 않고 이전 기록 바로 보여주기
+    suggestions.value = lastSuggestions.value;
+    selectedIndex.value = -1;
+    return;
+  }
+  if (
+    // TODO: 검색 결과가 없는 상태에선 더 입력해도 검색 결과 없음
+    trimmedQuery.startsWith(lastQuery.value) &&
+    lastSuggestions.value.length === 0
+  ) {
+    return;
+  }
 
+  console.log("       api");
   const data = await searchAPI.autocomplete(trimmedQuery);
   const newIdSet = new Set(data.suggestions.map((item) => item.placeId));
 
@@ -51,6 +71,8 @@ async function autocomplete(query) {
   suggestions.value = [...recentSuggestions, ...newSuggestions];
 
   selectedIndex.value = -1;
+  lastQuery.value = trimmedQuery;
+  lastSuggestions.value = suggestions.value;
 }
 
 function clearSuggestions() {
@@ -143,7 +165,7 @@ export default function useSearch() {
     loadSearchHistory,
     deleteSearchHistory,
 
-    inputText,
+    inputText: computed(() => inputText.value),
     setInputText,
     autocomplete,
 
