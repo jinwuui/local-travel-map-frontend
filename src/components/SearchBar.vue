@@ -1,5 +1,5 @@
 <template>
-  <div class="search-bar">
+  <div ref="searchBar" class="search-bar">
     <div class="search-bar-border">
       <input
         :class="[
@@ -10,24 +10,33 @@
         v-bind:value="inputText"
         @input="updateInput"
         @keydown="handleKeydown"
-        @blur="handleBlur"
         @focus="autocomplete(inputText)"
         type="text"
         placeholder="검색어를 입력하세요..."
       />
       <ul
-        v-if="suggestions.length"
+        v-if="suggestions.length > 0"
         class="autocomplete-list"
         @mouseout="setSelectedIndex(-1)"
       >
         <li
           v-for="(suggestion, index) in suggestions"
           :key="index"
-          :class="{ selected: index === selectedIndex }"
+          :class="{
+            selected: index === selectedIndex,
+            recent: suggestion.type === 'recent',
+          }"
           @mouseenter="setSelectedIndex(index)"
-          @mousedown="selectSuggestion(index)"
+          @mousedown.self="handleSelectSuggestion(index)"
         >
           {{ suggestion.name }}
+          <span
+            v-if="suggestion.type === 'recent'"
+            class="delete-history-button"
+            @click.stop="deleteSearchHistory(index)"
+          >
+            X
+          </span>
         </li>
       </ul>
     </div>
@@ -35,12 +44,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import useSearch from "@/components/states/useSearch";
 import { debounce } from "@/utils/commonUtils";
 
 const {
-  loadRecentSearches,
+  loadSearchHistory,
+  deleteSearchHistory,
 
   inputText,
   setInputText,
@@ -55,21 +65,29 @@ const {
   isEnableEnter,
 } = useSearch();
 
+const searchBar = ref(null);
 const inputRef = ref(null);
 
 onMounted(() => {
-  loadRecentSearches();
+  loadSearchHistory();
+  document.addEventListener("click", handleClickOutside);
 });
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
+
+function handleClickOutside(event) {
+  if (searchBar.value && !searchBar.value.contains(event.target)) {
+    // 클릭이 searchBar 외부에서 발생한 경우
+    setTimeout(() => {
+      clearSuggestions();
+    }, 100);
+  }
+}
 
 function updateInput(event) {
   setInputText(event.target.value);
   debounce(autocomplete(event.target.value), 500);
-}
-
-function handleBlur() {
-  setTimeout(() => {
-    clearSuggestions();
-  }, 100);
 }
 
 function handleKeydown(event) {
@@ -86,6 +104,13 @@ function handleKeydown(event) {
       selectSuggestion(selectedIndex.value);
     }
   }
+}
+
+function handleSelectSuggestion(index) {
+  setTimeout(() => {
+    clearSuggestions();
+  }, 100);
+  selectSuggestion(index);
 }
 </script>
 
@@ -127,7 +152,7 @@ function handleKeydown(event) {
   text-decoration: none; /* 텍스트 밑줄 제거 */
   font-size: 1.2em;
   border: 0;
-  padding: 11px;
+  padding: 0.5em;
 }
 
 .with-autocomplete {
@@ -146,12 +171,27 @@ function handleKeydown(event) {
 }
 
 .autocomplete-list li {
-  padding: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2em;
+  padding: 0.5em;
   cursor: pointer;
 }
 
 .autocomplete-list li.selected {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.autocomplete-list li.recent .delete-history-button {
+  margin-left: auto;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-history-button {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .autocomplete-list li:hover {
