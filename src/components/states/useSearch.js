@@ -1,4 +1,4 @@
-import { reactive, computed, ref } from "vue";
+import { computed, ref } from "vue";
 import { searchAPI } from "@/services/search.api";
 import useSelectedPlace from "@/components/states/useSelectedPlace";
 import useMap from "@/components/states/useMap";
@@ -6,13 +6,14 @@ import useMap from "@/components/states/useMap";
 const { selectPlaceById, selectedPlace } = useSelectedPlace();
 const { setMapCenter } = useMap();
 
-const suggestions = reactive({ value: [] });
+const suggestions = ref([]);
+
+const searchHistory = ref([]);
+
 const selectedIndex = ref(-1);
 
 const inputText = ref(null);
 const tempQuery = ref(null);
-
-const recentSearches = ref([]);
 
 function setInputText(value) {
   inputText.value = value;
@@ -21,8 +22,8 @@ function setInputText(value) {
 async function autocomplete(query) {
   console.log("    autocomplete");
   if (query == null || query === "") {
-    // TODO: 최근 검색 기록 보여주기
     clearSuggestions();
+    suggestions.value = searchHistory.value;
     return;
   }
 
@@ -31,7 +32,24 @@ async function autocomplete(query) {
   if (trimmedQuery.length == 0) return;
 
   const data = await searchAPI.autocomplete(trimmedQuery);
-  suggestions.value = data.suggestions;
+  const newIdSet = new Set(data.suggestions.map((item) => item.placeId));
+
+  const recentSuggestions = searchHistory.value
+    .filter((item) => {
+      if (newIdSet.has(item.placeId)) {
+        newIdSet.delete(item.placeId);
+        return true;
+      }
+      return false;
+    })
+    .map((item) => ({ ...item, type: "recent" }));
+
+  const newSuggestions = data.suggestions
+    .filter((item) => newIdSet.has(item.placeId))
+    .map((item) => ({ ...item, type: "auto" }));
+
+  suggestions.value = [...recentSuggestions, ...newSuggestions];
+
   selectedIndex.value = -1;
 }
 
@@ -47,11 +65,12 @@ function setSelectedIndex(newSelectedIndex) {
     tempQuery.value = inputText.value;
   }
 
-  if (newSelectedIndex > suggestions.value.length - 1) {
+  const len = suggestions.value.length;
+  if (newSelectedIndex > len - 1) {
     newSelectedIndex = -1;
   }
   if (newSelectedIndex < -1) {
-    newSelectedIndex = suggestions.value.length - 1;
+    newSelectedIndex = len - 1;
   }
 
   selectedIndex.value = newSelectedIndex;
@@ -73,7 +92,7 @@ async function selectSuggestion(index) {
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
 
   // 최근 검색어로 저장
-  addSearchQuery({
+  updateSearchHistory({
     placeId: suggestions.value[index].placeId,
     name: suggestions.value[index].name,
   });
@@ -85,25 +104,44 @@ function isEnableEnter() {
   );
 }
 
-function addSearchQuery({ placeId, name }) {
-  recentSearches.value.unshift({ placeId, name });
-  recentSearches.value = [...new Set(recentSearches.value)];
+function updateSearchHistory({ placeId, name }) {
+  searchHistory.value = searchHistory.value.filter(
+    (search) => search.placeId !== placeId
+  );
+  searchHistory.value.unshift({ placeId, name, type: "recent" });
+
+  console.log("searchHistory", searchHistory.value);
   localStorage.setItem(
-    "recentSearches",
-    JSON.stringify(recentSearches.value.slice(0, 5))
+    "searchHistory",
+    JSON.stringify(searchHistory.value.slice(0, 5))
   );
 }
 
-function loadRecentSearches() {
-  const searches = localStorage.getItem("recentSearches");
+function loadSearchHistory() {
+  const searches = localStorage.getItem("searchHistory");
   if (searches) {
-    recentSearches.value = JSON.parse(searches);
+    searchHistory.value = JSON.parse(searches);
   }
+}
+
+function deleteSearchHistory(index) {
+  const suggestion = suggestions.value[index];
+  suggestions.value.splice(index, 1);
+
+  searchHistory.value = searchHistory.value.filter(
+    (history) => history.placeId !== suggestion.placeId
+  );
+
+  localStorage.setItem(
+    "searchHistory",
+    JSON.stringify(searchHistory.value.slice(0, 5))
+  );
 }
 
 export default function useSearch() {
   return {
-    loadRecentSearches,
+    loadSearchHistory,
+    deleteSearchHistory,
 
     inputText,
     setInputText,
