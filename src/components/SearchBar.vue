@@ -6,9 +6,8 @@
           'search-input',
           suggestions.length > 0 ? 'with-autocomplete' : '',
         ]"
-        ref="inputRef"
         v-bind:value="inputText"
-        @input="updateInput"
+        @input="handleInput"
         @keydown="handleKeydown"
         @focus="autocomplete(inputText)"
         type="text"
@@ -46,7 +45,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import useSearch from "@/components/states/useSearch";
-import { debounce } from "@/utils/commonUtils";
 
 const {
   loadSearchHistory,
@@ -66,7 +64,6 @@ const {
 } = useSearch();
 
 const searchBar = ref(null);
-const inputRef = ref(null);
 
 onMounted(() => {
   loadSearchHistory();
@@ -85,9 +82,8 @@ function handleClickOutside(event) {
   }
 }
 
-function updateInput(event) {
+function handleInput(event) {
   setInputText(event.target.value);
-  debounce(autocomplete(event.target.value), 500);
 }
 
 function handleKeydown(event) {
@@ -100,7 +96,6 @@ function handleKeydown(event) {
   } else if (event.key === "Enter") {
     if (isEnableEnter()) {
       event.preventDefault();
-      inputRef.value.blur();
       selectSuggestion(selectedIndex.value);
     }
   }
