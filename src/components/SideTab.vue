@@ -1,15 +1,15 @@
 <template>
   <div>
     <SearchBar />
-    <ImageSlider ref="imageSlider" />
-    <div class="side-tab" :class="{ 'side-tab-hidden': isSideTabHidden }">
+    <ImageSlider />
+    <div class="side-tab" :class="{ 'side-tab-hidden': !isSideTabOpen }">
       <div class="side-tab-border">
-        <NewPlaceForm v-if="isFormOpen" />
+        <NewPlaceForm v-if="isNewPlaceFormOpen" />
         <PlaceDetailView v-else />
       </div>
       <div class="tab-toggle-btn" @click="toggleSideTab">
         <div class="tab-toggle-btn-border">
-          <p>{{ isSideTabHidden ? ">" : "<" }}</p>
+          <p>{{ isSideTabOpen ? "<" : ">" }}</p>
         </div>
       </div>
     </div>
@@ -17,21 +17,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
-import useNewPlace from "@/components/states/useNewPlace";
 import SearchBar from "@/components/SearchBar.vue";
 import ImageSlider from "@/components/ImageSlider.vue";
 import NewPlaceForm from "@/components/NewPlaceForm.vue";
 import PlaceDetailView from "@/components/PlaceDetailView.vue";
 
-const { isFormOpen } = useNewPlace();
+import uiState from "@/components/states/uiState";
 
-const isSideTabHidden = ref(false);
-
-const toggleSideTab = () => {
-  isSideTabHidden.value = !isSideTabHidden.value;
-};
+const { isSideTabOpen, isNewPlaceFormOpen, toggleSideTab } = uiState;
 </script>
 
 <style scoped>
@@ -50,7 +43,7 @@ const toggleSideTab = () => {
 }
 
 .side-tab-hidden {
-  transform: translateX(-354px);
+  transform: translateX(-374px);
   transition: transform 0.3s ease;
 }
 
@@ -63,7 +56,7 @@ const toggleSideTab = () => {
   align-items: center;
   height: 100%; /* Ensure it takes full height */
   box-sizing: border-box;
-  overflow: auto; /* Ensure content inside can scroll if it overflows */
+  overflow: auto;
 }
 
 .tab-toggle-btn {
@@ -78,6 +71,7 @@ const toggleSideTab = () => {
   height: 60px;
   display: flex;
   cursor: pointer;
+  z-index: 800;
 }
 
 .tab-toggle-btn-border {
@@ -110,7 +104,7 @@ const toggleSideTab = () => {
     top: 9%;
     left: 100px; /* 네비게이션에서 살짝 오른쪽에 떨어진 곳 */
     right: auto;
-    width: 330px;
+    width: 350px;
     max-width: none;
   }
 

@@ -1,24 +1,17 @@
 <template>
   <div>
     <MapPage />
+    <CategorySearchBar />
     <NavBar />
     <SideTab />
   </div>
 </template>
 
-<script>
+<script setup>
 import MapPage from "@/components/MapPage.vue";
 import NavBar from "@/components/NavBar.vue";
 import SideTab from "@/components/SideTab.vue";
-
-export default {
-  name: "App",
-  components: {
-    MapPage,
-    NavBar,
-    SideTab,
-  },
-};
+import CategorySearchBar from "@/components/CategorySearchBar.vue";
 </script>
 
 <style>

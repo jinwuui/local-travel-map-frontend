@@ -12,6 +12,8 @@ const selectedIndex = ref(-1);
 const inputText = ref(null);
 const tempQuery = ref(null);
 
+const recentSearches = ref([]);
+
 function setInputText(value) {
   inputText.value = value;
 }
@@ -69,6 +71,12 @@ async function selectSuggestion(index) {
 
   // 지도 중심 이동
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+
+  // 최근 검색어로 저장
+  addSearchQuery({
+    placeId: suggestions.value[index].placeId,
+    name: suggestions.value[index].name,
+  });
 }
 
 function isEnableEnter() {
@@ -77,8 +85,26 @@ function isEnableEnter() {
   );
 }
 
+function addSearchQuery({ placeId, name }) {
+  recentSearches.value.unshift({ placeId, name });
+  recentSearches.value = [...new Set(recentSearches.value)];
+  localStorage.setItem(
+    "recentSearches",
+    JSON.stringify(recentSearches.value.slice(0, 5))
+  );
+}
+
+function loadRecentSearches() {
+  const searches = localStorage.getItem("recentSearches");
+  if (searches) {
+    recentSearches.value = JSON.parse(searches);
+  }
+}
+
 export default function useSearch() {
   return {
+    loadRecentSearches,
+
     inputText,
     setInputText,
     autocomplete,

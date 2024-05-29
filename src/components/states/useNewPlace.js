@@ -3,14 +3,14 @@ import imageCompression from "browser-image-compression";
 
 import NewPlace from "@/models/NewPlace";
 import { placeAPI } from "@/services/place.api";
-import usePlace from "@/components/states/usePlace";
+import uiState from "@/components/states/uiState";
+import useSelectedPlace from "@/components/states/useSelectedPlace";
 
-const { addPlaceOnMap } = usePlace();
+const { toggleNewPlaceLoading, toggleNewPlaceForm } = uiState;
+const { selectPlace } = useSelectedPlace();
 
-const isFormOpen = ref(false);
 const step = ref(0);
 const newPlace = reactive({ value: null });
-const isLoading = ref(false);
 
 function markerDragend(event) {
   newPlace.value.lat = event.latLng.lat();
@@ -33,11 +33,11 @@ function toggleCategory(category) {
 }
 
 async function addNewPlace(imageFiles) {
-  isLoading.value = true;
-
   if (newPlace.value.isValid()) {
     console.log("imagefiles", imageFiles);
     try {
+      toggleNewPlaceLoading();
+
       let compressedImageFiles = null;
       if (imageFiles) {
         compressedImageFiles = await Promise.all(
@@ -58,22 +58,30 @@ async function addNewPlace(imageFiles) {
         console.log(`formData: ${key}:`, value);
       }
 
-      const result = await placeAPI.addPlace(formData);
-      result.lat = parseFloat(result.lat);
-      result.lng = parseFloat(result.lng);
-      addPlaceOnMap(result);
+      console.log("before result");
+      await placeAPI
+        .addPlace(formData)
+        .then((result) => {
+          result.lat = parseFloat(result.lat);
+          result.lng = parseFloat(result.lng);
+          selectPlace(result);
+        })
+        .catch((error) => {
+          throw error;
+        });
+
+      closeNewPlaceForm();
 
       // TODO: 로딩 보여주기 -> 저장 완료 -> places에 넣기 -> 창 닫기
-      closeForm();
     } catch (error) {
       console.error("Error during add new place", error);
       throw error;
+    } finally {
+      toggleNewPlaceLoading();
     }
   } else {
     alert("부정확한 입력");
   }
-
-  isLoading.value = false;
 }
 
 async function compressImageFile(imageFile) {
@@ -100,22 +108,22 @@ function nextStep() {
   console.log("  -- nextStep", step.value);
 }
 
-function openForm(lat, lng) {
-  console.log("-- openForm");
+function openNewPlaceForm(lat, lng) {
+  console.log("-- openNewPlaceForm");
 
   newPlace.value = new NewPlace({
     lat: lat,
     lng: lng,
   });
 
-  isFormOpen.value = true;
+  toggleNewPlaceForm();
   step.value = 0;
 }
 
-function closeForm() {
-  console.log("-- closeForm");
+function closeNewPlaceForm() {
+  console.log("-- closeNewPlaceForm");
   newPlace.value = null;
-  isFormOpen.value = false;
+  toggleNewPlaceForm();
 }
 
 export default function useNewPlace() {
@@ -124,10 +132,8 @@ export default function useNewPlace() {
     changeRating,
     toggleCategory,
 
-    isFormOpen: computed(() => isFormOpen.value),
-    isLoading: computed(() => isLoading.value),
-    openForm,
-    closeForm,
+    openNewPlaceForm,
+    closeNewPlaceForm,
 
     newPlace: computed(() => newPlace.value),
     addNewPlace,

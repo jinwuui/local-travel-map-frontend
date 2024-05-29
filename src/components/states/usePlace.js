@@ -1,15 +1,16 @@
-import { ref, computed, reactive, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import Place from "@/models/Place";
 import { placeAPI } from "@/services/place.api";
 
 import useSelectedPlace from "@/components/states/useSelectedPlace";
+import uiState from "@/components/states/uiState";
 
-const loading = ref(false);
-const places = reactive({ value: [] });
+const { toggleMapFetchLoading } = uiState;
+const places = ref([]);
 
 async function fetch(params) {
   console.log("-- fetch: params=", params);
-  loading.value = true;
+  toggleMapFetchLoading();
 
   const fetched = await placeAPI.fetchPlaces(params);
 
@@ -27,29 +28,31 @@ async function fetch(params) {
   }
 
   console.log("-- fetched", places.value);
-  loading.value = false;
+  toggleMapFetchLoading();
 }
 
 function addPlaceOnMap(newPlace) {
-  loading.value = true;
+  toggleMapFetchLoading();
   places.value.push(new Place(newPlace));
-  loading.value = false;
+  toggleMapFetchLoading();
 }
 
 const { selectedPlace } = useSelectedPlace();
 
 watch(selectedPlace, (newSelectedPlace) => {
-  console.log("     watch - selected place:", newSelectedPlace.placeId);
-
-  places.value = places.value.map((place) =>
-    place.placeId === newSelectedPlace.placeId ? newSelectedPlace : place
+  const index = places.value.findIndex(
+    (place) => place.placeId === newSelectedPlace.placeId
   );
-  console.log("     watch  - ", places.value);
+
+  if (index !== -1) {
+    places.value[index] = newSelectedPlace;
+  } else {
+    places.value.push(newSelectedPlace);
+  }
 });
 
 export default function usePlace() {
   return {
-    loading: computed(() => loading.value),
     places: computed(() => places.value),
     fetch,
     addPlaceOnMap,

@@ -4,11 +4,7 @@
   </div>
 </template>
 
-<script setup>
-function handleClick() {
-  //TODO: new place form open
-}
-</script>
+<script setup></script>
 
 <style scoped>
 .registration-place-btn {
