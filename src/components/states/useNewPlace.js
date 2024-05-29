@@ -9,8 +9,19 @@ import useSelectedPlace from "@/components/states/useSelectedPlace";
 const { toggleNewPlaceLoading, toggleNewPlaceForm } = uiState;
 const { selectPlace } = useSelectedPlace();
 
+const nameText = ref("");
+const descriptionText = ref("");
+
 const step = ref(0);
 const newPlace = reactive({ value: null });
+
+function updateName(event) {
+  nameText.value = event.target.value;
+}
+
+function updateDescription(event) {
+  descriptionText.value = event.target.value;
+}
 
 function markerDragend(event) {
   newPlace.value.lat = event.latLng.lat();
@@ -33,6 +44,9 @@ function toggleCategory(category) {
 }
 
 async function addNewPlace(imageFiles) {
+  newPlace.value.name = nameText.value;
+  newPlace.value.description = descriptionText.value;
+
   if (newPlace.value.isValid()) {
     console.log("imagefiles", imageFiles);
     try {
@@ -123,11 +137,18 @@ function openNewPlaceForm(lat, lng) {
 function closeNewPlaceForm() {
   console.log("-- closeNewPlaceForm");
   newPlace.value = null;
+  nameText.value = "";
+  descriptionText.value = "";
   toggleNewPlaceForm();
 }
 
 export default function useNewPlace() {
   return {
+    nameText,
+    descriptionText,
+    updateName,
+    updateDescription,
+
     markerDragend,
     changeRating,
     toggleCategory,

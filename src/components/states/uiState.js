@@ -12,32 +12,32 @@ const state = reactive({
   isPlaceDetailLoading: false,
 });
 
-const toggleMapFetchLoading = () => {
+function toggleMapFetchLoading() {
   state.isMapFetchLoading = !state.isMapFetchLoading;
-};
+}
 
-const toggleSideTab = () => {
+function toggleSideTab() {
   state.isSideTabOpen = !state.isSideTabOpen;
-};
+}
 
-const toggleNewPlaceForm = () => {
+function toggleNewPlaceForm() {
   if (!state.isNewPlaceFormOpen && !state.isSideTabOpen) toggleSideTab();
   state.isNewPlaceFormOpen = !state.isNewPlaceFormOpen;
-};
+}
 
-const toggleNewPlaceLoading = () => {
+function toggleNewPlaceLoading() {
   state.isNewPlaceLoading = !state.isNewPlaceLoading;
-};
+}
 
-const openPlaceDetail = () => {
+function openPlaceDetail() {
   if (!state.isSideTabOpen) toggleSideTab();
   if (state.isNewPlaceFormOpen) toggleNewPlaceForm();
   state.isPlaceDetailOpen = true;
-};
+}
 
-const togglePlaceDetailLoading = () => {
+function togglePlaceDetailLoading() {
   state.isPlaceDetailLoading = !state.isPlaceDetailLoading;
-};
+}
 
 const uiState = {
   isMapFetchLoading: computed(() => state.isMapFetchLoading),

@@ -1,7 +1,17 @@
 <template>
   <div class="new-place-form">
     <div class="step-0 step-content" v-if="step === 0">
-      <input type="text" placeholder="이름" v-model="newPlace.name" />
+      <input
+        ref="firstInput"
+        :class="{ 'input-error': !nameText && isFormValid }"
+        v-bind:value="nameText"
+        @input="updateName"
+        type="text"
+        placeholder="이름"
+      />
+      <div v-if="!nameText && isFormValid" class="error-message">
+        필수 입력입니다
+      </div>
       <div class="category-selection">
         <div
           v-for="category in categories"
@@ -16,10 +26,15 @@
         </div>
       </div>
       <textarea
+        :class="{ 'input-error': !descriptionText && isFormValid }"
+        v-bind:value="descriptionText"
+        @input="updateDescription"
         placeholder="설명"
-        v-model="newPlace.description"
         maxlength="50"
       />
+      <div v-if="!descriptionText && isFormValid" class="error-message">
+        필수 입력입니다.
+      </div>
     </div>
 
     <div class="step-1 step-content" v-if="step === 1">
@@ -63,10 +78,10 @@
     </div>
 
     <div class="step-change">
-      <button @click="step === 0 ? closeNewPlaceForm() : prevStep()">
+      <button @click="handlePrevStep">
         {{ step === 0 ? "취소" : "이전" }}
       </button>
-      <button @click="step === 0 ? nextStep() : addNewPlace(selectedFiles)">
+      <button @click="handleNextStep">
         {{ step === 0 ? "다음" : "완료" }}
       </button>
     </div>
@@ -77,12 +92,17 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import useNewPlace from "@/components/states/useNewPlace";
 import uiState from "@/components/states/uiState";
 
 const { isNewPlaceLoading } = uiState;
 const {
+  nameText,
+  descriptionText,
+  updateName,
+  updateDescription,
+
   changeRating,
   toggleCategory,
   closeNewPlaceForm,
@@ -102,6 +122,8 @@ const selectedFiles = ref([]);
 const imageUrls = ref([]);
 
 const categories = ref(["음식", "관광", "모험", "체험", "숙소", "축제"]);
+
+const isFormValid = ref(false);
 
 function triggerFileInput() {
   fileInput.value.click();
@@ -140,9 +162,33 @@ function removeImage(index) {
   selectedFiles.value.splice(index, 1);
 }
 
+function handlePrevStep() {
+  if (step === 0) {
+    closeNewPlaceForm();
+  } else {
+    setTimeout(() => firstInput.value?.focus(), 0);
+    prevStep();
+  }
+}
+
+function handleNextStep() {
+  isFormValid.value = true;
+
+  if (step.value === 0 && nameText.value && descriptionText.value) {
+    nextStep();
+    isFormValid.value = false;
+  } else if (step.value === 1) {
+    addNewPlace(selectedFiles.value);
+  }
+}
+
+onMounted(() => {
+  setTimeout(() => firstInput.value?.focus(), 0);
+});
+
 onBeforeUnmount(() => {
-  // 컴포넌트가 소멸되기 전에 URL 객체 해제
   console.log("before unmount");
+  selectedFiles.value = [];
   imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
   firstInput.value = null;
 });
@@ -177,7 +223,7 @@ textarea {
 .new-place-form > .step-0 {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 50px;
 }
 
 .step-0 input,
@@ -338,5 +384,17 @@ textarea {
   justify-content: center;
   align-items: center;
   z-index: 9999; /* 다른 요소 위에 표시되도록 z-index를 높게 설정 */
+}
+
+.input-error {
+  border: 3px solid red;
+  margin-bottom: -50px;
+}
+
+.error-message {
+  color: red;
+  font-size: 13px;
+  margin-top: 7px;
+  margin-bottom: -22px;
 }
 </style>
