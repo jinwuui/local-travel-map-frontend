@@ -1,47 +1,41 @@
 <template>
-  <div v-if="false" class="slider-overlay" @click.self="closeSlider">
-    <div class="slider-container">
+  <div
+    v-if="imageSlider.isOpen"
+    class="slider-overlay"
+    @click.self="closeSlider"
+  >
+    <div class="slider-container" @click.self="closeSlider">
       <button class="close-button" @click="closeSlider">X</button>
       <button class="prev-button" @click="prevImage">&lt;</button>
-      <img src="../assets/dev/mock_image1.jpeg" class="slider-image" />
+      <img :src="currentImage" class="slider-image" />
       <button class="next-button" @click="nextImage">&gt;</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineExpose } from "vue";
+import { ref, computed } from "vue";
+import useSelectedPlace from "./states/useSelectedPlace";
 
-const isOpen = ref(false);
-const images = ref([]);
+const { imageSlider, closeSlider } = useSelectedPlace();
+
 const currentIndex = ref(0);
 
-const openSlider = (imageList) => {
-  images.value = imageList;
-  currentIndex.value = 0;
-  isOpen.value = true;
-};
-
-const closeSlider = () => {
-  isOpen.value = false;
-};
-
 const nextImage = () => {
-  currentIndex.value = (currentIndex.value + 1) % images.value.length;
+  currentIndex.value = (currentIndex.value + 1) % imageSlider.imageList.length;
 };
 
 const prevImage = () => {
   currentIndex.value =
-    (currentIndex.value - 1 + images.value.length) % images.value.length;
+    (currentIndex.value - 1 + imageSlider.imageList.length) %
+    imageSlider.imageList.length;
 };
 
-// const currentImage = computed(
-//   () =>
-//     process.env.VUE_APP_ORIGIN_IMAGE_URL +
-//     images.value[currentIndex.value].filename
-// );
-
-defineExpose({ openSlider });
+const currentImage = computed(
+  () =>
+    process.env.VUE_APP_ORIGIN_IMAGE_URL +
+    imageSlider.imageList[currentIndex.value].filename
+);
 </script>
 
 <style scoped>
@@ -52,17 +46,19 @@ defineExpose({ openSlider });
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 800;
+  z-index: 1000;
 }
 
 .slider-container {
-  left: 434px;
-  width: calc(100% - 434px);
   position: relative;
+  top: 0;
+  left: 474px;
+  width: calc(100% - 474px);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  z-index: 3000;
 }
 
 .close-button {
@@ -99,7 +95,11 @@ defineExpose({ openSlider });
 .slider-image {
   max-width: 80%;
   max-height: 80%;
-  object-fit: cover;
+  min-width: 50vw; /* 최소 너비를 뷰포트 너비의 50%로 설정 */
+  min-height: 50vh; /* 최소 높이를 뷰포트 높이의 50%로 설정 */
+  width: auto;
+  height: auto;
+  object-fit: contain;
   object-position: center;
 }
 </style>

@@ -4,7 +4,7 @@
       class="info-image desktop"
       :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
       alt="Image"
-      @click="showSlider"
+      @click="openSlider"
     />
     <h2>{{ selectedPlace.name }}</h2>
     <div class="rating-and-category">
@@ -37,17 +37,14 @@
 
     <p>{{ selectedPlace.description }}</p>
     <img
+      class="info-image mobile"
       :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
       alt="Image"
-      class="info-image mobile"
+      @click="openSlider"
     />
   </div>
   <div class="detail-info" v-else>
-    <img
-      :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
-      alt="Image"
-      class="info-image desktop"
-    />
+    <img :src="defaultPhoto" alt="Image" class="info-image desktop" />
     <h2>제목 로딩 중...</h2>
     <div class="rating-and-category">
       <div class="rating">
@@ -55,29 +52,19 @@
       </div>
     </div>
     <p>설명 로딩 중...</p>
-    <img
-      :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
-      alt="Image"
-      class="info-image mobile"
-    />
+    <img :src="defaultPhoto" alt="Image" class="info-image mobile" />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-
 import useSelectedPlace from "@/components/states/useSelectedPlace";
 
-const { selectedPlace } = useSelectedPlace();
+const { selectedPlace, openSlider } = useSelectedPlace();
 
 const ratingActivedIcon = require("@/assets/pixels/rating_star_23px.png");
 const ratingUnactivedIcon = require("@/assets/pixels/rating_star_unactived_23px.png");
 
-const imageSlider = ref(null);
 const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
-
-const showSlider = () =>
-  imageSlider.value.openSlider(selectedPlace.value.photos);
 </script>
 
 <style scoped>
@@ -91,7 +78,7 @@ const showSlider = () =>
 
 .info-image {
   width: 100%;
-  height: 140px;
+  height: 200px;
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 15px;

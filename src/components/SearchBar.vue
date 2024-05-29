@@ -35,11 +35,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import useSearch from "@/components/states/useSearch";
 import { debounce } from "@/utils/commonUtils";
 
 const {
+  loadRecentSearches,
+
   inputText,
   setInputText,
   autocomplete,
@@ -55,18 +57,22 @@ const {
 
 const inputRef = ref(null);
 
+onMounted(() => {
+  loadRecentSearches();
+});
+
 function updateInput(event) {
   setInputText(event.target.value);
   debounce(autocomplete(event.target.value), 500);
 }
 
-const handleBlur = () => {
+function handleBlur() {
   setTimeout(() => {
     clearSuggestions();
   }, 100);
-};
+}
 
-const handleKeydown = (event) => {
+function handleKeydown(event) {
   if (event.key === "ArrowDown") {
     event.preventDefault();
     setSelectedIndex(selectedIndex.value + 1);
@@ -80,7 +86,7 @@ const handleKeydown = (event) => {
       selectSuggestion(selectedIndex.value);
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -157,7 +163,7 @@ const handleKeydown = (event) => {
     top: 2%;
     left: 100px;
     right: auto;
-    width: 330px;
+    width: 350px;
     max-width: none;
   }
 }

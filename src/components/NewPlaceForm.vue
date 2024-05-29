@@ -15,7 +15,11 @@
           {{ category }}
         </div>
       </div>
-      <textarea placeholder="설명" v-model="newPlace.description" />
+      <textarea
+        placeholder="설명"
+        v-model="newPlace.description"
+        maxlength="50"
+      />
     </div>
 
     <div class="step-1 step-content" v-if="step === 1">
@@ -59,7 +63,7 @@
     </div>
 
     <div class="step-change">
-      <button @click="step === 0 ? closeForm() : prevStep()">
+      <button @click="step === 0 ? closeNewPlaceForm() : prevStep()">
         {{ step === 0 ? "취소" : "이전" }}
       </button>
       <button @click="step === 0 ? nextStep() : addNewPlace(selectedFiles)">
@@ -67,7 +71,7 @@
       </button>
     </div>
   </div>
-  <div v-if="isLoading" class="loading-overlay">
+  <div v-if="isNewPlaceLoading" class="loading-overlay">
     <div class="loading-message">Loading...</div>
   </div>
 </template>
@@ -75,17 +79,18 @@
 <script setup>
 import { ref, onBeforeUnmount } from "vue";
 import useNewPlace from "@/components/states/useNewPlace";
+import uiState from "@/components/states/uiState";
 
+const { isNewPlaceLoading } = uiState;
 const {
   changeRating,
   toggleCategory,
-  closeForm,
+  closeNewPlaceForm,
   newPlace,
   addNewPlace,
   step,
   prevStep,
   nextStep,
-  isLoading,
 } = useNewPlace();
 
 const firstInput = ref(null);
@@ -148,6 +153,10 @@ input,
 button,
 textarea {
   font-family: "DungGeunMo";
+}
+
+textarea {
+  resize: none;
 }
 
 .new-place-form {
