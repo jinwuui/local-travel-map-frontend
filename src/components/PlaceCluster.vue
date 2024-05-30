@@ -1,21 +1,23 @@
 <template>
-  <div>
+  <div v-for="place in places" :key="place.placeId">
     <CustomMarker
-      v-for="place in places"
-      :key="place.placeId"
+      v-if="place.placeId !== selectedPlace?.placeId"
       @click.stop="selectPlace(place)"
       :options="{
         position: { lat: place.lat, lng: place.lng },
         anchorPoint: 'BOTTOM_CENTER',
-        zindex: 1000,
       }"
     >
-      <img
-        v-if="place.placeId === selectedPlace?.placeId"
-        id="selected-marker"
-        :src="selectedMarkerIcon"
-      />
-      <img v-else id="basic-marker" :src="markerIcon" />
+      <img class="default-marker" :src="defaultMarkerIcon" />
+    </CustomMarker>
+    <CustomMarker
+      v-else
+      :options="{
+        position: { lat: place.lat, lng: place.lng },
+        anchorPoint: 'BOTTOM_CENTER',
+      }"
+    >
+      <img class="selected-marker" :src="selectedMarkerIcon" />
     </CustomMarker>
   </div>
 </template>
@@ -29,20 +31,16 @@ import useSelectedPlace from "@/components/states/useSelectedPlace";
 const { places } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();
 
-const markerIcon = require("@/assets/place.svg");
-const selectedMarkerIcon = require("@/assets/selected_place.svg");
+const defaultMarkerIcon = require("@/assets/pixels/default_marker.png");
+const selectedMarkerIcon = require("@/assets/pixels/selected_marker.png");
 </script>
 
 <style>
-#selected-marker {
-  height: 40px;
-  width: 40px;
-  /* display: block; */
-  /* margin-left: 50%; */
-  /* transform: translateX(25%); */
+.default-marker {
+  height: 35px;
 }
 
-#tmp {
-  align-content: center;
+.selected-marker {
+  height: 50px;
 }
 </style>
