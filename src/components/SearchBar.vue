@@ -87,6 +87,9 @@ function handleInput(event) {
 }
 
 function handleKeydown(event) {
+  // 한글 IME 입력 문제
+  if (event.isComposing || event.keyCode === 229) return;
+
   if (event.key === "ArrowDown") {
     event.preventDefault();
     setSelectedIndex(selectedIndex.value + 1);
