@@ -3,9 +3,11 @@ import { computed, ref } from "vue";
 import { searchAPI } from "@/services/search.api";
 import { debounce } from "@/utils/commonUtils";
 
+import uiState from "@/components/states/uiState";
 import useSelectedPlace from "@/components/states/useSelectedPlace";
 import useMap from "@/components/states/useMap";
 
+const { openPlaceDetail } = uiState;
 const { selectPlaceById, selectedPlace } = useSelectedPlace();
 const { setMapCenter } = useMap();
 
@@ -50,7 +52,8 @@ async function autocomplete(query) {
     return;
   }
 
-  console.log("       api");
+  console.log("       api:", trimmedQuery);
+
   const data = await searchAPI.autocomplete(trimmedQuery);
   const newIdSet = new Set(data.suggestions.map((item) => item.placeId));
 
@@ -108,15 +111,21 @@ async function selectSuggestion(index) {
   console.log("    select", index);
 
   // 상세 정보창 업데이트
-  await selectPlaceById(suggestions.value[index].placeId);
+  await selectPlaceById(suggestions.value[index].placeId).then(() => {
+    // 사이드탭 열기
+    openPlaceDetail();
 
-  // 지도 중심 이동
-  setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+    // 지도 중심 이동
+    setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
 
-  // 최근 검색어로 저장
-  updateSearchHistory({
-    placeId: suggestions.value[index].placeId,
-    name: suggestions.value[index].name,
+    // 최근 검색어로 저장
+    updateSearchHistory({
+      placeId: suggestions.value[index].placeId,
+      name: suggestions.value[index].name,
+    });
+
+    // 검색창 초기화
+    clearSuggestions();
   });
 }
 

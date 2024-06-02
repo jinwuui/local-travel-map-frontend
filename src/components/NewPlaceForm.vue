@@ -71,8 +71,13 @@
           :key="index"
           class="preview-container photos"
         >
-          <div class="remove-badge" @click="removeImage(index)">X</div>
-          <img :src="url" alt="Image preview" />
+          <img
+            class="remove-badge"
+            @click="removeImage(index)"
+            :src="removeBadgeIcon"
+            alt="Remove Image"
+          />
+          <img class="photo" :src="url" alt="Image preview" />
         </div>
       </div>
     </div>
@@ -86,9 +91,7 @@
       </button>
     </div>
   </div>
-  <div v-if="isNewPlaceLoading" class="loading-overlay">
-    <div class="loading-message">Loading...</div>
-  </div>
+  <div v-if="isNewPlaceLoading" class="sending-overlay">전송 중...</div>
 </template>
 
 <script setup>
@@ -117,6 +120,7 @@ const firstInput = ref(null);
 const fileInput = ref(null);
 
 const ratingStarIcon = require("@/assets/pixels/rating_star_23px.png");
+const removeBadgeIcon = require("@/assets/icons/remove-badge.png");
 
 const selectedFiles = ref([]);
 const imageUrls = ref([]);
@@ -163,7 +167,7 @@ function removeImage(index) {
 }
 
 function handlePrevStep() {
-  if (step === 0) {
+  if (step.value === 0) {
     closeNewPlaceForm();
   } else {
     setTimeout(() => firstInput.value?.focus(), 0);
@@ -286,6 +290,7 @@ textarea {
   display: flex;
   flex-direction: column;
   width: 100%;
+  box-sizing: border-box;
   height: 6em;
 }
 
@@ -311,28 +316,23 @@ textarea {
 .photos {
   padding-bottom: 10px;
 }
-.photos img {
+.photos .photo {
   border-radius: 5px;
   border: 2px solid rgb(112, 213, 247);
-  width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
 .remove-badge {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
+  top: -5px;
+  right: -5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1em;
+  width: 30px;
+  height: 30px;
 }
 
 .hidden {
@@ -372,7 +372,7 @@ textarea {
   background-color: #1f4c7a; /* 호버 시 배경 색상 */
 }
 
-.loading-overlay {
+.sending-overlay {
   position: fixed;
   border-radius: 6px;
   top: 0;
@@ -384,6 +384,7 @@ textarea {
   justify-content: center;
   align-items: center;
   z-index: 9999; /* 다른 요소 위에 표시되도록 z-index를 높게 설정 */
+  font-size: 1.6em;
 }
 
 .input-error {
