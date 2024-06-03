@@ -10,6 +10,7 @@ export default class PlaceDetail extends Place {
     description = "",
     rating = 0,
     photos = [],
+    country,
   }) {
     super({
       placeId: placeId,
@@ -21,6 +22,7 @@ export default class PlaceDetail extends Place {
     this.description = description;
     this.rating = rating;
     this.photos = photos;
+    this.country = country;
   }
 
   isValid() {
@@ -34,28 +36,16 @@ export default class PlaceDetail extends Place {
   }
 
   static fromJson(json) {
-    return new PlaceDetail({
-      placeId: json.placeId,
-      lat: json.lat,
-      lng: json.lng,
-      name: json.name,
-      categories: json.categories,
-      description: json.description,
-      rating: json.rating,
-      photos: json.photos,
-    });
+    return new PlaceDetail({ ...json });
   }
 
-  static fromPlace({ place, description, rating, photos }) {
+  static fromPlace({ place, description, rating, photos, country }) {
     return new PlaceDetail({
-      placeId: place.placeId,
-      lat: place.lat,
-      lng: place.lng,
-      name: place.name,
-      categories: place.categories,
-      description: description,
-      rating: rating,
-      photos: photos,
+      ...place,
+      description,
+      rating,
+      photos,
+      country,
     });
   }
 }

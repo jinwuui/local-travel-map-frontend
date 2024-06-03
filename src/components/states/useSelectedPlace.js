@@ -15,6 +15,7 @@ async function selectPlace(place) {
     description: fetched.placeDetails?.description || "기본 설명",
     rating: fetched.placeDetails?.rating || 0,
     photos: fetched.placeDetails?.photos,
+    country: fetched.placeDetails?.country,
   });
 
   openPlaceDetail();
