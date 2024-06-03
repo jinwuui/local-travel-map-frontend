@@ -7,6 +7,8 @@
       :center="mapCenter"
       :zoom="15"
       draggableCursor="default"
+      region="KR"
+      language="ko"
     >
       <span v-if="isMapFetchLoading">Loading places</span>
       <div v-else><PlaceCluster /></div>
