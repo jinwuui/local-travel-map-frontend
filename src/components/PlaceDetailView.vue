@@ -6,7 +6,10 @@
       alt="Image"
       @click="openSlider"
     />
-    <h2>{{ selectedPlace.name }}</h2>
+    <div class="name">
+      <h2>{{ selectedPlace.name }}</h2>
+      <h5 v-if="selectedPlace.country">{{ selectedPlace.country }}</h5>
+    </div>
     <div class="rating-and-category">
       <div class="rating">
         <small>
@@ -92,13 +95,23 @@ const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
   display: block; /* 데스크탑 이미지를 기본적으로 표시 */
 }
 
-.info-image + h2,
-h2 + .rating-and-category,
+.info-image + .name,
+.name + .rating-and-category,
 .rating-and-category + p {
   border-top: 1.85px solid white;
   width: 100%;
   padding-top: 30px;
   padding-bottom: 30px;
+}
+
+h5,
+h5 + h2 {
+  margin: 0;
+  margin-top: 10px;
+}
+
+h5 {
+  color: lightgrey;
 }
 
 h2 {
