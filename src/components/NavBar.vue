@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <nav class="nav">
+  <nav class="nav">
+    <div class="nav-border">
       <ul>
         <li>저장</li>
         <li>최근</li>
@@ -8,19 +8,27 @@
         <li>공지</li>
         <li>건의</li>
       </ul>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </template>
 
 <style>
 .nav {
   background-color: rgb(35, 54, 80);
+  padding-right: 2px;
   color: white;
   z-index: 9999;
   font-family: "DungGeunMo";
 }
 
-.nav ul {
+.nav-border {
+  border-right: 1.85px solid white;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -53,7 +61,6 @@
   padding: 20px;
 }
 
-/* Media query for desktop/tablet with sidebar navigation */
 @media (min-width: 769px) {
   .nav {
     position: fixed;
@@ -61,7 +68,7 @@
     left: 0;
     width: 80px;
     height: 100%;
-    display: block;
+    /* display: block; */
   }
 
   .nav ul {
