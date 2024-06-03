@@ -5,11 +5,11 @@
     @click.self="closeSlider"
   >
     <div class="slider-container" @click.self="closeSlider">
-      <button class="close-button" @click="closeSlider">X</button>
-      <button class="prev-button" @click="prevImage">&lt;</button>
-      <img :src="currentImage" class="slider-image" />
-      <button class="next-button" @click="nextImage">&gt;</button>
+      <img class="slider-image" :src="currentImage" />
     </div>
+    <button class="close-button" @click="closeSlider">X</button>
+    <button class="prev-button" @click="prevImage">&lt;</button>
+    <button class="next-button" @click="nextImage">&gt;</button>
   </div>
 </template>
 
@@ -46,19 +46,29 @@ const currentImage = computed(
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .slider-container {
   position: relative;
-  top: 0;
-  left: 474px;
-  width: calc(100% - 474px);
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3000;
+  width: 80%;
+  max-width: 1200px; /* 최대 너비 설정 */
+  padding: 20px;
+  border-radius: 10px;
+}
+.slider-image {
+  max-width: 100%;
+  max-height: 80vh;
+  min-width: 50vw;
+  min-height: 50vh;
+  object-fit: contain;
+  object-position: center;
 }
 
 .close-button {
@@ -68,7 +78,9 @@ const currentImage = computed(
   background: transparent;
   border: none;
   color: white;
-  font-size: 24px;
+  width: 100px;
+  height: 100px;
+  font-size: 60px;
   cursor: pointer;
 }
 
@@ -80,26 +92,17 @@ const currentImage = computed(
   background: transparent;
   border: none;
   color: white;
-  font-size: 36px;
+  width: 100px;
+  height: 100px;
+  font-size: 60px;
   cursor: pointer;
 }
 
 .prev-button {
-  left: 10px;
+  left: 0;
 }
 
 .next-button {
-  right: 10px;
-}
-
-.slider-image {
-  max-width: 80%;
-  max-height: 80%;
-  min-width: 50vw; /* 최소 너비를 뷰포트 너비의 50%로 설정 */
-  min-height: 50vh; /* 최소 높이를 뷰포트 높이의 50%로 설정 */
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
+  right: 0;
 }
 </style>
