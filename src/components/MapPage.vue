@@ -5,7 +5,7 @@
       ref="mapRef"
       :api-key="apiKey"
       :center="mapCenter"
-      :zoom="3"
+      :zoom="mapZoom"
       draggableCursor="default"
       region="KR"
       language="ko"
@@ -43,7 +43,7 @@ const apiKey = process.env.VUE_APP_MAP_KEY;
 
 const { isMapFetchLoading, isNewPlaceFormOpen } = uiState;
 
-const { mapRef, mapCenter, getCenterOutsideSidetab } = useMap();
+const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
 const { fetch } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
 

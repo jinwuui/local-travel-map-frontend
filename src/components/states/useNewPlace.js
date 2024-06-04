@@ -23,9 +23,9 @@ function updateDescription(event) {
   descriptionText.value = event.target.value;
 }
 
-function markerDragend(event) {
-  newPlace.value.lat = event.latLng.lat();
-  newPlace.value.lng = event.latLng.lng();
+function setNewPlacePosition(lat, lng) {
+  newPlace.value.lat = lat;
+  newPlace.value.lng = lng;
 }
 
 function changeRating(rating) {
@@ -149,7 +149,7 @@ export default function useNewPlace() {
     updateName,
     updateDescription,
 
-    markerDragend,
+    setNewPlacePosition,
     changeRating,
     toggleCategory,
 
