@@ -166,9 +166,19 @@ function handleSelectSuggestion(index) {
   overflow-y: auto;
   width: 100%;
   z-index: 1002;
+
+  display: flex;
+  /* align-content: space-between; */
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: auto;
 }
 
 .autocomplete-list li {
+  /* display: block; */
+  /* width: 100%; */
+  /* box-sizing: border-box; */
+
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -3,13 +3,9 @@ import { computed, ref } from "vue";
 import { searchAPI } from "@/services/search.api";
 import { debounce } from "@/utils/commonUtils";
 
-import uiState from "@/components/states/uiState";
 import useSelectedPlace from "@/components/states/useSelectedPlace";
-import useMap from "@/components/states/useMap";
 
-const { openPlaceDetail } = uiState;
-const { selectPlaceById, selectedPlace } = useSelectedPlace();
-const { setMapCenter } = useMap();
+const { selectPlaceById } = useSelectedPlace();
 
 const suggestions = ref([]);
 
@@ -112,12 +108,6 @@ async function selectSuggestion(index) {
 
   // 상세 정보창 업데이트
   await selectPlaceById(suggestions.value[index].placeId).then(() => {
-    // 사이드탭 열기
-    openPlaceDetail();
-
-    // 지도 중심 이동
-    setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
-
     // 최근 검색어로 저장
     updateSearchHistory({
       placeId: suggestions.value[index].placeId,
