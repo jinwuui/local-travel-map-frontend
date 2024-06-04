@@ -5,10 +5,14 @@
       ref="mapRef"
       :api-key="apiKey"
       :center="mapCenter"
-      :zoom="15"
+      :zoom="3"
       draggableCursor="default"
       region="KR"
       language="ko"
+      :fullscreenControl="screenControl.fullscreenControl"
+      :scaleControl="screenControl.scaleControl"
+      :zoomControl="screenControl.scaleControl"
+      :map-type-control-options="screenControl.mapTypeControlOptions"
     >
       <span v-if="isMapFetchLoading">Loading places</span>
       <div v-else><PlaceCluster /></div>
@@ -18,7 +22,7 @@
     </GoogleMap>
   </div>
   <div class="new-place-btn" @click="clickNewPlaceBtn">
-    <p>{{ isNewPlaceFormOpen ? "등록취소" : "등록하기" }}</p>
+    <p>{{ isNewPlaceFormOpen ? "취소하기" : "등록하기" }}</p>
   </div>
 </template>
 
@@ -42,6 +46,14 @@ const { isMapFetchLoading, isNewPlaceFormOpen } = uiState;
 const { mapRef, mapCenter, getCenterOutsideSidetab } = useMap();
 const { fetch } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
+
+const screenControl = {
+  fullscreenControl: false,
+  scaleControl: false,
+  zoomControl: false,
+  mapTypeControl: true,
+  mapTypeControlOptions: { position: 7 },
+};
 
 onMounted(async () => await fetch());
 
@@ -81,27 +93,27 @@ function clickNewPlaceBtn() {
   left: 50%;
   display: inline-block;
   padding: 0.1em 0.5em;
-  background-color: #4caf50;
-  border: 2.3px solid #388e3c;
+  background-color: #f44336;
+  border: 2.3px solid #d32f2f;
   border-radius: 7px;
-  box-shadow: 0 4px #2e7d32;
+  box-shadow: 0 4px #b71c1c;
   color: #fff;
   font-size: 1.3em;
   font-weight: bold;
   text-align: center;
-  text-shadow: 2px 2px 0 #2e7d32;
+  text-shadow: 2px 2px 0 #b71c1c;
   cursor: pointer;
   user-select: none;
   transition: transform 0.1s;
 }
 
 .new-place-btn:hover {
-  background-color: #43a047;
+  background-color: #e53935;
 }
 
 .new-place-btn:active {
   transform: translateY(3px);
-  box-shadow: 0 2px #2e7d32;
+  box-shadow: 0 2px #b71c1c;
 }
 
 .new-place-btn > p {

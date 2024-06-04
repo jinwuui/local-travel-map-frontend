@@ -46,17 +46,6 @@
       @click="openSlider"
     />
   </div>
-  <div class="detail-info" v-else>
-    <img :src="defaultPhoto" alt="Image" class="info-image desktop" />
-    <h2>제목 로딩 중...</h2>
-    <div class="rating-and-category">
-      <div class="rating">
-        <small>평점 로딩 중...</small>
-      </div>
-    </div>
-    <p>설명 로딩 중...</p>
-    <img :src="defaultPhoto" alt="Image" class="info-image mobile" />
-  </div>
 </template>
 
 <script setup>

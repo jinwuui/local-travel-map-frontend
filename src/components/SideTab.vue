@@ -5,7 +5,8 @@
     <div class="side-tab" :class="{ 'side-tab-hidden': !isSideTabOpen }">
       <div class="side-tab-border">
         <NewPlaceForm v-if="isNewPlaceFormOpen" />
-        <PlaceDetailView v-else />
+        <PlaceDetailView v-else-if="isPlaceDetailOpen" />
+        <div v-else>기본값 사이드탭 디자인 필요</div>
       </div>
       <div class="tab-toggle-btn" @click="toggleSideTab">
         <div class="tab-toggle-btn-border">
@@ -24,7 +25,8 @@ import PlaceDetailView from "@/components/PlaceDetailView.vue";
 
 import uiState from "@/components/states/uiState";
 
-const { isSideTabOpen, isNewPlaceFormOpen, toggleSideTab } = uiState;
+const { isSideTabOpen, isNewPlaceFormOpen, isPlaceDetailOpen, toggleSideTab } =
+  uiState;
 </script>
 
 <style scoped>

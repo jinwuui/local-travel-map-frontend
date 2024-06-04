@@ -7,9 +7,9 @@
     <div class="slider-container" @click.self="closeSlider">
       <img class="slider-image" :src="currentImage" />
     </div>
-    <button class="close-button" @click="closeSlider">X</button>
-    <button class="prev-button" @click="prevImage">&lt;</button>
-    <button class="next-button" @click="nextImage">&gt;</button>
+    <img class="close-button" @click="closeSlider" :src="close_icon" alt="X" />
+    <img class="prev-button" @click="prevImage" :src="prev_icon" alt="&lt;" />
+    <img class="next-button" @click="nextImage" :src="next_icon" alt="&gt;" />
   </div>
 </template>
 
@@ -18,6 +18,10 @@ import { ref, computed } from "vue";
 import useSelectedPlace from "./states/useSelectedPlace";
 
 const { imageSlider, closeSlider } = useSelectedPlace();
+
+const close_icon = require("@/assets/icons/image_slider_close.png");
+const prev_icon = require("@/assets/icons/image_slider_prev.png");
+const next_icon = require("@/assets/icons/image_slider_next.png");
 
 const currentIndex = ref(0);
 
@@ -72,37 +76,38 @@ const currentImage = computed(
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: white;
-  width: 100px;
-  height: 100px;
-  font-size: 60px;
-  cursor: pointer;
+  top: 20px;
+  right: 20px;
 }
 
 .prev-button,
 .next-button {
-  position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.close-button,
+.prev-button,
+.next-button {
+  position: absolute;
   background: transparent;
-  border: none;
-  color: white;
-  width: 100px;
-  height: 100px;
-  font-size: 60px;
   cursor: pointer;
+  width: 50px;
+  height: 50px;
 }
 
 .prev-button {
-  left: 0;
+  left: 20px;
 }
 
 .next-button {
-  right: 0;
+  right: 20px;
+}
+
+.close-button img,
+.prev-button img,
+.next-button img {
+  width: 100%;
+  height: 100%;
 }
 </style>
