@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
 import PlaceCluster from "@/components/PlaceCluster.vue";
@@ -65,6 +65,19 @@ function clickNewPlaceBtn() {
     openNewPlaceForm(lat, lng);
   }
 }
+
+watch(
+  () => mapRef.value?.ready,
+  (ready) => {
+    if (!ready) return;
+
+    mapRef.value.map.get("streetView").setOptions({
+      addressControlOptions: {
+        position: mapRef.value.api.ControlPosition.BOTTOM_CENTER,
+      },
+    });
+  }
+);
 </script>
 
 <style>
