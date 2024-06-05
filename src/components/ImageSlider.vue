@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="imageSlider.isOpen"
+    v-if="imageSlider.isOpen && imageSlider.imageList.length > 0"
     class="slider-overlay"
     @click.self="closeSlider"
   >
@@ -8,8 +8,20 @@
       <img class="slider-image" :src="currentImage" />
     </div>
     <img class="close-button" @click="closeSlider" :src="close_icon" alt="X" />
-    <img class="prev-button" @click="prevImage" :src="prev_icon" alt="&lt;" />
-    <img class="next-button" @click="nextImage" :src="next_icon" alt="&gt;" />
+    <img
+      v-if="imageSlider.imageList.length > 1"
+      class="prev-button"
+      @click="prevImage"
+      :src="prev_icon"
+      alt="&lt;"
+    />
+    <img
+      v-if="imageSlider.imageList.length > 1"
+      class="next-button"
+      @click="nextImage"
+      :src="next_icon"
+      alt="&gt;"
+    />
   </div>
 </template>
 

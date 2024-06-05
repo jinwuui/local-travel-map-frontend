@@ -24,8 +24,16 @@ import CategorySearchBar from "@/components/CategorySearchBar.vue";
   /* font-display: swap; */
 }
 
+@font-face {
+  font-family: "DOSIyagiBoldface";
+  src: url("./assets/fonts/DOSIyagiBoldface.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 #app {
-  font-family: "DungGeunMo", Avenir, Helvetica, Arial, sans-serif;
+  font-family: "DungGeunMo", "DOSIyagiBoldface", Avenir, Helvetica, Arial,
+    sans-serif;
   width: 100%;
   height: 100%;
 }
