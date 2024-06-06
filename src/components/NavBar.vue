@@ -1,6 +1,7 @@
 <template>
   <nav class="nav">
     <div class="nav-border">
+      <p class="logo">로-컬<br />xyz</p>
       <ul>
         <li>저장</li>
         <li>최근</li>
@@ -26,6 +27,10 @@
   display: flex;
   height: 100%;
   width: 100%;
+}
+
+.logo {
+  display: none;
 }
 
 ul {
@@ -71,8 +76,27 @@ ul {
     /* display: block; */
   }
 
-  .nav ul {
+  .nav-border {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo {
     display: block;
+    font-family: "DNFBitBitv2";
+    font-size: 23px;
+    margin-top: 30px;
+    margin-bottom: 0px;
+    text-align: right;
+    line-height: 1;
+    text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000,
+      3px 3px 0 #000, -3px 0 0 #000, 3px 0 0 #000, 0 -3px 0 #000, 0 3px 0 #000;
+  }
+
+  .nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .nav li {

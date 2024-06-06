@@ -31,9 +31,16 @@ import CategorySearchBar from "@/components/CategorySearchBar.vue";
   font-style: normal;
 }
 
+@font-face {
+  font-family: "DNFBitBitv2";
+  src: url("./assets/fonts/DNFBitBitv2.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 #app {
-  font-family: "DungGeunMo", "DOSIyagiBoldface", Avenir, Helvetica, Arial,
-    sans-serif;
+  font-family: "DungGeunMo", "DOSIyagiBoldface", "DNFBitBitv2", Avenir,
+    Helvetica, Arial, sans-serif;
   width: 100%;
   height: 100%;
 }

@@ -1,30 +1,33 @@
 <template>
   <MarkerCluster>
-    <div v-for="place in places" :key="place.placeId">
-      <CustomMarker
-        v-if="place.placeId !== selectedPlace?.placeId"
-        @click.stop="selectPlace(place)"
-        :options="{
-          position: { lat: place.lat, lng: place.lng },
-          anchorPoint: 'BOTTOM_CENTER',
-        }"
-      >
-        <img class="default-marker" :src="defaultMarkerIcon" />
-      </CustomMarker>
-      <CustomMarker
-        v-else
-        :options="{
-          position: { lat: place.lat, lng: place.lng },
-          anchorPoint: 'BOTTOM_CENTER',
-        }"
-      >
-        <img class="selected-marker" :src="selectedMarkerIcon" />
-      </CustomMarker>
+    <div v-if="renderCluster">
+      <div v-for="place in places" :key="place.placeId">
+        <CustomMarker
+          v-if="place.placeId !== selectedPlace?.placeId"
+          @click.stop="selectPlace(place)"
+          :options="{
+            position: { lat: place.lat, lng: place.lng },
+            anchorPoint: 'BOTTOM_CENTER',
+          }"
+        >
+          <img class="default-marker" :src="defaultMarkerIcon" />
+        </CustomMarker>
+        <CustomMarker
+          v-else
+          :options="{
+            position: { lat: place.lat, lng: place.lng },
+            anchorPoint: 'BOTTOM_CENTER',
+          }"
+        >
+          <img class="selected-marker" :src="selectedMarkerIcon" />
+        </CustomMarker>
+      </div>
     </div>
   </MarkerCluster>
 </template>
 
 <script setup>
+import { onMounted, ref } from "vue";
 import { CustomMarker, MarkerCluster } from "vue3-google-map";
 
 import usePlace from "@/components/states/usePlace";
@@ -35,6 +38,13 @@ const { selectedPlace, selectPlace } = useSelectedPlace();
 
 const defaultMarkerIcon = require("@/assets/pixels/default_marker.png");
 const selectedMarkerIcon = require("@/assets/pixels/selected_marker.png");
+const renderCluster = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    renderCluster.value = true;
+  }, 200);
+});
 </script>
 
 <style>
