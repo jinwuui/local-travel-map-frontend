@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <div class="nav-border">
-      <p class="logo">로-컬<br />xyz</p>
+      <p class="logo" @click="reloadPage">로-컬<br />xyz</p>
       <ul>
         <li>저장</li>
         <li>최근</li>
@@ -12,6 +12,12 @@
     </div>
   </nav>
 </template>
+
+<script setup>
+const reloadPage = () => {
+  window.location.reload();
+};
+</script>
 
 <style>
 .nav {
@@ -84,13 +90,14 @@ ul {
   .logo {
     display: block;
     font-family: "DNFBitBitv2";
-    font-size: 23px;
+    font-size: 1.4em;
     margin-top: 30px;
     margin-bottom: 0px;
     text-align: right;
     line-height: 1;
     text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000,
       3px 3px 0 #000, -3px 0 0 #000, 3px 0 0 #000, 0 -3px 0 #000, 0 3px 0 #000;
+    cursor: pointer;
   }
 
   .nav ul {
