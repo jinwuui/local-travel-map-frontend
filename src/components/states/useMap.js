@@ -6,7 +6,7 @@ const mapRef = ref(null);
 
 function setMapCenter(lat, lng) {
   mapCenter.value = { lat: lat, lng: lng };
-  mapZoom.value = 14;
+  mapZoom.value = 10;
 }
 
 function getCenterOutsideSidetab() {

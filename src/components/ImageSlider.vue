@@ -9,15 +9,15 @@
     </div>
     <img class="close-button" @click="closeSlider" :src="close_icon" alt="X" />
     <img
-      v-if="imageSlider.imageList.length > 1"
       class="prev-button"
+      :class="{ inactive: imageSlider.imageList.length <= 1 }"
       @click="prevImage"
       :src="prev_icon"
       alt="&lt;"
     />
     <img
-      v-if="imageSlider.imageList.length > 1"
       class="next-button"
+      :class="{ inactive: imageSlider.imageList.length <= 1 }"
       @click="nextImage"
       :src="next_icon"
       alt="&gt;"
@@ -121,5 +121,9 @@ const currentImage = computed(
 .next-button img {
   width: 100%;
   height: 100%;
+}
+
+.inactive {
+  opacity: 0.25;
 }
 </style>
