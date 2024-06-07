@@ -1,18 +1,28 @@
 <template>
   <div ref="searchBar" class="search-bar">
     <div class="search-bar-border">
-      <input
-        :class="[
-          'search-input',
-          suggestions.length > 0 ? 'with-autocomplete' : '',
-        ]"
-        v-bind:value="inputText"
-        @input="handleInput"
-        @keydown="handleKeydown"
-        @focus="autocomplete(inputText)"
-        type="text"
-        placeholder="검색어를 입력하세요..."
-      />
+      <div class="search-input-container">
+        <input
+          :class="[
+            'search-input',
+            suggestions.length > 0 ? 'with-autocomplete' : '',
+          ]"
+          v-bind:value="inputText"
+          @input="handleInput"
+          @keydown="handleKeydown"
+          @search="handleSearch"
+          @focus="autocomplete(inputText)"
+          type="text"
+          placeholder="검색어를 입력하세요..."
+        />
+        <img
+          v-if="isSearchingViewOpen"
+          class="close-button"
+          @click="closeSearchingView"
+          :src="close_icon"
+          alt="X"
+        />
+      </div>
       <ul
         v-if="suggestions.length > 0"
         class="autocomplete-list"
@@ -26,7 +36,7 @@
             recent: suggestion.type === 'recent',
           }"
           @mouseenter="setSelectedIndex(index)"
-          @mousedown.self="handleSelectSuggestion(index)"
+          @mousedown.self="handleSelectSuggestion"
         >
           {{ suggestion.name }}
           <span
@@ -44,7 +54,10 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import uiState from "@/components/states/uiState";
 import useSearch from "@/components/states/useSearch";
+
+const { isSearchingViewOpen, closeSearchingView } = uiState;
 
 const {
   loadSearchHistory,
@@ -56,12 +69,15 @@ const {
 
   suggestions,
   clearSuggestions,
-  selectSuggestion,
+
+  searching,
+  isEnableSearching,
 
   selectedIndex,
   setSelectedIndex,
-  isEnableEnter,
 } = useSearch();
+
+const close_icon = require("@/assets/pixels/close.png");
 
 const searchBar = ref(null);
 
@@ -97,18 +113,29 @@ function handleKeydown(event) {
     event.preventDefault();
     setSelectedIndex(selectedIndex.value - 1);
   } else if (event.key === "Enter") {
-    if (isEnableEnter()) {
+    handleSearch(event);
+  }
+}
+
+function handleSearch(event) {
+  if (event.isComposing || event.keyCode === 229) return;
+
+  if (event.key === "Enter" || event.type === "search") {
+    if (isEnableSearching()) {
       event.preventDefault();
-      selectSuggestion(selectedIndex.value);
+      searching();
     }
   }
 }
 
-function handleSelectSuggestion(index) {
+function handleSelectSuggestion() {
   setTimeout(() => {
     clearSuggestions();
   }, 100);
-  selectSuggestion(index);
+
+  if (isEnableSearching()) {
+    searching();
+  }
 }
 </script>
 
@@ -139,6 +166,10 @@ function handleSelectSuggestion(index) {
   box-sizing: border-box;
 }
 
+.search-input-container {
+  position: relative;
+  width: 100%;
+}
 .search-input {
   color: white;
   font-family: "DungGeunMo";
@@ -147,10 +178,19 @@ function handleSelectSuggestion(index) {
   width: 100%;
   box-sizing: border-box;
   outline: none;
-  text-decoration: none; /* 텍스트 밑줄 제거 */
+  text-decoration: none;
   font-size: 1.2em;
   border: 0;
   padding: 0.5em;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  transform: translateY(50%);
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
 }
 
 .with-autocomplete {

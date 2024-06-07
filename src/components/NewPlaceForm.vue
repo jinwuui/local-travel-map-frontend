@@ -210,12 +210,14 @@ textarea {
 }
 
 .new-place-form {
-  width: 100%; /* Ensure it takes full width of the parent */
-  height: 100%; /* Ensure it takes full height of the parent */
-  padding-top: 20px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
+  padding: 16px;
+  padding-top: 36px;
 }
 
 .step-content {

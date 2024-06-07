@@ -31,7 +31,7 @@ import useSelectedPlace from "./states/useSelectedPlace";
 
 const { imageSlider, closeSlider } = useSelectedPlace();
 
-const close_icon = require("@/assets/pixels/image_slider_close.png");
+const close_icon = require("@/assets/pixels/close.png");
 const prev_icon = require("@/assets/pixels/image_slider_prev.png");
 const next_icon = require("@/assets/pixels/image_slider_next.png");
 

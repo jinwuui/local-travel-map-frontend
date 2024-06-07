@@ -65,6 +65,8 @@ const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
   overflow: scroll;
 }
 
