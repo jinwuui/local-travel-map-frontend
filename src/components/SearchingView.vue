@@ -14,6 +14,10 @@
         <h2 class="description">{{ place.description }}</h2>
       </li>
     </ul>
+    <div v-else class="no-results">
+      <h2 class="no-results-message">검색된 장소가 없습니다</h2>
+      <img class="no-results-img" :src="noResultsImage" alert="ㅠㅠ" />
+    </div>
   </div>
 </template>
 
@@ -21,13 +25,13 @@
 import useSearching from "@/components/states/useSearching";
 
 const { searchedPlaces, selectPlace } = useSearching();
+const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
 </script>
 
 <style scoped>
 .searching-view {
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
 }
 
 .searching-list {
@@ -43,7 +47,7 @@ const { searchedPlaces, selectPlace } = useSearching();
 .searching-list li {
   width: 100%;
   box-sizing: border-box;
-  padding: 16px;
+  padding: 20px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -76,5 +80,21 @@ const { searchedPlaces, selectPlace } = useSearching();
 
 .searching-list li:hover {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.no-results {
+  padding: 16px;
+}
+
+.no-results-message {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.no-results-img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
 }
 </style>
