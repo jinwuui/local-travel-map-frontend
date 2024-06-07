@@ -4,15 +4,22 @@
     <ImageSlider />
     <div class="side-tab" :class="{ 'side-tab-hidden': !isSideTabOpen }">
       <div class="side-tab-border">
-        <NewPlaceForm v-if="isNewPlaceFormOpen" />
-        <PlaceDetailView v-else-if="isPlaceDetailOpen" />
-        <div v-else>
-          <img :src="currentBannerImage" alt="Signboard" class="banner-image" />
-          <h2 class="banner-quote">
-            {{ currentBannerText.quote }}
-          </h2>
-          <h2 class="banner-author">{{ currentBannerText.author }}</h2>
-        </div>
+        <SearchingView v-if="isSearchingViewOpen" />
+        <template v-else>
+          <NewPlaceForm v-if="isNewPlaceFormOpen" />
+          <PlaceDetailView v-else-if="isPlaceDetailOpen" />
+          <div class="default-tab" v-else>
+            <img
+              :src="currentBannerImage"
+              alt="Signboard"
+              class="banner-image"
+            />
+            <h2 class="banner-quote">
+              {{ currentBannerText.quote }}
+            </h2>
+            <h2 class="banner-author">{{ currentBannerText.author }}</h2>
+          </div>
+        </template>
       </div>
       <div class="tab-toggle-btn" @click="toggleSideTab">
         <div class="tab-toggle-btn-border">
@@ -29,11 +36,17 @@ import SearchBar from "@/components/SearchBar.vue";
 import ImageSlider from "@/components/ImageSlider.vue";
 import NewPlaceForm from "@/components/NewPlaceForm.vue";
 import PlaceDetailView from "@/components/PlaceDetailView.vue";
+import SearchingView from "@/components/SearchingView";
 
 import uiState from "@/components/states/uiState";
 
-const { isSideTabOpen, isNewPlaceFormOpen, isPlaceDetailOpen, toggleSideTab } =
-  uiState;
+const {
+  isSideTabOpen,
+  isNewPlaceFormOpen,
+  isPlaceDetailOpen,
+  isSearchingViewOpen,
+  toggleSideTab,
+} = uiState;
 
 const bannerImages = [
   require("@/assets/pixelarts/climb_mountain.png"),
@@ -486,7 +499,6 @@ onMounted(() => {
 }
 
 .side-tab-border {
-  padding: 16px;
   border: 1.85px solid white;
   border-radius: 4px;
   display: flex;
@@ -526,6 +538,9 @@ onMounted(() => {
   flex-direction: column;
 }
 
+.default-tab {
+  padding: 16px;
+}
 h2 {
   line-height: 1.5;
   font-family: "DOSIyagiBoldface";

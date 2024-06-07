@@ -4,8 +4,10 @@ import { searchAPI } from "@/services/search.api";
 import { debounce } from "@/utils/commonUtils";
 
 import useSelectedPlace from "@/components/states/useSelectedPlace";
+import useSearching from "@/components/states/useSearching";
 
 const { selectPlaceById } = useSelectedPlace();
+const { setSearchedPlaces } = useSearching();
 
 const suggestions = ref([]);
 
@@ -103,6 +105,25 @@ function setSelectedIndex(newSelectedIndex) {
   }
 }
 
+async function searching() {
+  const index = selectedIndex.value;
+  console.log("searching", index);
+
+  if (index === -1) {
+    // 검색어 상태로 enter
+    if (lastQuery.value !== inputText.value.trim()) {
+      await autocomplete(inputText.value);
+    }
+
+    setSearchedPlaces(lastSuggestions.value);
+
+    clearSuggestions();
+  } else {
+    // autocomplete 에서 enter
+    selectSuggestion(index);
+  }
+}
+
 async function selectSuggestion(index) {
   console.log("    select", index);
 
@@ -112,6 +133,8 @@ async function selectSuggestion(index) {
     updateSearchHistory({
       placeId: suggestions.value[index].placeId,
       name: suggestions.value[index].name,
+      description: suggestions.value[index].description,
+      country: suggestions.value[index].country,
     });
 
     // 검색창 초기화
@@ -119,17 +142,23 @@ async function selectSuggestion(index) {
   });
 }
 
-function isEnableEnter() {
+function isEnableSearching() {
   return (
-    -1 < selectedIndex.value && selectedIndex.value < suggestions.value.length
+    -1 <= selectedIndex.value && selectedIndex.value < suggestions.value.length
   );
 }
 
-function updateSearchHistory({ placeId, name }) {
+function updateSearchHistory({ placeId, name, description, country }) {
   searchHistory.value = searchHistory.value.filter(
     (search) => search.placeId !== placeId
   );
-  searchHistory.value.unshift({ placeId, name, type: "recent" });
+  searchHistory.value.unshift({
+    placeId,
+    name,
+    description,
+    country,
+    type: "recent",
+  });
 
   console.log("searchHistory", searchHistory.value);
   localStorage.setItem(
@@ -170,10 +199,12 @@ export default function useSearch() {
 
     suggestions: computed(() => suggestions.value),
     clearSuggestions,
-    selectSuggestion,
+    lastSuggestions: computed(() => lastSuggestions.value),
+
+    searching,
+    isEnableSearching,
 
     selectedIndex: computed(() => selectedIndex.value),
     setSelectedIndex,
-    isEnableEnter,
   };
 }
