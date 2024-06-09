@@ -22,7 +22,6 @@ const lastSuggestions = ref(null);
 
 function setInputText(value) {
   inputText.value = value;
-  autocomplete(inputText.value);
 }
 
 async function autocomplete(query) {
@@ -106,21 +105,23 @@ function setSelectedIndex(newSelectedIndex) {
 
 async function searching() {
   const index = selectedIndex.value;
-  console.log("searching", index);
+  const query = inputText.value?.trim() || "";
+  if (!query) {
+    return;
+  }
 
   if (index === -1) {
-    // 검색어 상태로 enter
-    if (lastQuery.value !== inputText.value.trim()) {
-      await autocomplete(inputText.value);
+    // query mode
+    if (lastQuery.value !== query.trim()) {
+      await autocomplete(query);
     }
 
     setSearchedPlaces(lastSuggestions.value);
-
-    clearSuggestions();
   } else {
-    // autocomplete 에서 enter
     selectSuggestion(index);
   }
+
+  clearSuggestions();
 }
 
 async function selectSuggestion(index) {
@@ -135,9 +136,6 @@ async function selectSuggestion(index) {
       description: suggestions.value[index].description,
       country: suggestions.value[index].country,
     });
-
-    // 검색창 초기화
-    clearSuggestions();
   });
 }
 

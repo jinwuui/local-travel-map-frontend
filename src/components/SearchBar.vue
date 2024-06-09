@@ -81,7 +81,7 @@ const {
 const close_icon = require("@/assets/pixels/close.png");
 
 const searchBar = ref(null);
-const debounceInput = debounce(setInputText, 400);
+const debounceAutocomplete = debounce(autocomplete, 300);
 
 onMounted(() => {
   loadSearchHistory();
@@ -101,7 +101,8 @@ function handleClickOutside(event) {
 }
 
 function handleInput(event) {
-  debounceInput(event.target.value);
+  setInputText(event.target.value);
+  debounceAutocomplete(event.target.value);
 }
 
 function handleKeydown(event) {
@@ -131,10 +132,6 @@ function handleSearch(event) {
 }
 
 function handleSelectSuggestion() {
-  setTimeout(() => {
-    clearSuggestions();
-  }, 100);
-
   if (isEnableSearching()) {
     searching();
   }

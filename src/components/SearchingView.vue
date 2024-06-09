@@ -1,6 +1,9 @@
 <template>
   <div class="searching-view">
-    <ul v-if="searchedPlaces.length > 0" class="searching-list">
+    <ul
+      v-if="searchedPlaces && searchedPlaces.length > 0"
+      class="searching-list"
+    >
       <li
         v-for="(place, index) in searchedPlaces"
         :class="{ 'border-line': index < searchedPlaces.length - 1 }"
