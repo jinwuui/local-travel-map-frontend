@@ -44,7 +44,7 @@ const apiKey = process.env.VUE_APP_MAP_KEY;
 const { isMapFetchLoading, isNewPlaceFormOpen } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
-const { fetch } = usePlace();
+const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
 
 const screenControl = {
@@ -55,7 +55,7 @@ const screenControl = {
   mapTypeControlOptions: { position: 7 },
 };
 
-onMounted(async () => await fetch());
+onMounted(async () => await fetchPlaces());
 
 function clickNewPlaceBtn() {
   if (isNewPlaceFormOpen.value) {

@@ -4,6 +4,7 @@
       v-for="category in categories"
       :key="category"
       class="category-badge"
+      :class="{ selected: selectedCategory === category }"
       @click="fetchByCategory(category)"
     >
       <p>{{ category }}</p>
@@ -14,12 +15,24 @@
 <script setup>
 import { ref } from "vue";
 import usePlace from "@/components/states/usePlace";
+import { debounce } from "@/utils/commonUtils";
 
-const { fetch } = usePlace();
+const { fetchPlaces } = usePlace();
 const categories = ref(["음식", "관광", "모험", "체험", "숙소", "축제"]);
+const selectedCategory = ref(null);
+const debounceFetchPlaces = debounce(fetchPlaces, 400);
 
 async function fetchByCategory(category) {
-  await fetch({ category: category });
+  let params = null;
+
+  if (category !== selectedCategory.value) {
+    selectedCategory.value = category;
+    params = { category: category };
+  } else {
+    selectedCategory.value = null;
+  }
+
+  debounceFetchPlaces(params);
 }
 </script>
 
@@ -63,5 +76,11 @@ async function fetchByCategory(category) {
 
 .category-badge > p {
   margin: 0;
+}
+
+.selected {
+  transform: translateY(3px);
+  background-color: #43a047;
+  box-shadow: 0 2px #2e7d32;
 }
 </style>
