@@ -125,16 +125,19 @@ async function searching() {
 }
 
 async function selectSuggestion(index) {
-  console.log("    select", index);
+  const place = suggestions.value[index];
+  if (!place) {
+    return;
+  }
 
   // 상세 정보창 업데이트
-  await selectPlaceById(suggestions.value[index].placeId).then(() => {
+  await selectPlaceById(place.placeId).then(() => {
     // 최근 검색어로 저장
     updateSearchHistory({
-      placeId: suggestions.value[index].placeId,
-      name: suggestions.value[index].name,
-      description: suggestions.value[index].description,
-      country: suggestions.value[index].country,
+      placeId: place.placeId,
+      name: place.name,
+      description: place.description,
+      country: place.country,
     });
   });
 }

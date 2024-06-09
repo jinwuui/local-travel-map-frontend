@@ -491,6 +491,15 @@ onMounted(() => {
   transform: translateX(0);
   position: fixed;
   z-index: 2000;
+
+  bottom: 60px;
+  left: 10px;
+  right: 10px;
+  width: auto;
+  max-width: 100%;
+
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* For Firefox */
 }
 
 .side-tab-hidden {
@@ -507,6 +516,21 @@ onMounted(() => {
   height: 100%; /* Ensure it takes full height */
   box-sizing: border-box;
   overflow: auto;
+}
+
+.side-tab::-webkit-scrollbar {
+  width: 4px;
+  background-color: transparent; /* Scrollbar background color */
+}
+.side-tab::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+.side-tab::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Scrollbar thumb hover color */
+}
+.side-tab::-webkit-scrollbar-track {
+  background-color: transparent; /* Scrollbar track background color */
 }
 
 .tab-toggle-btn {
@@ -553,15 +577,6 @@ h2 {
 }
 .banner-author {
   text-align: right;
-}
-
-/* Mobile first styles */
-.side-tab {
-  bottom: 60px;
-  left: 10px;
-  right: 10px;
-  width: auto;
-  max-width: 100%;
 }
 
 /* Desktop styles */
