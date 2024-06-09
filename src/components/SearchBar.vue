@@ -56,6 +56,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import uiState from "@/components/states/uiState";
 import useSearch from "@/components/states/useSearch";
+import { debounce } from "@/utils/commonUtils";
 
 const { isSearchingViewOpen, closeSearchingView } = uiState;
 
@@ -80,6 +81,7 @@ const {
 const close_icon = require("@/assets/pixels/close.png");
 
 const searchBar = ref(null);
+const debounceInput = debounce(setInputText, 400);
 
 onMounted(() => {
   loadSearchHistory();
@@ -99,7 +101,7 @@ function handleClickOutside(event) {
 }
 
 function handleInput(event) {
-  setInputText(event.target.value);
+  debounceInput(event.target.value);
 }
 
 function handleKeydown(event) {

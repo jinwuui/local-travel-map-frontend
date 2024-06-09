@@ -1,7 +1,6 @@
 import { computed, ref } from "vue";
 
 import { searchAPI } from "@/services/search.api";
-import { debounce } from "@/utils/commonUtils";
 
 import useSelectedPlace from "@/components/states/useSelectedPlace";
 import useSearching from "@/components/states/useSearching";
@@ -23,11 +22,11 @@ const lastSuggestions = ref(null);
 
 function setInputText(value) {
   inputText.value = value;
-  debounce(autocomplete(inputText.value), 500);
+  autocomplete(inputText.value);
 }
 
 async function autocomplete(query) {
-  console.log("    autocomplete");
+  console.log("    autocomplete:", query);
   if (query == null || query === "") {
     clearSuggestions();
     suggestions.value = searchHistory.value;

@@ -8,33 +8,40 @@ import uiState from "@/components/states/uiState";
 const { toggleMapFetchLoading } = uiState;
 const places = ref([]);
 
-async function fetch(params) {
-  console.log("-- fetch: params=", params);
-  toggleMapFetchLoading();
+async function fetchPlaces(params) {
+  try {
+    toggleMapFetchLoading();
 
-  const fetched = await placeAPI.fetchPlaces(params);
+    const fetchedData = await placeAPI.fetchPlaces(params);
 
-  if (params) {
-    places.value = fetched.places?.map((item) => new Place(item));
-  } else {
-    const existed = new Set(places.value.map((item) => item.placeId));
+    if (params) {
+      updatePlacesWithParams(fetchedData.places);
+    } else {
+      updatePlacesWithoutParams(fetchedData.places);
+    }
 
-    fetched.places?.forEach((newItem) => {
-      if (!existed.has(newItem.placeId)) {
-        places.value.push(new Place(newItem));
-        existed.add(newItem.placeId); // Set에 새로운 id 추가
-      }
-    });
+    console.log("    fetchPlaces:", params, "\n", places.value);
+  } catch (error) {
+    console.error("Error fetching places:", error);
+    throw error;
+  } finally {
+    toggleMapFetchLoading();
   }
-
-  console.log("-- fetched", places.value);
-  toggleMapFetchLoading();
 }
 
-function addPlaceOnMap(newPlace) {
-  toggleMapFetchLoading();
-  places.value.push(new Place(newPlace));
-  toggleMapFetchLoading();
+function updatePlacesWithParams(fetchedPlaces) {
+  places.value = fetchedPlaces?.map((item) => new Place(item)) || [];
+}
+
+function updatePlacesWithoutParams(fetchedPlaces) {
+  const existingPlaceIds = new Set(places.value.map((item) => item.placeId));
+
+  fetchedPlaces?.forEach((newItem) => {
+    if (!existingPlaceIds.has(newItem.placeId)) {
+      places.value.push(new Place(newItem));
+      existingPlaceIds.add(newItem.placeId);
+    }
+  });
 }
 
 const { selectedPlace } = useSelectedPlace();
@@ -54,7 +61,6 @@ watch(selectedPlace, (newSelectedPlace) => {
 export default function usePlace() {
   return {
     places: computed(() => places.value),
-    fetch,
-    addPlaceOnMap,
+    fetchPlaces,
   };
 }
