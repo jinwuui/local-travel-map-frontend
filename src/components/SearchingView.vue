@@ -8,7 +8,7 @@
         v-for="(place, index) in searchedPlaces"
         :class="{ 'border-line': index < searchedPlaces.length - 1 }"
         :key="index"
-        @mousedown.self="selectPlace(index)"
+        @mousedown="selectPlace(index)"
       >
         <div class="header">
           <h1 class="name">{{ place.name }}</h1>
@@ -68,17 +68,19 @@ const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
   width: 100%;
 }
 
-.header .name {
+.name {
   margin: 0;
+  text-shadow: 2.5px 2.5px 0 #111111;
 }
 
-.header .country {
+.country {
   margin: 0;
   color: lightgrey;
 }
 
 .description {
   margin-top: 1em;
+  text-shadow: 2.5px 2.5px 0 #111111;
 }
 
 .searching-list li:hover {
