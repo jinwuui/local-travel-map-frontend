@@ -1,5 +1,5 @@
 <template>
-  <div ref="searchBar" class="search-bar">
+  <div ref="searchBarRef" class="search-bar">
     <div class="search-bar-border">
       <div class="search-input-container">
         <input
@@ -7,6 +7,7 @@
             'search-input',
             suggestions.length > 0 ? 'with-autocomplete' : '',
           ]"
+          ref="inputRef"
           v-bind:value="inputText"
           @input="handleInput"
           @keydown="handleKeydown"
@@ -65,6 +66,7 @@ const {
   deleteSearchHistory,
 
   inputText,
+  inputRef,
   setInputText,
   autocomplete,
 
@@ -80,7 +82,7 @@ const {
 
 const close_icon = require("@/assets/pixels/close.png");
 
-const searchBar = ref(null);
+const searchBarRef = ref(null);
 const debounceAutocomplete = debounce(autocomplete, 300);
 
 onMounted(() => {
@@ -92,8 +94,8 @@ onBeforeUnmount(() => {
 });
 
 function handleClickOutside(event) {
-  if (searchBar.value && !searchBar.value.contains(event.target)) {
-    // 클릭이 searchBar 외부에서 발생한 경우
+  if (searchBarRef.value && !searchBarRef.value.contains(event.target)) {
+    // 클릭이 searchBarRef 외부에서 발생한 경우
     setTimeout(() => {
       clearSuggestions();
     }, 100);
