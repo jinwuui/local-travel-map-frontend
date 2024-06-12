@@ -15,6 +15,8 @@ const searchHistory = ref([]);
 const selectedIndex = ref(-1);
 
 const inputText = ref(null);
+const inputRef = ref(null);
+
 const tempQuery = ref(null);
 
 const lastQuery = ref(null);
@@ -26,6 +28,9 @@ function setInputText(value) {
 
 async function autocomplete(query) {
   console.log("    autocomplete:", query);
+  if (document.activeElement !== inputRef.value) {
+    return;
+  }
   if (query == null || query === "") {
     clearSuggestions();
     suggestions.value = searchHistory.value;
@@ -121,6 +126,7 @@ async function searching() {
     selectSuggestion(index);
   }
 
+  inputRef.value?.blur();
   clearSuggestions();
 }
 
@@ -194,6 +200,7 @@ export default function useSearch() {
     deleteSearchHistory,
 
     inputText: computed(() => inputText.value),
+    inputRef,
     setInputText,
     autocomplete,
 
