@@ -1,5 +1,5 @@
 <template>
-  <MarkerCluster>
+  <MarkerCluster :options="{ renderer: renderer }">
     <div v-if="renderCluster">
       <div v-for="place in places" :key="place.placeId">
         <CustomMarker
@@ -39,6 +39,27 @@ const { selectedPlace, selectPlace } = useSelectedPlace();
 const defaultMarkerIcon = require("@/assets/pixels/default_marker.png");
 const selectedMarkerIcon = require("@/assets/pixels/selected_marker.png");
 const renderCluster = ref(false);
+
+const renderer = {
+  render: ({ count, position }) =>
+    // eslint-disable-next-line
+    new google.maps.Marker({
+      label: {
+        text: String(count),
+        color: "black",
+        fontFamily: "DOSIyagiBoldface",
+        fontSize: "30px",
+      },
+      position,
+      icon: {
+        url: require("@/assets/pixels/cluster.png"),
+        // eslint-disable-next-line
+        scaledSize: new google.maps.Size(50, 50),
+      },
+      // eslint-disable-next-line
+      zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+    }),
+};
 
 onMounted(() => {
   setTimeout(() => {
