@@ -49,12 +49,16 @@
         />
       </div>
       <div class="image-preview">
-        <div class="preview-container file-upload" @click="triggerFileInput">
-          <div>
-            <p>
-              사진<br />
-              <small>{{ selectedFiles.length }} / 3</small>
-            </p>
+        <div
+          class="preview-container file-upload"
+          :class="{ 'too-many-images': isTooManyImages }"
+          @click="triggerFileInput"
+        >
+          <div class="file-upload-text">
+            <div>
+              {{ isTooManyImages ? "사진 3장 이하로!" : "사진" }}
+            </div>
+            <small>{{ selectedFiles.length + " / " + imageLimit }}</small>
           </div>
           <input
             ref="fileInput"
@@ -124,10 +128,12 @@ const removeBadgeIcon = require("@/assets/icons/remove-badge.png");
 
 const selectedFiles = ref([]);
 const imageUrls = ref([]);
+const imageLimit = 3;
 
 const categories = ref(["음식", "관광", "모험", "체험", "숙소", "축제"]);
 
 const isFormValid = ref(false);
+const isTooManyImages = ref(false);
 
 function triggerFileInput() {
   fileInput.value.click();
@@ -148,11 +154,11 @@ function onFileChange(event) {
     }
   });
 
-  if (selectedFiles.value.length + newFiles.length > 3) {
-    alert(
-      "사진은 3장 이하로 넣어주세요!\n과한 사진은 여행의 스포일러! (｡•̀ᴗ-)✧"
-    );
+  if (selectedFiles.value.length + newFiles.length > imageLimit) {
+    isTooManyImages.value = true;
     return;
+  } else {
+    isTooManyImages.value = false;
   }
 
   selectedFiles.value = [...selectedFiles.value, ...newFiles];
@@ -162,6 +168,8 @@ function onFileChange(event) {
 }
 
 function removeImage(index) {
+  if (isTooManyImages.value) isTooManyImages.value = false;
+
   imageUrls.value.splice(index, 1);
   selectedFiles.value.splice(index, 1);
 }
@@ -297,22 +305,24 @@ textarea {
 }
 
 .file-upload {
-  border-radius: 5px;
-  border: 2px dashed #ccc;
-
-  font-size: 2em;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  height: auto;
+  border-radius: 5px;
+  border: 2px dashed #ccc;
+  font-size: 2em;
   cursor: pointer;
 }
-.file-upload p {
-  margin: 10px;
-  text-align: center;
+
+.file-upload-text {
+  margin: 15px;
 }
-.file-upload p small {
-  font-size: 0.8em;
+
+.too-many-images {
+  border: 2px dashed red;
+  color: red;
 }
 
 .photos {

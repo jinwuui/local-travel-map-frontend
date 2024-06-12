@@ -575,6 +575,9 @@ h2 {
   object-fit: cover;
   border-radius: 3px;
 }
+.banner-quote {
+  word-break: keep-all;
+}
 .banner-author {
   text-align: right;
 }
