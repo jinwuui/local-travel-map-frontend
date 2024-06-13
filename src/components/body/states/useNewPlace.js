@@ -4,7 +4,7 @@ import imageCompression from "browser-image-compression";
 import NewPlace from "@/models/NewPlace";
 import { placeAPI } from "@/services/place.api";
 import uiState from "@/components/states/uiState";
-import useSelectedPlace from "@/components/states/useSelectedPlace";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { toggleNewPlaceLoading, toggleNewPlaceForm } = uiState;
 const { selectPlace } = useSelectedPlace();

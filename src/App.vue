@@ -1,17 +1,17 @@
 <template>
   <div>
     <MapPage />
-    <CategorySearchBar />
-    <NavBar />
-    <SideTab />
+    <AppHeader />
+    <AppNavBar />
+    <AppSideTab />
   </div>
 </template>
 
 <script setup>
 import MapPage from "@/components/MapPage.vue";
-import NavBar from "@/components/NavBar.vue";
-import SideTab from "@/components/SideTab.vue";
-import CategorySearchBar from "@/components/CategorySearchBar.vue";
+import AppHeader from "@/components/header/AppHeader.vue";
+import AppNavBar from "@/components/body/AppNavBar.vue";
+import AppSideTab from "@/components/body/AppSideTab.vue";
 </script>
 
 <style>

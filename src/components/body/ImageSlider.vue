@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import useSelectedPlace from "./states/useSelectedPlace";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { imageSlider, closeSlider } = useSelectedPlace();
 

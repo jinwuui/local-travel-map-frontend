@@ -1,7 +1,7 @@
 import { computed, ref } from "vue";
 
 import uiState from "@/components/states/uiState";
-import useSelectedPlace from "@/components/states/useSelectedPlace";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { openSearchingView, closeSearchingView } = uiState;
 const { selectPlaceById } = useSelectedPlace();

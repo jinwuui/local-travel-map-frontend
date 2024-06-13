@@ -100,7 +100,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import useNewPlace from "@/components/states/useNewPlace";
+import useNewPlace from "@/components/body/states/useNewPlace";
 import uiState from "@/components/states/uiState";
 
 const { isNewPlaceLoading } = uiState;

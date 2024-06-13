@@ -9,7 +9,7 @@
 <script setup>
 import { ref } from "vue";
 import { Marker } from "vue3-google-map";
-import useNewPlace from "@/components/states/useNewPlace";
+import useNewPlace from "@/components/body/states/useNewPlace";
 
 const { newPlace, setNewPlacePosition } = useNewPlace();
 

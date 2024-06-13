@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import useSearching from "@/components/states/useSearching";
+import useSearching from "@/components/body/states/useSearching";
 
 const { searchedPlaces, selectPlace } = useSearching();
 const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
