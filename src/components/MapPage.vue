@@ -23,29 +23,37 @@
     </GoogleMap>
   </div>
   <div class="new-place-btn" @click="clickNewPlaceBtn">
-    <p>{{ isNewPlaceFormOpen ? "취소하기" : "등록하기" }}</p>
+    <p>{{ newPlaceBtnText }}</p>
   </div>
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, watch, computed } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlaceMarker from "@/components/NewPlaceMarker.vue";
 
-import uiState from "@/components/states/uiState";
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
 import usePlace from "@/components/states/usePlace";
 import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMapFetchLoading, isNewPlaceFormOpen } = uiState;
+const { isMapFetchLoading, activeSideTab } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
 const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
+
+const isNewPlaceFormOpen = computed(
+  () => activeSideTab.value === COMPONENT_NAMES.NEW_PLACE_FORM
+);
+
+const newPlaceBtnText = computed(() =>
+  isNewPlaceFormOpen.value ? "취소하기" : "등록하기"
+);
 
 const screenControl = {
   fullscreenControl: false,
@@ -53,6 +61,30 @@ const screenControl = {
   zoomControl: false,
   mapTypeControlOptions: { position: 7 },
 };
+
+onMounted(async () => await fetchPlaces());
+
+function clickNewPlaceBtn() {
+  if (isNewPlaceFormOpen.value) {
+    closeNewPlaceForm();
+  } else {
+    const { lat, lng } = getCenterOutsideSidetab();
+    openNewPlaceForm(lat, lng);
+  }
+}
+
+watch(
+  () => mapRef.value?.ready,
+  (ready) => {
+    if (!ready) return;
+
+    mapRef.value.map.get("streetView").setOptions({
+      addressControlOptions: {
+        position: mapRef.value.api.ControlPosition.BOTTOM_CENTER,
+      },
+    });
+  }
+);
 
 const styles = [
   {
@@ -153,30 +185,6 @@ const styles = [
     ],
   },
 ];
-
-onMounted(async () => await fetchPlaces());
-
-function clickNewPlaceBtn() {
-  if (isNewPlaceFormOpen.value) {
-    closeNewPlaceForm();
-  } else {
-    const { lat, lng } = getCenterOutsideSidetab();
-    openNewPlaceForm(lat, lng);
-  }
-}
-
-watch(
-  () => mapRef.value?.ready,
-  (ready) => {
-    if (!ready) return;
-
-    mapRef.value.map.get("streetView").setOptions({
-      addressControlOptions: {
-        position: mapRef.value.api.ControlPosition.BOTTOM_CENTER,
-      },
-    });
-  }
-);
 </script>
 
 <style>

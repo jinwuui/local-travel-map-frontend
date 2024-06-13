@@ -1,20 +1,20 @@
 import { ref, computed } from "vue";
 import { communicationAPI } from "@/services/communication.api";
 
-import uiState from "@/components/states/uiState";
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 
-const { toggleAnnouncementsWindow, toggleFeedbackWindow } = uiState;
+const { navigateToComponent } = uiState;
 
 const feedback = ref("");
 
 async function fetchAnnouncements() {
   await communicationAPI.fetchAnnouncements();
-  toggleAnnouncementsWindow();
+  navigateToComponent(COMPONENT_NAMES.ANNOUNCEMENT_VIEW);
 }
 
 async function submitFeedback() {
   await communicationAPI.submitFeedback();
-  toggleFeedbackWindow();
+  navigateToComponent(COMPONENT_NAMES.FEEDBACK_FORM);
 }
 
 export default function useNavBar() {

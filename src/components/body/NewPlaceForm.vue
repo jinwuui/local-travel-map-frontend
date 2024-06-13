@@ -95,7 +95,7 @@
       </button>
     </div>
   </div>
-  <div v-if="isNewPlaceLoading" class="sending-overlay">전송 중...</div>
+  <div v-if="isSideTabLoading" class="sending-overlay">전송 중...</div>
 </template>
 
 <script setup>
@@ -103,7 +103,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import useNewPlace from "@/components/body/states/useNewPlace";
 import uiState from "@/components/states/uiState";
 
-const { isNewPlaceLoading } = uiState;
+const { isSideTabLoading } = uiState;
 const {
   nameText,
   descriptionText,
