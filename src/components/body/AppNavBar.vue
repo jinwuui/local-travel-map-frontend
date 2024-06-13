@@ -4,16 +4,26 @@
       <p class="logo" @click="reloadPage">로-컬<br />xyz</p>
       <ul>
         <li>저장</li>
-        <li>최근</li>
-        <li>설정</li>
-        <li>공지</li>
-        <li>건의</li>
+        <li @click="toggleAnnouncementsWindow">공지</li>
+        <li @click="toggleFeedbackWindow">건의</li>
+        <li>⚙️</li>
       </ul>
     </div>
   </nav>
+  <div class="window">
+    <div class=""></div>
+    <div></div>
+  </div>
 </template>
 
 <script setup>
+// import useNavBar from "@/components/states/useNavBar";
+import uiState from "@/components/states/uiState";
+
+const { toggleAnnouncementsWindow, toggleFeedbackWindow } = uiState;
+
+// const { fetchAnnouncements, feedback, submitFeedback } = useNavBar();
+
 const reloadPage = () => {
   window.location.reload();
 };
@@ -52,6 +62,7 @@ ul {
   padding: 15px;
   text-align: center;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 /* Default is for mobile with bottom navigation */
