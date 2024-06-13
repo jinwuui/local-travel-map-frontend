@@ -1,6 +1,5 @@
 <template>
   <div>
-    <SearchBar />
     <ImageSlider />
     <div class="side-tab" :class="{ 'side-tab-hidden': !isSideTabOpen }">
       <div class="side-tab-border">
@@ -32,11 +31,10 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import SearchBar from "@/components/SearchBar.vue";
-import ImageSlider from "@/components/ImageSlider.vue";
-import NewPlaceForm from "@/components/NewPlaceForm.vue";
-import PlaceDetailView from "@/components/PlaceDetailView.vue";
-import SearchingView from "@/components/SearchingView";
+import ImageSlider from "@/components/body/ImageSlider.vue";
+import NewPlaceForm from "@/components/body/NewPlaceForm.vue";
+import PlaceDetailView from "@/components/body/PlaceDetailView.vue";
+import SearchingView from "@/components/body/SearchingView";
 
 import uiState from "@/components/states/uiState";
 

@@ -19,7 +19,6 @@
       <span v-if="isMapFetchLoading">Loading places</span>
       <div v-else><PlaceCluster /></div>
 
-      <NewPlace v-if="false" />
       <NewPlaceMarker v-if="isNewPlaceFormOpen" />
     </GoogleMap>
   </div>
@@ -33,13 +32,12 @@ import { onMounted, watch } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
 import PlaceCluster from "@/components/PlaceCluster.vue";
-import NewPlace from "@/components/NewPlace.vue";
 import NewPlaceMarker from "@/components/NewPlaceMarker.vue";
 
 import uiState from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
 import usePlace from "@/components/states/usePlace";
-import useNewPlace from "@/components/states/useNewPlace";
+import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 

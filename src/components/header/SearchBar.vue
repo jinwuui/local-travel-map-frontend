@@ -56,7 +56,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import uiState from "@/components/states/uiState";
-import useSearch from "@/components/states/useSearch";
+import useSearch from "@/components/header/states/useSearch";
 import { debounce } from "@/utils/commonUtils";
 
 const { isSearchingViewOpen, closeSearchingView } = uiState;

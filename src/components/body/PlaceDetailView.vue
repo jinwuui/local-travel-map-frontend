@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import useSelectedPlace from "@/components/states/useSelectedPlace";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { selectedPlace, openSlider } = useSelectedPlace();
 

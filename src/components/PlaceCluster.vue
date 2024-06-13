@@ -31,7 +31,7 @@ import { onMounted, ref } from "vue";
 import { CustomMarker, MarkerCluster } from "vue3-google-map";
 
 import usePlace from "@/components/states/usePlace";
-import useSelectedPlace from "@/components/states/useSelectedPlace";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { places } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();

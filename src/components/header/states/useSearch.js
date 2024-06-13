@@ -2,8 +2,8 @@ import { computed, ref } from "vue";
 
 import { searchAPI } from "@/services/search.api";
 
-import useSelectedPlace from "@/components/states/useSelectedPlace";
-import useSearching from "@/components/states/useSearching";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
+import useSearching from "@/components/body/states/useSearching";
 
 const { selectPlaceById } = useSelectedPlace();
 const { setSearchedPlaces } = useSearching();

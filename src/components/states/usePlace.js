@@ -2,7 +2,7 @@ import { ref, computed, watch } from "vue";
 import Place from "@/models/Place";
 import { placeAPI } from "@/services/place.api";
 
-import useSelectedPlace from "@/components/states/useSelectedPlace";
+import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import uiState from "@/components/states/uiState";
 
 const { toggleMapFetchLoading } = uiState;
