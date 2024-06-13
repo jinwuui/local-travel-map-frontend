@@ -3,10 +3,14 @@ import imageCompression from "browser-image-compression";
 
 import NewPlace from "@/models/NewPlace";
 import { placeAPI } from "@/services/place.api";
-import uiState from "@/components/states/uiState";
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
-const { toggleNewPlaceLoading, toggleNewPlaceForm } = uiState;
+const {
+  toggleSideTabLoading,
+  navigateToComponent,
+  navigateToPreviousComponent,
+} = uiState;
 const { selectPlace } = useSelectedPlace();
 
 const nameText = ref("");
@@ -50,7 +54,7 @@ async function addNewPlace(imageFiles) {
   if (newPlace.value.isValid()) {
     console.log("imagefiles", imageFiles);
     try {
-      toggleNewPlaceLoading();
+      toggleSideTabLoading();
 
       let compressedImageFiles = null;
       if (imageFiles) {
@@ -91,7 +95,7 @@ async function addNewPlace(imageFiles) {
       console.error("Error during add new place", error);
       throw error;
     } finally {
-      toggleNewPlaceLoading();
+      toggleSideTabLoading();
     }
   } else {
     alert("부정확한 입력");
@@ -130,7 +134,7 @@ function openNewPlaceForm(lat, lng) {
     lng: lng,
   });
 
-  toggleNewPlaceForm();
+  navigateToComponent(COMPONENT_NAMES.NEW_PLACE_FORM);
   step.value = 0;
 }
 
@@ -139,7 +143,7 @@ function closeNewPlaceForm() {
   newPlace.value = null;
   nameText.value = "";
   descriptionText.value = "";
-  toggleNewPlaceForm();
+  navigateToPreviousComponent();
 }
 
 export default function useNewPlace() {

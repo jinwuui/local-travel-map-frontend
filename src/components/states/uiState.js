@@ -1,18 +1,21 @@
 import { reactive, computed } from "vue";
 
+export const COMPONENT_NAMES = {
+  DEFAULT_VIEW: "DefaultView",
+  NEW_PLACE_FORM: "NewPlaceForm",
+  PLACE_DETAIL_VIEW: "PlaceDetailView",
+  ANNOUNCEMENT_VIEW: "AnnouncementView",
+  FEEDBACK_FORM: "FeedbackForm",
+  SEARCHING_VIEW: "SearchingView",
+};
+
 const state = reactive({
   isMapFetchLoading: false,
 
   isSideTabOpen: false,
+  isSideTabLoading: false,
 
-  isNewPlaceFormOpen: false,
-  isNewPlaceLoading: false,
-
-  isPlaceDetailOpen: false,
-  isPlaceDetailLoading: false,
-
-  isSearchingViewOpen: false,
-  isSearchingViewLoading: false,
+  sideTabStack: [COMPONENT_NAMES.DEFAULT_VIEW],
 });
 
 function toggleMapFetchLoading() {
@@ -23,56 +26,35 @@ function toggleSideTab() {
   state.isSideTabOpen = !state.isSideTabOpen;
 }
 
-function toggleNewPlaceForm() {
-  if (!state.isNewPlaceFormOpen && !state.isSideTabOpen) toggleSideTab();
-  state.isNewPlaceFormOpen = !state.isNewPlaceFormOpen;
+function toggleSideTabLoading() {
+  state.isSideTabLoading = !state.isSideTabLoading;
 }
 
-function toggleNewPlaceLoading() {
-  state.isNewPlaceLoading = !state.isNewPlaceLoading;
-}
-
-function openPlaceDetail() {
+function navigateToComponent(componentName) {
   if (!state.isSideTabOpen) toggleSideTab();
-  if (state.isNewPlaceFormOpen) toggleNewPlaceForm();
-  state.isPlaceDetailOpen = true;
+  state.sideTabStack.push(componentName);
 }
 
-function togglePlaceDetailLoading() {
-  state.isPlaceDetailLoading = !state.isPlaceDetailLoading;
-}
-
-function openSearchingView() {
-  if (!state.isSideTabOpen) toggleSideTab();
-  state.isSearchingViewOpen = true;
-}
-
-function closeSearchingView() {
-  state.isSearchingViewOpen = false;
-}
-
-function toggleSearchingViewLoading() {
-  state.isSearchingViewLoading = !state.isSearchingViewLoading;
+function navigateToPreviousComponent() {
+  if (state.sideTabStack.length > 1) {
+    state.sideTabStack.pop();
+  }
 }
 
 const uiState = {
   isMapFetchLoading: computed(() => state.isMapFetchLoading),
-  isSideTabOpen: computed(() => state.isSideTabOpen),
-  isNewPlaceFormOpen: computed(() => state.isNewPlaceFormOpen),
-  isNewPlaceLoading: computed(() => state.isNewPlaceLoading),
-  isPlaceDetailOpen: computed(() => state.isPlaceDetailOpen),
-  isPlaceDetailLoading: computed(() => state.isPlaceDetailLoading),
-  isSearchingViewOpen: computed(() => state.isSearchingViewOpen),
-  isSearchingViewLoading: computed(() => state.isSearchingViewLoading),
   toggleMapFetchLoading,
+
+  isSideTabOpen: computed(() => state.isSideTabOpen),
+  isSideTabLoading: computed(() => state.isSideTabLoading),
   toggleSideTab,
-  toggleNewPlaceForm,
-  toggleNewPlaceLoading,
-  openPlaceDetail,
-  togglePlaceDetailLoading,
-  openSearchingView,
-  closeSearchingView,
-  toggleSearchingViewLoading,
+  toggleSideTabLoading,
+
+  activeSideTab: computed(
+    () => state.sideTabStack[state.sideTabStack.length - 1]
+  ),
+  navigateToComponent,
+  navigateToPreviousComponent,
 };
 
 export default uiState;

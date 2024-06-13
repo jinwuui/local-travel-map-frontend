@@ -1,10 +1,10 @@
 import { reactive, computed } from "vue";
 import { placeAPI } from "@/services/place.api";
-import uiState from "@/components/states/uiState";
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
 import PlaceDetail from "@/models/PlaceDetail";
 
-const { openPlaceDetail } = uiState;
+const { navigateToComponent } = uiState;
 const { setMapCenter } = useMap();
 
 const selectedPlace = reactive({ value: null });
@@ -22,7 +22,7 @@ async function selectPlace(place) {
   });
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
-  openPlaceDetail();
+  navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 }
 
 async function selectPlaceById(placeId) {
@@ -31,7 +31,7 @@ async function selectPlaceById(placeId) {
   selectedPlace.value = PlaceDetail.fromJson(fetched.place);
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
-  openPlaceDetail();
+  navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 }
 
 function openSlider() {

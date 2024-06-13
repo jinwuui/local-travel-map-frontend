@@ -19,7 +19,7 @@
         <img
           v-if="isSearchingViewOpen"
           class="close-button"
-          @click="closeSearchingView"
+          @click="navigateToPreviousComponent"
           :src="close_icon"
           alt="X"
         />
@@ -54,12 +54,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
-import uiState from "@/components/states/uiState";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useSearch from "@/components/header/states/useSearch";
 import { debounce } from "@/utils/commonUtils";
 
-const { isSearchingViewOpen, closeSearchingView } = uiState;
+const { activeSideTab, navigateToPreviousComponent } = uiState;
 
 const {
   loadSearchHistory,
@@ -84,6 +84,9 @@ const close_icon = require("@/assets/pixels/close.png");
 
 const searchBarRef = ref(null);
 const debounceAutocomplete = debounce(autocomplete, 300);
+const isSearchingViewOpen = computed(
+  () => activeSideTab.value === COMPONENT_NAMES.SEARCHING_VIEW
+);
 
 onMounted(() => {
   loadSearchHistory();
