@@ -21,9 +21,10 @@ import ImageSlider from "@/components/body/ImageSlider.vue";
 import DefaultView from "@/components/body/DefaultView.vue";
 import NewPlaceForm from "@/components/body/NewPlaceForm.vue";
 import PlaceDetailView from "@/components/body/PlaceDetailView.vue";
+import SearchingView from "@/components/body/SearchingView";
+import FavoriteView from "@/components/body/FavoriteView";
 import AnnouncementView from "@/components/body/AnnouncementView.vue";
 import FeedbackForm from "@/components/body/FeedbackForm.vue";
-import SearchingView from "@/components/body/SearchingView";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 
@@ -33,9 +34,10 @@ const tabComponents = {
   [COMPONENT_NAMES.DEFAULT_VIEW]: DefaultView,
   [COMPONENT_NAMES.NEW_PLACE_FORM]: NewPlaceForm,
   [COMPONENT_NAMES.PLACE_DETAIL_VIEW]: PlaceDetailView,
+  [COMPONENT_NAMES.SEARCHING_VIEW]: SearchingView,
+  [COMPONENT_NAMES.FAVORITE_VIEW]: FavoriteView,
   [COMPONENT_NAMES.ANNOUNCEMENT_VIEW]: AnnouncementView,
   [COMPONENT_NAMES.FEEDBACK_FORM]: FeedbackForm,
-  [COMPONENT_NAMES.SEARCHING_VIEW]: SearchingView,
 };
 
 const activeTabComponent = computed(() => tabComponents[activeSideTab.value]);

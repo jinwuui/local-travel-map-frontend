@@ -7,6 +7,7 @@ export const COMPONENT_NAMES = {
   ANNOUNCEMENT_VIEW: "AnnouncementView",
   FEEDBACK_FORM: "FeedbackForm",
   SEARCHING_VIEW: "SearchingView",
+  FAVORITE_VIEW: "FavoriteView",
 };
 
 const state = reactive({
