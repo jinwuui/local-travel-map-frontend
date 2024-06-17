@@ -3,9 +3,15 @@
     <div class="nav-border">
       <p class="logo" @click="reloadPage">로-컬<br />xyz</p>
       <ul>
-        <li>저장</li>
-        <li @click="toggleAnnouncementsWindow">공지</li>
-        <li @click="toggleFeedbackWindow">건의</li>
+        <li @click="navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW)">
+          저장
+        </li>
+        <li @click="navigateToComponent(COMPONENT_NAMES.ANNOUNCEMENT_VIEW)">
+          공지
+        </li>
+        <li @click="navigateToComponent(COMPONENT_NAMES.FEEDBACK_FORM)">
+          건의
+        </li>
         <li>⚙️</li>
       </ul>
     </div>
@@ -18,11 +24,9 @@
 
 <script setup>
 // import useNavBar from "@/components/states/useNavBar";
-import uiState from "@/components/states/uiState";
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 
-const { toggleAnnouncementsWindow, toggleFeedbackWindow } = uiState;
-
-// const { fetchAnnouncements, feedback, submitFeedback } = useNavBar();
+const { navigateToComponent } = uiState;
 
 const reloadPage = () => {
   window.location.reload();
