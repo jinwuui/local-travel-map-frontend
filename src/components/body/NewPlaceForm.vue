@@ -3,13 +3,13 @@
     <div class="step-0 step-content" v-if="step === 0">
       <input
         ref="firstInput"
-        :class="{ 'input-error': !nameText && isFormValid }"
+        :class="{ 'input-error': !nameText && isInvalidInput }"
         v-bind:value="nameText"
         @input="updateName"
         type="text"
         placeholder="이름"
       />
-      <div v-if="!nameText && isFormValid" class="error-message">
+      <div v-if="!nameText && isInvalidInput" class="error-message">
         필수 입력입니다
       </div>
       <div class="category-selection">
@@ -26,13 +26,13 @@
         </div>
       </div>
       <textarea
-        :class="{ 'input-error': !descriptionText && isFormValid }"
+        :class="{ 'input-error': !descriptionText && isInvalidInput }"
         v-bind:value="descriptionText"
         @input="updateDescription"
         placeholder="설명"
         maxlength="50"
       />
-      <div v-if="!descriptionText && isFormValid" class="error-message">
+      <div v-if="!descriptionText && isInvalidInput" class="error-message">
         필수 입력입니다.
       </div>
     </div>
@@ -132,7 +132,7 @@ const imageLimit = 3;
 
 const categories = ref(["음식", "관광", "모험", "체험", "숙소", "축제"]);
 
-const isFormValid = ref(false);
+const isInvalidInput = ref(false);
 const isTooManyImages = ref(false);
 
 function triggerFileInput() {
@@ -184,11 +184,11 @@ function handlePrevStep() {
 }
 
 function handleNextStep() {
-  isFormValid.value = true;
+  isInvalidInput.value = true;
 
   if (step.value === 0 && nameText.value && descriptionText.value) {
     nextStep();
-    isFormValid.value = false;
+    isInvalidInput.value = false;
   } else if (step.value === 1) {
     addNewPlace(selectedFiles.value);
   }
