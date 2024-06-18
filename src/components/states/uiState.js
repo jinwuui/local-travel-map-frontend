@@ -13,6 +13,8 @@ export const COMPONENT_NAMES = {
 const state = reactive({
   isMapFetchLoading: false,
 
+  isLoginFormOpen: false,
+
   isSideTabOpen: false,
   isSideTabLoading: false,
 
@@ -21,6 +23,10 @@ const state = reactive({
 
 function toggleMapFetchLoading() {
   state.isMapFetchLoading = !state.isMapFetchLoading;
+}
+
+function toggleLoginForm() {
+  state.isLoginFormOpen = !state.isLoginFormOpen;
 }
 
 function toggleSideTab() {
@@ -45,6 +51,9 @@ function navigateToPreviousComponent() {
 const uiState = {
   isMapFetchLoading: computed(() => state.isMapFetchLoading),
   toggleMapFetchLoading,
+
+  isLoginFormOpen: computed(() => state.isLoginFormOpen),
+  toggleLoginForm,
 
   isSideTabOpen: computed(() => state.isSideTabOpen),
   isSideTabLoading: computed(() => state.isSideTabLoading),
