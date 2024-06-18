@@ -3,9 +3,7 @@
     <div class="nav-border">
       <p class="logo" @click="reloadPage">로-컬<br />xyz</p>
       <ul>
-        <li @click="navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW)">
-          저장
-        </li>
+        <li @click="handleFavorite">저장</li>
         <li @click="navigateToComponent(COMPONENT_NAMES.ANNOUNCEMENT_VIEW)">
           공지
         </li>
@@ -16,21 +14,31 @@
       </ul>
     </div>
   </nav>
-  <div class="window">
-    <div class=""></div>
-    <div></div>
-  </div>
+  <LoginForm v-if="isLoginFormOpen" />
 </template>
 
 <script setup>
 // import useNavBar from "@/components/states/useNavBar";
+import LoginForm from "@/components/body/LoginForm.vue";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
+import useApp from "@/components/states/useApp";
 
-const { navigateToComponent } = uiState;
+const { navigateToComponent, isLoginFormOpen, toggleLoginForm } = uiState;
+const { loadUser } = useApp();
 
 const reloadPage = () => {
   window.location.reload();
 };
+
+function handleFavorite() {
+  // 로그인 여부 확인
+  if (loadUser()) {
+    navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW);
+  } else {
+    // 로그인 폼 열기
+    toggleLoginForm();
+  }
+}
 </script>
 
 <style>
