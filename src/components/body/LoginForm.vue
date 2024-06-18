@@ -20,18 +20,20 @@
               ref="firstInput"
               type="text"
               placeholder="이름"
+              :class="{ 'input-error': !usernameText && isInvalidInput }"
               v-bind:value="usernameText"
               @input="setUsername"
             />
             <input
               type="password"
               placeholder="비밀번호"
+              :class="{ 'input-error': !passwordText && isInvalidInput }"
               v-bind:value="passwordText"
               @input="setPassword"
             />
           </div>
           <div class="form-button">
-            <button @click="login">로그인</button>
+            <button @click="handleLogin">로그인</button>
             <div class="signup-notice">
               계정이 없으신가요? 로그인 시 자동으로 생성됩니다
             </div>
@@ -53,6 +55,16 @@ const { toggleLoginForm } = uiState;
 
 const close_icon = require("@/assets/pixels/close.png");
 const firstInput = ref(null);
+const isInvalidInput = ref(false);
+
+function handleLogin() {
+  isInvalidInput.value = true;
+
+  if (usernameText.value && passwordText.value) {
+    login();
+    isInvalidInput.value = false;
+  }
+}
 
 onMounted(() => {
   setTimeout(() => firstInput.value?.focus(), 0);
@@ -173,5 +185,14 @@ button {
   position: relative;
   padding-bottom: 2px;
   border-bottom: 0.1em solid white;
+}
+
+.input-error {
+  border: 2px solid red;
+  color: red;
+}
+
+.input-error::placeholder {
+  color: red; /* 원하는 색상으로 변경 */
 }
 </style>
