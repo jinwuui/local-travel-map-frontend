@@ -56,27 +56,18 @@ async function addNewPlace(imageFiles) {
     try {
       toggleSideTabLoading();
 
-      let compressedImageFiles = null;
-      if (imageFiles) {
-        compressedImageFiles = await Promise.all(
-          imageFiles.map(async (file) => await compressImageFile(file))
-        );
-        console.log("--compressedImageFiles", compressedImageFiles);
-      }
-
       const formData = newPlace.value.toFormData();
 
-      imageFiles?.forEach((file) => {
-        console.log("--image file", file);
-        formData.append("photos", file);
-      });
+      if (imageFiles) {
+        const compressedImageFiles = await Promise.all(
+          imageFiles.map(async (file) => await compressImageFile(file))
+        );
 
-      // Check if FormData contains the data
-      for (const [key, value] of formData.entries()) {
-        console.log(`formData: ${key}:`, value);
+        compressedImageFiles?.forEach((file) => {
+          formData.append("photos", file);
+        });
       }
 
-      console.log("before result");
       await placeAPI
         .addPlace(formData)
         .then((result) => {
@@ -104,7 +95,7 @@ async function addNewPlace(imageFiles) {
 
 async function compressImageFile(imageFile) {
   const options = {
-    maxSizeMB: 0.5,
+    maxSizeMB: 1,
     maxWidthOrHeight: 1024,
     useWebWorker: true,
   };
