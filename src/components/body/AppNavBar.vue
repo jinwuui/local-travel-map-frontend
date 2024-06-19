@@ -14,16 +14,13 @@
       </ul>
     </div>
   </nav>
-  <LoginForm v-if="isLoginFormOpen" />
 </template>
 
 <script setup>
-// import useNavBar from "@/components/states/useNavBar";
-import LoginForm from "@/components/body/LoginForm.vue";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
-const { navigateToComponent, isLoginFormOpen, toggleLoginForm } = uiState;
+const { navigateToComponent, toggleLoginForm } = uiState;
 const { loadUser } = useApp();
 
 const reloadPage = () => {

@@ -25,6 +25,7 @@
   <div class="new-place-btn" @click="clickNewPlaceBtn">
     <p>{{ newPlaceBtnText }}</p>
   </div>
+  <LoginForm v-if="isLoginFormOpen" />
 </template>
 
 <script setup>
@@ -33,6 +34,7 @@ import { GoogleMap } from "vue3-google-map";
 
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlaceMarker from "@/components/NewPlaceMarker.vue";
+import LoginForm from "@/components/body/LoginForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
@@ -41,7 +43,7 @@ import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMapFetchLoading, activeSideTab } = uiState;
+const { isMapFetchLoading, activeSideTab, isLoginFormOpen } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
 const { fetchPlaces } = usePlace();

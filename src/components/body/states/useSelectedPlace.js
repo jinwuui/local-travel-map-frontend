@@ -1,11 +1,14 @@
 import { reactive, computed } from "vue";
 import { placeAPI } from "@/services/place.api";
+import { userAPI } from "@/services/user.api";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
+import useApp from "@/components/states/useApp";
 import PlaceDetail from "@/models/PlaceDetail";
 
 const { navigateToComponent } = uiState;
 const { setMapCenter } = useMap();
+const { user } = useApp();
 
 const selectedPlace = reactive({ value: null });
 const imageSlider = reactive({ imageList: [], isOpen: false });
@@ -19,6 +22,7 @@ async function selectPlace(place) {
     rating: fetched.placeDetails?.rating || 0,
     photos: fetched.placeDetails?.photos,
     country: fetched.placeDetails?.country,
+    isFavorite: fetched.placeDetails?.isFavorite,
   });
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
@@ -32,6 +36,18 @@ async function selectPlaceById(placeId) {
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
   navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
+}
+
+async function toggleFavoritePlace() {
+  if (!user.value) return;
+
+  const { isFavorite } = await userAPI.toggleFavoritePlace(
+    user.value.userId,
+    selectedPlace.value.placeId
+  );
+
+  selectedPlace.value.isFavorite = isFavorite;
+  console.log("isFavorite", isFavorite);
 }
 
 function openSlider() {
@@ -49,6 +65,8 @@ export default function useSelectedPlace() {
     selectedPlace: computed(() => selectedPlace.value),
     selectPlace,
     selectPlaceById,
+
+    toggleFavoritePlace,
 
     imageSlider,
     openSlider,

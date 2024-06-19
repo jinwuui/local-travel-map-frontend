@@ -123,7 +123,7 @@ const {
 const firstInput = ref(null);
 const fileInput = ref(null);
 
-const ratingStarIcon = require("@/assets/pixels/rating_star_23px.png");
+const ratingStarIcon = require("@/assets/pixels/rating_star.png");
 const removeBadgeIcon = require("@/assets/icons/remove-badge.png");
 
 const selectedFiles = ref([]);

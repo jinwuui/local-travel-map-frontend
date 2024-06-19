@@ -25,6 +25,14 @@ export default class UserAPIService {
       data: loginInfo,
     });
   }
+
+  async toggleFavoritePlace(userId, placeId) {
+    return this._axiosCall({
+      method: "post",
+      url: `/${userId}/favorites`,
+      data: { placeId: placeId },
+    });
+  }
 }
 
 export const userAPI = new UserAPIService();
