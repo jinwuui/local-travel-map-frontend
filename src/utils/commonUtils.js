@@ -5,3 +5,16 @@ export function debounce(func, wait) {
     timeout = setTimeout(() => func(...args), wait);
   };
 }
+
+export function debounceLeading(func, wait) {
+  let timeout;
+  return function (...args) {
+    if (!timeout) {
+      func(...args);
+    }
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+    }, wait);
+  };
+}

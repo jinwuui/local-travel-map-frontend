@@ -60,7 +60,7 @@ export default class PlaceAPIService {
     return this._axiosCall({
       method: "put",
       url: `/${placeId}`,
-      data: JSON.stringify({ place: place, password: password }),
+      data: { place: place, password: password },
     });
   }
 
@@ -68,7 +68,7 @@ export default class PlaceAPIService {
     return this._axiosCall({
       method: "delete",
       url: `/${placeId}`,
-      data: JSON.stringify(password),
+      data: password,
     });
   }
 }

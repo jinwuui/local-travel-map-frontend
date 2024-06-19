@@ -10,22 +10,38 @@
       <h2>{{ selectedPlace.name }}</h2>
       <h5 v-if="selectedPlace.country">{{ selectedPlace.country }}</h5>
     </div>
-    <div class="rating-and-category">
-      <div class="rating">
-        <small>
-          {{ selectedPlace.rating != 0 ? selectedPlace.rating : "-" }}
-        </small>
-        <img
-          v-for="number in 5"
-          :key="number"
-          class="rating-icon"
-          :src="
-            number <= selectedPlace.rating
-              ? ratingActivedIcon
-              : ratingUnactivedIcon
-          "
-          alt="star"
-        />
+    <div class="additional-info">
+      <div class="col-div">
+        <div class="rating">
+          <small>
+            {{ selectedPlace.rating != 0 ? selectedPlace.rating : "-" }}
+          </small>
+          <img
+            v-for="number in 5"
+            :key="number"
+            class="rating-icon"
+            :src="
+              number <= selectedPlace.rating
+                ? ratingActivedIcon
+                : ratingInactivedIcon
+            "
+            alt="star"
+          />
+        </div>
+        <div class="favorite" @click="handleFavorite">
+          <img
+            class="favorite-icon"
+            :class="[selectedPlace.isFavorite ? 'active' : 'inactive']"
+            :src="favoriteIcon"
+            alt="❤️"
+          />
+          <div
+            class="favorite-text"
+            :class="[selectedPlace.isFavorite ? 'active' : 'inactive']"
+          >
+            저장
+          </div>
+        </div>
       </div>
       <div class="categories">
         <div
@@ -50,13 +66,31 @@
 
 <script setup>
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
+import useApp from "@/components/states/useApp";
+import uiState from "@/components/states/uiState";
+import { debounceLeading } from "@/utils/commonUtils";
 
-const { selectedPlace, openSlider } = useSelectedPlace();
+const { toggleLoginForm } = uiState;
+const { selectedPlace, openSlider, toggleFavoritePlace } = useSelectedPlace();
+const { loadUser } = useApp();
+const debounceToggleFavoritePlace = debounceLeading(toggleFavoritePlace, 400);
 
-const ratingActivedIcon = require("@/assets/pixels/rating_star_23px.png");
-const ratingUnactivedIcon = require("@/assets/pixels/rating_star_unactived_23px.png");
+const ratingActivedIcon = require("@/assets/pixels/rating_star.png");
+const ratingInactivedIcon = require("@/assets/pixels/rating_star_inactived.png");
+const favoriteIcon = require("@/assets/pixels/favorite.png");
 
 const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
+
+function handleFavorite() {
+  // 로그인 여부 확인
+  if (loadUser()) {
+    // 로그인 O -> 즐겨찾기 토글
+    debounceToggleFavoritePlace();
+  } else {
+    // 로그인 X -> 로그인폼 열기
+    toggleLoginForm();
+  }
+}
 </script>
 
 <style scoped>
@@ -87,8 +121,8 @@ const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
 }
 
 .info-image + .name,
-.name + .rating-and-category,
-.rating-and-category + p {
+.name + .additional-info,
+.additional-info + p {
   border-top: 1.85px solid white;
   width: 100%;
   padding-top: 30px;
@@ -122,6 +156,29 @@ h2 {
 .rating small {
   font-size: 1.2em;
   margin-right: 0.5em;
+}
+
+.col-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.favorite {
+  cursor: pointer;
+}
+
+.favorite-text {
+  position: relative;
+  top: -0.5em;
+  font-size: 0.8em;
+  text-align: center;
+  color: #e0e0e0;
+}
+.active {
+  opacity: 1;
+}
+.inactive {
+  opacity: 0.5;
 }
 
 .categories {

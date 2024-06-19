@@ -11,6 +11,7 @@ export default class PlaceDetail extends Place {
     rating = 0,
     photos = [],
     country,
+    isFavorite,
   }) {
     super({
       placeId: placeId,
@@ -23,6 +24,7 @@ export default class PlaceDetail extends Place {
     this.rating = rating;
     this.photos = photos;
     this.country = country;
+    this.isFavorite = isFavorite;
   }
 
   isValid() {
@@ -39,13 +41,21 @@ export default class PlaceDetail extends Place {
     return new PlaceDetail({ ...json });
   }
 
-  static fromPlace({ place, description, rating, photos, country }) {
+  static fromPlace({
+    place,
+    description,
+    rating,
+    photos,
+    country,
+    isFavorite,
+  }) {
     return new PlaceDetail({
       ...place,
       description,
       rating,
       photos,
       country,
+      isFavorite,
     });
   }
 }
