@@ -10,6 +10,7 @@
         <li @click="navigateToComponent(COMPONENT_NAMES.FEEDBACK_FORM)">
           건의
         </li>
+        <li @click="handleLogin">{{ loadUser() ? "로그아웃" : "로그인" }}</li>
         <li>⚙️</li>
       </ul>
     </div>
@@ -21,7 +22,7 @@ import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
 const { navigateToComponent, toggleLoginForm } = uiState;
-const { loadUser } = useApp();
+const { loadUser, removeUser } = useApp();
 
 const reloadPage = () => {
   window.location.reload();
@@ -33,6 +34,15 @@ function handleFavorite() {
     navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW);
   } else {
     // 로그인 폼 열기
+    toggleLoginForm();
+  }
+}
+
+function handleLogin() {
+  if (loadUser()) {
+    reloadPage();
+    removeUser();
+  } else {
     toggleLoginForm();
   }
 }
@@ -128,7 +138,7 @@ ul {
 
   .nav li {
     margin: 10px;
-    margin-top: 30px;
+    margin-top: 25px;
     border-radius: 6px;
     border: 1.85px solid white;
     background-color: rgb(22, 30, 37);

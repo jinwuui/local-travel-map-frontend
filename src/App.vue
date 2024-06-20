@@ -8,10 +8,16 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from "vue";
+
 import MapPage from "@/components/MapPage.vue";
 import AppHeader from "@/components/header/AppHeader.vue";
 import AppNavBar from "@/components/body/AppNavBar.vue";
 import AppSideTab from "@/components/body/AppSideTab.vue";
+
+onBeforeMount(() => {
+  document.title = "로-컬 | 숨은 여행지 찾기";
+});
 </script>
 
 <style>
