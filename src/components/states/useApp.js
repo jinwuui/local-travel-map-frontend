@@ -30,11 +30,17 @@ function saveUser() {
   }
 }
 
+function removeUser() {
+  user.value = null;
+  localStorage.removeItem("user");
+}
+
 export default function useApp() {
   return {
     user: computed(() => user.value),
     setUser,
     loadUser,
     saveUser,
+    removeUser,
   };
 }
