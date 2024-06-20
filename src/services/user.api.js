@@ -27,10 +27,12 @@ export default class UserAPIService {
   }
 
   async toggleFavoritePlace(userId, placeId) {
+    if (!userId) return;
+
     return this._axiosCall({
       method: "post",
-      url: `/${userId}/favorites`,
-      data: { placeId: placeId },
+      headers: { Authorization: `Bearer ${userId}` },
+      url: `/favorites/${placeId}`,
     });
   }
 }

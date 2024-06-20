@@ -10,7 +10,13 @@
             anchorPoint: 'BOTTOM_CENTER',
           }"
         >
-          <img class="default-marker" :src="defaultMarkerIcon" />
+          <img
+            v-if="place.isFavorite"
+            img
+            class="favorite-marker"
+            :src="favoriteMarker"
+          />
+          <img v-else class="default-marker" :src="defaultMarker" />
         </CustomMarker>
         <CustomMarker
           v-else
@@ -19,7 +25,7 @@
             anchorPoint: 'BOTTOM_CENTER',
           }"
         >
-          <img class="selected-marker" :src="selectedMarkerIcon" />
+          <img class="selected-marker" :src="selectedMarker" />
         </CustomMarker>
       </div>
     </div>
@@ -36,8 +42,9 @@ import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 const { places } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();
 
-const defaultMarkerIcon = require("@/assets/pixels/default_marker.png");
-const selectedMarkerIcon = require("@/assets/pixels/selected_marker.png");
+const defaultMarker = require("@/assets/pixels/default_marker.png");
+const favoriteMarker = require("@/assets/pixels/favorite_marker.png");
+const selectedMarker = require("@/assets/pixels/selected_marker.png");
 const renderCluster = ref(false);
 
 const renderer = {
@@ -71,6 +78,10 @@ onMounted(() => {
 <style>
 .default-marker {
   height: 35px;
+}
+
+.favorite-marker {
+  height: 50px;
 }
 
 .selected-marker {

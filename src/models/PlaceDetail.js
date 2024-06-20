@@ -7,24 +7,24 @@ export default class PlaceDetail extends Place {
     lng,
     name,
     categories,
+    isFavorite,
     description = "",
     rating = 0,
     photos = [],
     country,
-    isFavorite,
   }) {
     super({
-      placeId: placeId,
-      lat: lat,
-      lng: lng,
-      name: name,
-      categories: categories,
+      placeId,
+      lat,
+      lng,
+      name,
+      categories,
+      isFavorite,
     });
     this.description = description;
     this.rating = rating;
     this.photos = photos;
     this.country = country;
-    this.isFavorite = isFavorite;
   }
 
   isValid() {
@@ -41,21 +41,13 @@ export default class PlaceDetail extends Place {
     return new PlaceDetail({ ...json });
   }
 
-  static fromPlace({
-    place,
-    description,
-    rating,
-    photos,
-    country,
-    isFavorite,
-  }) {
+  static fromPlace({ place, description, rating, photos, country }) {
     return new PlaceDetail({
       ...place,
       description,
       rating,
       photos,
       country,
-      isFavorite,
     });
   }
 }
