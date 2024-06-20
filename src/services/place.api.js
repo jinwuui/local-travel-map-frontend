@@ -39,8 +39,14 @@ export default class PlaceAPIService {
   }
 
   // TODO: 브라우저 창에 보이는 경도/위도 값으로 조회 가능하도록 변경
-  async fetchPlaces(params) {
+  async fetchPlaces(params, userId) {
     const config = { method: "get" };
+
+    if (userId) {
+      config.headers = {
+        Authorization: `Bearer ${userId}`, // Authorization 헤더에 userId 추가
+      };
+    }
     if (params) {
       config.params = params;
     }

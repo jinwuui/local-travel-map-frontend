@@ -22,7 +22,6 @@ async function selectPlace(place) {
     rating: fetched.placeDetails?.rating || 0,
     photos: fetched.placeDetails?.photos,
     country: fetched.placeDetails?.country,
-    isFavorite: fetched.placeDetails?.isFavorite,
   });
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);

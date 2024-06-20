@@ -30,7 +30,7 @@
         v-bind:value="descriptionText"
         @input="updateDescription"
         placeholder="설명"
-        maxlength="50"
+        maxlength="100"
       />
       <div v-if="!descriptionText && isInvalidInput" class="error-message">
         필수 입력입니다.
@@ -215,6 +215,7 @@ textarea {
 
 textarea {
   resize: none;
+  height: 6em;
 }
 
 .new-place-form {
