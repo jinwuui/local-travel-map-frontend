@@ -54,12 +54,38 @@ export default class PlaceAPIService {
     return this._axiosCall(config);
   }
 
-  async fetchPlace(placeId) {
-    return this._axiosCall({ method: "get", url: `/${placeId}` });
+  async fetchFavoritePlaces(userId) {
+    if (!userId) return;
+
+    return this._axiosCall({
+      method: "get",
+      url: "/favorites",
+      headers: { Authorization: `Bearer ${userId}` },
+    });
   }
 
-  async fetchPlaceDetails(placeId) {
-    return this._axiosCall({ method: "get", url: `/${placeId}/details` });
+  async fetchPlace(placeId, userId) {
+    const config = { method: "get", url: `/${placeId}` };
+
+    if (userId) {
+      config.headers = {
+        Authorization: `Bearer ${userId}`, // Authorization 헤더에 userId 추가
+      };
+    }
+
+    return this._axiosCall(config);
+  }
+
+  async fetchPlaceDetails(placeId, userId) {
+    const config = { method: "get", url: `/${placeId}/details` };
+
+    if (userId) {
+      config.headers = {
+        Authorization: `Bearer ${userId}`, // Authorization 헤더에 userId 추가
+      };
+    }
+
+    return this._axiosCall(config);
   }
 
   async updatePlace(placeId, place, password) {

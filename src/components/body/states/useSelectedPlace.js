@@ -8,13 +8,16 @@ import PlaceDetail from "@/models/PlaceDetail";
 
 const { navigateToComponent } = uiState;
 const { setMapCenter } = useMap();
-const { user } = useApp();
+const { user, loadUser } = useApp();
 
 const selectedPlace = reactive({ value: null });
 const imageSlider = reactive({ imageList: [], isOpen: false });
 
 async function selectPlace(place) {
-  const fetched = await placeAPI.fetchPlaceDetails(place.placeId);
+  const fetched = await placeAPI.fetchPlaceDetails(
+    place.placeId,
+    loadUser().userId
+  );
 
   selectedPlace.value = PlaceDetail.fromPlace({
     place: place,
@@ -29,7 +32,7 @@ async function selectPlace(place) {
 }
 
 async function selectPlaceById(placeId) {
-  const fetched = await placeAPI.fetchPlace(placeId);
+  const fetched = await placeAPI.fetchPlace(placeId, loadUser().userId);
 
   selectedPlace.value = PlaceDetail.fromJson(fetched.place);
 

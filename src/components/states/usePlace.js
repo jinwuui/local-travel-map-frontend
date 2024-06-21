@@ -23,8 +23,6 @@ async function fetchPlaces(params) {
     } else {
       updatePlacesWithoutParams(fetchedData.places);
     }
-
-    console.log("    fetchPlaces:", params, "\n", places.value);
   } catch (error) {
     console.error("Error fetching places:", error);
     throw error;
