@@ -166,7 +166,6 @@ function updateSearchHistory({ placeId, name, description, country }) {
     type: "recent",
   });
 
-  console.log("searchHistory", searchHistory.value);
   localStorage.setItem(
     "searchHistory",
     JSON.stringify(searchHistory.value.slice(0, 5))

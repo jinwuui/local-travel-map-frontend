@@ -14,6 +14,7 @@ function setSearchedPlaces(newSearchedPlaces) {
 }
 
 async function selectPlace(index) {
+  navigateToPreviousComponent();
   await selectPlaceById(searchedPlaces.value[index].placeId).then(() => {
     // 최근 검색어로 저장
     // updateSearchHistory({
@@ -21,8 +22,6 @@ async function selectPlace(index) {
     //   name: suggestions.value[index].name,
     //   description: suggestions.value[index].description,
     // });
-
-    navigateToPreviousComponent();
   });
 }
 

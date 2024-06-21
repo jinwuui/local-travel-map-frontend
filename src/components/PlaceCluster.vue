@@ -71,7 +71,7 @@ const renderer = {
 onMounted(() => {
   setTimeout(() => {
     renderCluster.value = true;
-  }, 200);
+  }, 400);
 });
 </script>
 

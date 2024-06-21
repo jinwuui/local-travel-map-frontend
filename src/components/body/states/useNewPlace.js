@@ -52,7 +52,6 @@ async function addNewPlace(imageFiles) {
   newPlace.value.description = descriptionText.value;
 
   if (newPlace.value.isValid()) {
-    console.log("imagefiles", imageFiles);
     try {
       toggleSideTabLoading();
 
@@ -109,17 +108,13 @@ async function compressImageFile(imageFile) {
 
 function prevStep() {
   step.value--;
-  console.log("  -- prevStep", step.value);
 }
 
 function nextStep() {
   step.value++;
-  console.log("  -- nextStep", step.value);
 }
 
 function openNewPlaceForm(lat, lng) {
-  console.log("-- openNewPlaceForm");
-
   newPlace.value = new NewPlace({
     lat: lat,
     lng: lng,
