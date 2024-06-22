@@ -210,18 +210,18 @@ onUnmounted(() => {
   }
   .tab-toggle-btn {
     position: fixed;
-    left: calc(50% - 35px);
-    top: calc(-25px);
+    left: calc(50% - 40px);
+    top: calc(-31px);
     box-sizing: border-box;
-    height: 27px;
-    width: 70px;
+    height: 33px;
+    width: 80px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     padding-bottom: 0px;
     margin-bottom: 10px;
     padding-bottom: 2px;
-    cursor: ns-resize;
+    /* cursor: ns-resize; */
   }
 
   .tab-toggle-btn-border {

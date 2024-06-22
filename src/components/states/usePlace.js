@@ -14,9 +14,7 @@ async function fetchPlaces(params) {
   try {
     toggleMapFetchLoading();
 
-    const user = loadUser();
-
-    const fetchedData = await placeAPI.fetchPlaces(params, user?.userId);
+    const fetchedData = await placeAPI.fetchPlaces(params, loadUser()?.userId);
 
     if (params) {
       updatePlacesWithParams(fetchedData.places);
