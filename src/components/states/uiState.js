@@ -49,6 +49,7 @@ function navigateToPreviousComponent() {
 }
 
 const uiState = {
+  isMobile: computed(() => window.innerWidth <= 768),
   isMapFetchLoading: computed(() => state.isMapFetchLoading),
   toggleMapFetchLoading,
 

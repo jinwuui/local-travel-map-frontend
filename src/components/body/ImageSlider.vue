@@ -126,4 +126,26 @@ const currentImage = computed(
 .inactive {
   opacity: 0.25;
 }
+
+@media (max-width: 768px) {
+  .close-button,
+  .prev-button,
+  .next-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .prev-button {
+    left: 10px;
+  }
+
+  .next-button {
+    right: 10px;
+  }
+
+  .close-button {
+    top: 30px;
+    right: 30px;
+  }
+}
 </style>

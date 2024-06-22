@@ -153,18 +153,19 @@ function handleSelectSuggestion() {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: white;
   margin-bottom: 10px;
-  position: fixed;
-  top: 10px; /* 모바일 환경에서 화면 최상단 */
-  left: 10px;
-  right: 10px;
-  width: 300px;
-  max-width: 100%;
-  z-index: 3000; /* SideTab 위에 오도록 설정 */
+  position: relative;
+  z-index: 3000;
+
+  top: 2%;
+  /* left: 100px; */
+  right: auto;
+  width: 350px;
+  max-width: none;
 }
 
 .search-bar-border {
   background-color: rgb(46, 67, 90);
-  border: 1.85px solid white;
+  border: 1.5px solid white;
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
@@ -198,7 +199,7 @@ function handleSelectSuggestion() {
 }
 
 .with-autocomplete {
-  border-bottom: 1.85px solid white;
+  border-bottom: 1.5px solid white;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
@@ -212,17 +213,12 @@ function handleSelectSuggestion() {
   z-index: 1002;
 
   display: flex;
-  /* align-content: space-between; */
   flex-direction: column;
   flex-wrap: wrap;
   overflow: auto;
 }
 
 .autocomplete-list li {
-  /* display: block; */
-  /* width: 100%; */
-  /* box-sizing: border-box; */
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -250,18 +246,21 @@ function handleSelectSuggestion() {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-@media (min-width: 769px) {
-  .search-bar {
-    top: 2%;
-    left: 100px;
-    right: auto;
-    width: 350px;
-    max-width: none;
-  }
+input::placeholder {
+  color: #bbb;
+  opacity: 1;
 }
 
-input::placeholder {
-  color: #bbb; /* 밝은 회색으로 설정 */
-  opacity: 1; /* 필요 시 투명도 조정 */
+/* 모바일 화면 */
+@media (max-width: 768px) {
+  .search-bar {
+    left: 0px;
+    right: 0px;
+  }
+
+  li {
+    box-sizing: border-box;
+    width: 100%;
+  }
 }
 </style>

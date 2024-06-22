@@ -23,7 +23,8 @@
     </GoogleMap>
   </div>
   <div class="new-place-btn" @click="clickNewPlaceBtn">
-    <p>{{ newPlaceBtnText }}</p>
+    <img v-if="isMobile" :src="newPlaceBtnIcon" />
+    <p v-else>{{ newPlaceBtnText }}</p>
   </div>
   <LoginForm v-if="isLoginFormOpen" />
 </template>
@@ -43,11 +44,14 @@ import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMapFetchLoading, activeSideTab, isLoginFormOpen } = uiState;
+const { isMobile, isMapFetchLoading, activeSideTab, isLoginFormOpen } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
 const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
+
+const closeIcon = require("@/assets/icons/close.svg");
+const addIcon = require("@/assets/icons/add.svg");
 
 const isNewPlaceFormOpen = computed(
   () => activeSideTab.value === COMPONENT_NAMES.NEW_PLACE_FORM
@@ -55,6 +59,10 @@ const isNewPlaceFormOpen = computed(
 
 const newPlaceBtnText = computed(() =>
   isNewPlaceFormOpen.value ? "취소하기" : "등록하기"
+);
+
+const newPlaceBtnIcon = computed(() =>
+  isNewPlaceFormOpen.value ? closeIcon : addIcon
 );
 
 const screenControl = {
@@ -240,5 +248,28 @@ const styles = [
 
 .new-place-btn > p {
   margin: 7px;
+}
+
+/* 모바일 화면 */
+@media (max-width: 768px) {
+  .new-place-btn {
+    bottom: auto;
+    top: 140px;
+    right: 10px;
+    left: auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+  }
+
+  .new-place-btn > img {
+    margin: auto;
+    width: 54px;
+    height: 54px;
+  }
 }
 </style>

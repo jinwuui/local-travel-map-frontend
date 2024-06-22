@@ -38,14 +38,13 @@ async function fetchByCategory(category) {
 
 <style scoped>
 .category-selection {
-  position: absolute;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   top: 2%;
   padding-bottom: 10px;
-  left: 500px;
 }
 
 .category-badge {
@@ -63,6 +62,7 @@ async function fetchByCategory(category) {
   cursor: pointer;
   user-select: none;
   transition: transform 0.1s;
+  white-space: nowrap;
 }
 
 .category-badge:hover {
@@ -82,5 +82,31 @@ async function fetchByCategory(category) {
   transform: translateY(3px);
   background-color: #43a047;
   box-shadow: 0 2px #2e7d32;
+}
+
+/* 모바일 화면 */
+@media (max-width: 768px) {
+  .category-selection {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 75px;
+    left: 0;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .category-selection::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-badge {
+    font-size: 1em;
+    padding: 0.2em 0.6em;
+    white-space: nowrap;
+    margin-right: 0.05em;
+  }
 }
 </style>
