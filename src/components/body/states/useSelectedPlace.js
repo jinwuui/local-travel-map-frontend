@@ -16,7 +16,7 @@ const imageSlider = reactive({ imageList: [], isOpen: false });
 async function selectPlace(place) {
   const fetched = await placeAPI.fetchPlaceDetails(
     place.placeId,
-    loadUser().userId
+    loadUser()?.userId
   );
 
   selectedPlace.value = PlaceDetail.fromPlace({
@@ -32,7 +32,7 @@ async function selectPlace(place) {
 }
 
 async function selectPlaceById(placeId) {
-  const fetched = await placeAPI.fetchPlace(placeId, loadUser().userId);
+  const fetched = await placeAPI.fetchPlace(placeId, loadUser()?.userId);
 
   selectedPlace.value = PlaceDetail.fromJson(fetched.place);
 

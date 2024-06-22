@@ -6,6 +6,7 @@
       :api-key="apiKey"
       :center="mapCenter"
       :zoom="mapZoom"
+      scrollwheel="false"
       draggableCursor="default"
       mapTypeId="terrain"
       :styles="styles"
