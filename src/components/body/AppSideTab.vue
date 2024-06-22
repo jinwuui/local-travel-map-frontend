@@ -56,6 +56,9 @@ let startY = 0;
 let startHeight = 0;
 
 function startDrag(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
   startY = event.clientY;
   startHeight = sideTabHeight.value;
 
@@ -64,6 +67,9 @@ function startDrag(event) {
 }
 
 function onDrag(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
   const deltaY = event.clientY - startY;
   const newHeight = Math.min(maxTabHeight, Math.max(200, startHeight + deltaY));
 
@@ -80,7 +86,10 @@ function onDrag(event) {
   }
 }
 
-function stopDrag() {
+function stopDrag(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
   document.removeEventListener("mousemove", onDrag);
   document.removeEventListener("mouseup", stopDrag);
 }
