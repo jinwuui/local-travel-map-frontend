@@ -6,11 +6,12 @@
       :class="{
         'side-tab-hidden': !isSideTabOpen,
       }"
+      :style="{ height: sideTabHeight + 'px' }"
     >
       <div class="side-tab-border">
         <component :is="activeTabComponent" />
       </div>
-      <div class="tab-toggle-btn" @click="toggleSideTab">
+      <div class="tab-toggle-btn" @click="toggleSideTab" @mousedown="startDrag">
         <div class="tab-toggle-btn-border">
           <p>
             {{ isSideTabOpen ? (isMobile ? "∨" : "<") : isMobile ? "∧" : ">" }}
@@ -22,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { onMounted, onUnmounted, computed, ref, watch } from "vue";
 import ImageSlider from "@/components/body/ImageSlider.vue";
 
 import DefaultView from "@/components/body/DefaultView.vue";
@@ -48,6 +49,55 @@ const tabComponents = {
 };
 
 const activeTabComponent = computed(() => tabComponents[activeSideTab.value]);
+
+const sideTabHeight = ref(300);
+const maxTabHeight = ref(window.innerHeight * 0.8);
+let startY = 0;
+let startHeight = 0;
+
+function startDrag(event) {
+  startY = event.clientY;
+  startHeight = sideTabHeight.value;
+
+  document.addEventListener("mousemove", onDrag);
+  document.addEventListener("mouseup", stopDrag);
+}
+
+function onDrag(event) {
+  const deltaY = event.clientY - startY;
+  const newHeight = Math.min(maxTabHeight, Math.max(200, startHeight + deltaY));
+
+  if (isSideTabOpen.value) {
+    if (sideTabHeight.value > 300 && deltaY > 50) {
+      sideTabHeight.value = 300;
+    } else if (sideTabHeight.value <= 310 && deltaY > 50) {
+      toggleSideTab();
+    } else {
+      sideTabHeight.value = newHeight;
+    }
+  } else if (!isSideTabOpen.value && deltaY < -50) {
+    toggleSideTab();
+  }
+}
+
+function stopDrag() {
+  document.removeEventListener("mousemove", onDrag);
+  document.removeEventListener("mouseup", stopDrag);
+}
+
+watch(isSideTabOpen, (newValue) => {
+  if (!newValue) {
+    sideTabHeight.value = 300;
+  }
+});
+
+onMounted(() => {
+  document.addEventListener("mouseup", stopDrag);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("mouseup", stopDrag);
+});
 </script>
 
 <style scoped>
@@ -147,6 +197,7 @@ const activeTabComponent = computed(() => tabComponents[activeSideTab.value]);
     height: 300px;
     transform: translateY(0);
     transition: transform 0.3s ease;
+    resize: none;
   }
 
   .side-tab-hidden {
@@ -159,19 +210,18 @@ const activeTabComponent = computed(() => tabComponents[activeSideTab.value]);
   }
   .tab-toggle-btn {
     position: fixed;
-    left: calc(50% - 30px);
-    top: calc(-20px);
+    left: calc(50% - 35px);
+    top: calc(-25px);
     box-sizing: border-box;
-    /* transform: translateX(-50%); */
-    height: 22px;
-    width: 60px;
-
+    height: 27px;
+    width: 70px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     padding-bottom: 0px;
     margin-bottom: 10px;
     padding-bottom: 2px;
+    cursor: ns-resize;
   }
 
   .tab-toggle-btn-border {
@@ -185,102 +235,4 @@ const activeTabComponent = computed(() => tabComponents[activeSideTab.value]);
     border-top-left-radius: 4px;
   }
 }
-
-/* .side-tab {
-  font-family: "DungGeunMo";
-
-  padding: 2px;
-  border-radius: 6px;
-  background-color: rgb(35, 54, 80);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: white;
-  transition: transform 0.3s ease;
-  transform: translateX(0);
-  position: fixed;
-  z-index: 2000;
-
-  bottom: 60px;
-  left: 10px;
-  right: 10px;
-  width: auto;
-  max-width: 100%;
-
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
-}
-
-.side-tab-hidden {
-  transform: translateX(-374px);
-  transition: transform 0.3s ease;
-}
-
-.side-tab-border {
-  border: 1.5px solid white;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  box-sizing: border-box;
-  overflow: auto;
-}
-
-.side-tab::-webkit-scrollbar {
-  width: 4px;
-  background-color: transparent;
-}
-.side-tab::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 4px;
-}
-.side-tab::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.7);
-}
-.side-tab::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-.tab-toggle-btn {
-  position: relative;
-  background-color: rgb(35, 54, 80);
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  left: 100%;
-  bottom: calc(50% + 30px);
-  padding: 2px;
-  width: 20px;
-  height: 60px;
-  display: flex;
-  cursor: pointer;
-  z-index: 800;
-}
-
-.tab-toggle-btn-border {
-  position: inherit;
-  border-right: 1.5px solid white;
-  border-top: 1.5px solid white;
-  border-bottom: 1.5px solid white;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-@media (min-width: 769px) {
-  .side-tab {
-    bottom: 3%;
-    top: 9%;
-    left: 100px;
-    right: auto;
-    width: 350px;
-    max-width: none;
-  }
-
-  .side-tab-border {
-    height: 100%;
-    box-sizing: border-box;
-  }
-} */
 </style>
