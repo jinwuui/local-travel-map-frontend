@@ -123,7 +123,7 @@ function handleFavorite() {
 .info-image + .name,
 .name + .additional-info,
 .additional-info + p {
-  border-top: 1.85px solid white;
+  border-top: 1.5px solid white;
   width: 100%;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -204,11 +204,22 @@ p {
 
 @media (max-width: 768px) {
   .info-image.desktop {
-    display: none; /* 데스크탑 이미지를 모바일에서는 숨김 */
+    display: none;
   }
 
   .info-image.mobile {
-    display: block; /* 모바일 이미지를 모바일에서는 표시 */
+    display: block;
+  }
+
+  .info-image + .name {
+    border-top: 0;
+    padding-top: 15px;
+    padding-bottom: 30px;
+  }
+
+  p {
+    border-bottom: 1.5px solid white;
+    margin-bottom: 30px;
   }
 }
 </style>

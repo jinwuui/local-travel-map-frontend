@@ -59,7 +59,7 @@ const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
 }
 
 .border-line {
-  border-bottom: 1.85px solid white;
+  border-bottom: 1.5px solid white;
 }
 
 .header {

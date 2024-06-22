@@ -148,16 +148,16 @@ button {
   width: 100%;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  border-top: 1.85px solid white;
-  border-left: 1.85px solid white;
-  border-right: 1.85px solid white;
+  border-top: 1.5px solid white;
+  border-left: 1.5px solid white;
+  border-right: 1.5px solid white;
 }
 
 .border {
   padding: 13px;
   padding-bottom: 20px;
   padding-top: 20px;
-  border: 1.85px solid white;
+  border: 1.5px solid white;
   border-radius: 4px;
   width: 22em;
   min-width: 150px;
