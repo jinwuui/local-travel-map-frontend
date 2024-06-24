@@ -12,13 +12,19 @@ import CategorySearchBar from "@/components/header/CategorySearchBar.vue";
 
 <style scoped>
 .header {
-  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   padding-top: 20px;
+  width: 100%;
   left: 100px;
   gap: 20px;
+  box-sizing: border-box;
+}
+
+.category-search-bar {
+  align-self: flex-start;
 }
 
 /* 모바일 화면 */
@@ -29,6 +35,7 @@ import CategorySearchBar from "@/components/header/CategorySearchBar.vue";
     /* width: 100%; */
     left: 0px;
     gap: 0px;
+    align-items: center;
   }
 
   .search-bar,
