@@ -221,7 +221,9 @@ function handleSelectSuggestion() {
 .autocomplete-list li {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   align-items: center;
+  box-sizing: border-box;
   font-size: 1.2em;
   padding: 0.5em;
   cursor: pointer;

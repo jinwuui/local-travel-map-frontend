@@ -48,6 +48,9 @@ onBeforeMount(() => {
   font-family: "DungGeunMo", "DOSIyagiBoldface", "DNFBitBitv2", Avenir,
     Helvetica, Arial, sans-serif;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  height: -webkit-fill-available;
+  height: fill-available;
+  overflow: hidden;
 }
 </style>

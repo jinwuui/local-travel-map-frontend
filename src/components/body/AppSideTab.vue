@@ -6,7 +6,7 @@
       :class="{
         'side-tab-hidden': !isSideTabOpen,
       }"
-      :style="{ height: sideTabHeight + 'px' }"
+      :style="isMobile ? { height: sideTabHeight + 'px' } : {}"
     >
       <div class="side-tab-border">
         <component :is="activeTabComponent" />
@@ -50,7 +50,7 @@ const tabComponents = {
 
 const activeTabComponent = computed(() => tabComponents[activeSideTab.value]);
 
-const sideTabHeight = ref(300);
+const sideTabHeight = ref(window.innerHeight * 0.37);
 const maxTabHeight = ref(window.innerHeight * 0.8);
 let startY = 0;
 let startHeight = 0;
@@ -96,11 +96,12 @@ function stopDrag(event) {
 
 watch(isSideTabOpen, (newValue) => {
   if (!newValue) {
-    sideTabHeight.value = 300;
+    sideTabHeight.value = window.innerHeight * 0.37; // 화면의 1/3로 설정
   }
 });
 
 onMounted(() => {
+  sideTabHeight.value = window.innerHeight * 0.37; // 화면의 1/3로 설정
   document.addEventListener("mouseup", stopDrag);
 });
 
@@ -149,20 +150,20 @@ onUnmounted(() => {
 
 .side-tab::-webkit-scrollbar {
   width: 4px;
-  background-color: transparent; /* Scrollbar background color */
+  background-color: transparent;
 }
 
 .side-tab::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5); /* Scrollbar thumb color */
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 4px;
 }
 
 .side-tab::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.7); /* Scrollbar thumb hover color */
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .side-tab::-webkit-scrollbar-track {
-  background-color: transparent; /* Scrollbar track background color */
+  background-color: transparent;
 }
 
 .tab-toggle-btn {
@@ -242,6 +243,10 @@ onUnmounted(() => {
     border-left: 1.5px solid white;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
+  }
+
+  .side-tab::-webkit-scrollbar {
+    display: none;
   }
 }
 </style>
