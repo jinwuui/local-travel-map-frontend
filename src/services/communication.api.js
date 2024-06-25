@@ -17,16 +17,17 @@ export default class CommunicationAPIService {
     }
   }
 
-  async fetchAnnouncements(curVersionCode) {
+  async fetchAnnouncements() {
     return await this._axiosCall({
       method: "get",
-      params: { versionCode: curVersionCode },
+      url: "/announcements",
     });
   }
 
   async submitFeedback(feedback) {
     return await this._axiosCall({
       method: "post",
+      url: "/feedbacks",
       data: feedback,
     });
   }

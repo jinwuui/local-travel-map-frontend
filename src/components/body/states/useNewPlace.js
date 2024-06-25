@@ -134,8 +134,8 @@ function closeNewPlaceForm() {
 
 export default function useNewPlace() {
   return {
-    nameText,
-    descriptionText,
+    nameText: computed(() => nameText.value),
+    descriptionText: computed(() => descriptionText.value),
     updateName,
     updateDescription,
 
