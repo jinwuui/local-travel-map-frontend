@@ -4,6 +4,7 @@ import { searchAPI } from "@/services/search.api";
 
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import useSearching from "@/components/body/states/useSearching";
+import { debounce } from "@/utils/commonUtils";
 
 const { selectPlaceById } = useSelectedPlace();
 const { setSearchedPlaces } = useSearching();
@@ -21,6 +22,8 @@ const tempQuery = ref(null);
 
 const lastQuery = ref(null);
 const lastSuggestions = ref(null);
+
+const debounceAutocomplete = debounce(autocomplete, 300);
 
 function setInputText(value) {
   inputText.value = value;
@@ -42,7 +45,6 @@ async function autocomplete(query) {
   if (trimmedQuery === lastQuery.value) {
     // TODO: focus를 잃었다가 찾으면 api 보내지 않고 이전 기록 바로 보여주기
     suggestions.value = lastSuggestions.value;
-    selectedIndex.value = -1;
     return;
   }
   if (
@@ -86,7 +88,6 @@ function clearSuggestions() {
 }
 
 function setSelectedIndex(newSelectedIndex) {
-  console.log("    setSelected", newSelectedIndex);
   if (selectedIndex.value === -1) {
     tempQuery.value = inputText.value;
   }
@@ -118,7 +119,7 @@ async function searching() {
   if (index === -1) {
     // query mode
     if (lastQuery.value !== query.trim()) {
-      await autocomplete(query);
+      debounceAutocomplete(query);
     }
 
     setSearchedPlaces(lastSuggestions.value);
@@ -201,7 +202,7 @@ export default function useSearch() {
     inputText: computed(() => inputText.value),
     inputRef,
     setInputText,
-    autocomplete,
+    debounceAutocomplete,
 
     suggestions: computed(() => suggestions.value),
     clearSuggestions,

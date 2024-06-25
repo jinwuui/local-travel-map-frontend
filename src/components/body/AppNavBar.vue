@@ -53,7 +53,7 @@ function handleLogin() {
   background-color: rgb(35, 54, 80);
   padding-right: 3.5px;
   color: white;
-  z-index: 9999;
+  z-index: 9000;
   font-family: "DungGeunMo";
   position: fixed;
   top: 0;

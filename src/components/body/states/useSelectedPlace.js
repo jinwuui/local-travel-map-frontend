@@ -1,4 +1,4 @@
-import { reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { placeAPI } from "@/services/place.api";
 import { userAPI } from "@/services/user.api";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
@@ -10,6 +10,7 @@ const { navigateToComponent } = uiState;
 const { setMapCenter } = useMap();
 const { user, loadUser } = useApp();
 
+const detailInfo = ref(null);
 const selectedPlace = reactive({ value: null });
 const imageSlider = reactive({ imageList: [], isOpen: false });
 
@@ -28,6 +29,9 @@ async function selectPlace(place) {
   });
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+  if (detailInfo.value) {
+    detailInfo.value.scrollTop = 0;
+  }
   navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 }
 
@@ -37,6 +41,9 @@ async function selectPlaceById(placeId) {
   selectedPlace.value = PlaceDetail.fromJson(fetched.place);
 
   setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+  if (detailInfo.value) {
+    detailInfo.value.scrollTop = 0;
+  }
   navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 }
 
@@ -64,6 +71,7 @@ function closeSlider() {
 
 export default function useSelectedPlace() {
   return {
+    detailInfo,
     selectedPlace: computed(() => selectedPlace.value),
     selectPlace,
     selectPlaceById,

@@ -92,7 +92,7 @@ const {
   border: none;
   outline: none;
   resize: none;
-  z-index: 9999;
+  z-index: 2222;
 }
 
 .writer-input {
@@ -107,7 +107,7 @@ const {
   outline: none;
   resize: none;
   text-align: right;
-  z-index: 9999;
+  z-index: 2222;
 }
 
 #parchment {
