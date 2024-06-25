@@ -21,6 +21,7 @@ import CategorySearchBar from "@/components/header/CategorySearchBar.vue";
   left: 100px;
   gap: 20px;
   box-sizing: border-box;
+  z-index: 8000;
 }
 
 .category-search-bar {

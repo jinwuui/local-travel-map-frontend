@@ -41,7 +41,7 @@ const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
   list-style: none;
   overflow-y: auto;
   width: 100%;
-  z-index: 1002;
+  z-index: 2222;
   display: flex;
   flex-direction: column;
   overflow: auto;

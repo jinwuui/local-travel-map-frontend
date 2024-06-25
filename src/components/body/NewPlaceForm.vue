@@ -396,7 +396,7 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* 다른 요소 위에 표시되도록 z-index를 높게 설정 */
+  z-index: 2222;
   font-size: 1.6em;
 }
 

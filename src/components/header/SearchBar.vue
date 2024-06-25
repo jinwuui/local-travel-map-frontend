@@ -12,7 +12,7 @@
           @input="handleInput"
           @keydown="handleKeydown"
           @search="handleSearch"
-          @focus="autocomplete(inputText)"
+          @focus="debounceAutocomplete(inputText)"
           type="text"
           placeholder="검색어를 입력하세요..."
         />
@@ -57,7 +57,6 @@
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useSearch from "@/components/header/states/useSearch";
-import { debounce } from "@/utils/commonUtils";
 
 const { activeSideTab, navigateToPreviousComponent } = uiState;
 
@@ -68,7 +67,7 @@ const {
   inputText,
   inputRef,
   setInputText,
-  autocomplete,
+  debounceAutocomplete,
 
   suggestions,
   clearSuggestions,
@@ -83,7 +82,6 @@ const {
 const close_icon = require("@/assets/pixels/close.png");
 
 const searchBarRef = ref(null);
-const debounceAutocomplete = debounce(autocomplete, 300);
 const isSearchingViewOpen = computed(
   () => activeSideTab.value === COMPONENT_NAMES.SEARCHING_VIEW
 );
@@ -154,7 +152,7 @@ function handleSelectSuggestion() {
   color: white;
   margin-bottom: 10px;
   position: relative;
-  z-index: 3000;
+  z-index: 8000;
 
   top: 2%;
   /* left: 100px; */
@@ -208,9 +206,8 @@ function handleSelectSuggestion() {
   margin: 0;
   padding: 0;
   list-style: none;
-  overflow-y: auto;
   width: 100%;
-  z-index: 1002;
+  z-index: 8000;
 
   display: flex;
   flex-direction: column;

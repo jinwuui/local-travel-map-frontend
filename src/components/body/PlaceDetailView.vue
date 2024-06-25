@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-info" v-if="selectedPlace != null">
+  <div class="detail-info" ref="detailInfo" v-if="selectedPlace != null">
     <img
       class="info-image desktop"
       :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
@@ -71,7 +71,8 @@ import uiState from "@/components/states/uiState";
 import { debounceLeading } from "@/utils/commonUtils";
 
 const { toggleLoginForm } = uiState;
-const { selectedPlace, openSlider, toggleFavoritePlace } = useSelectedPlace();
+const { detailInfo, selectedPlace, openSlider, toggleFavoritePlace } =
+  useSelectedPlace();
 const { loadUser } = useApp();
 const debounceToggleFavoritePlace = debounceLeading(toggleFavoritePlace, 400);
 
