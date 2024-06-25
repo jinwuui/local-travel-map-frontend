@@ -104,6 +104,7 @@ ul {
   text-align: center;
   flex-grow: 0;
   font-size: 1.2em;
+  cursor: pointer;
 }
 
 .content {
