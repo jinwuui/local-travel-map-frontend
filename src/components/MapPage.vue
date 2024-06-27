@@ -16,8 +16,7 @@
       :zoomControl="screenControl.scaleControl"
       :map-type-control-options="screenControl.mapTypeControlOptions"
     >
-      <span v-if="isMapFetchLoading">Loading places</span>
-      <div v-else><PlaceCluster /></div>
+      <PlaceCluster />
 
       <NewPlaceMarker v-if="isNewPlaceFormOpen" />
     </GoogleMap>
@@ -30,7 +29,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch, computed } from "vue";
+import { watch, computed } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
 import PlaceCluster from "@/components/PlaceCluster.vue";
@@ -39,15 +38,15 @@ import LoginForm from "@/components/body/LoginForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
-import usePlace from "@/components/states/usePlace";
+// import usePlace from "@/components/states/usePlace";
 import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMobile, isMapFetchLoading, activeSideTab, isLoginFormOpen } = uiState;
+const { isMobile, activeSideTab, isLoginFormOpen } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
-const { fetchPlaces } = usePlace();
+// const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
 
 const closeIcon = require("@/assets/icons/close.svg");
@@ -72,7 +71,7 @@ const screenControl = {
   mapTypeControlOptions: { position: 7 },
 };
 
-onMounted(async () => await fetchPlaces());
+// onMounted(async () => await fetchPlaces());
 
 function clickNewPlaceBtn() {
   if (isNewPlaceFormOpen.value) {

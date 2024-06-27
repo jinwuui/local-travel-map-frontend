@@ -39,7 +39,7 @@ import { CustomMarker, MarkerCluster } from "vue3-google-map";
 import usePlace from "@/components/states/usePlace";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
-const { places } = usePlace();
+const { places, fetchPlaces } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();
 
 const defaultMarker = require("@/assets/pixels/default_marker.png");
@@ -68,10 +68,13 @@ const renderer = {
     }),
 };
 
-onMounted(() => {
-  setTimeout(() => {
-    renderCluster.value = true;
-  }, 400);
+onMounted(async () => {
+  await fetchPlaces()
+    .then(() => (renderCluster.value = true))
+    .catch(async (error) => {
+      console.error("장소 불러오기 재시도 - ", error);
+      await fetchPlaces().then(() => (renderCluster.value = true));
+    });
 });
 </script>
 
