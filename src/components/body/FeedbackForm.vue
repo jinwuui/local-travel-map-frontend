@@ -5,13 +5,13 @@
         class="content-input"
         v-bind:value="feedbackContent"
         @input="setFeedbackContent"
-        placeholder="여기에 글을 작성하세요..."
+        :placeholder="t('feedback.여기에 글을 작성하세요')"
       />
       <textarea
         class="writer-input"
         v-bind:value="feedbackWriter"
         @input="setFeedbackWriter"
-        placeholder="From.익명의 모험가"
+        :placeholder="t('feedback.익명의 모험가')"
       />
       <div id="parchment">
         <svg>
@@ -29,15 +29,22 @@
       </div>
     </div>
     <div class="step-change">
-      <button @click="navigateToPreviousComponent">취소</button>
-      <button @click="submitFeedback">보내기</button>
+      <button @click="navigateToPreviousComponent">
+        {{ t("feedback.취소") }}
+      </button>
+      <button @click="handleSubmitFeedback">{{ t("feedback.보내기") }}</button>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+import { useToast, POSITION } from "vue-toastification";
 import uiState from "@/components/states/uiState";
 import useNavBar from "@/components/body/states/useNavBar";
+
+const toast = useToast();
 
 const { navigateToPreviousComponent } = uiState;
 const {
@@ -47,6 +54,22 @@ const {
   setFeedbackWriter,
   submitFeedback,
 } = useNavBar();
+
+async function handleSubmitFeedback() {
+  await submitFeedback()
+    .then(() =>
+      toast.success(t("toast.피드백 감사합니다!"), {
+        position: POSITION.TOP_LEFT,
+        timeout: 2000,
+      })
+    )
+    .catch(() =>
+      toast.error(t("건의할 내용을 입력해주세요"), {
+        position: POSITION.TOP_LEFT,
+        timeout: 2000,
+      })
+    );
+}
 </script>
 
 <style scoped>
@@ -128,8 +151,8 @@ const {
 }
 
 .step-change button {
-  width: 80px;
-  height: 40px;
+  width: 6em;
+  height: 2.2em;
   font-size: 1.2em;
   /* padding: 10px 20px; */
   margin: 10px;
@@ -139,6 +162,9 @@ const {
   border: 1.5px solid #6fd4f6;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  white-space: nowrap; /* 텍스트 줄 바꿈을 방지합니다. */
+  overflow: hidden;
+  display: inline-block;
 }
 
 .step-change button:hover {

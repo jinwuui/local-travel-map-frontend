@@ -1,12 +1,9 @@
 import { reactive, computed } from "vue";
-import { useToast, POSITION } from "vue-toastification";
 
 import { userAPI } from "@/services/user.api";
 
 import uiState from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
-
-const toast = useToast();
 
 const { setUser } = useApp();
 const { toggleLoginForm } = uiState;
@@ -25,19 +22,11 @@ function setPassword(event) {
 }
 
 async function login() {
-  console.log("login", state.username, state.password);
   await userAPI
     .login({ username: state.username, password: state.password })
     .then((data) => {
       setUser(data.user);
       toggleLoginForm();
-    })
-    .catch((error) => {
-      console.error("로그인 오류:", error);
-      toast.error("로그인 실패!", {
-        position: POSITION.TOP_CENTER,
-        timeout: 2000,
-      });
     });
 }
 

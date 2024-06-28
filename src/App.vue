@@ -8,6 +8,8 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import { onBeforeMount } from "vue";
 
 import MapPage from "@/components/MapPage.vue";
@@ -16,7 +18,7 @@ import AppNavBar from "@/components/body/AppNavBar.vue";
 import AppSideTab from "@/components/body/AppSideTab.vue";
 
 onBeforeMount(() => {
-  document.title = "로-컬 | 숨은 여행지 찾기";
+  document.title = t("app.로-컬 | 숨은 여행지 찾기");
 });
 </script>
 
@@ -44,13 +46,27 @@ onBeforeMount(() => {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "PixelMplus12-Regular";
+  src: url("./assets/fonts/PixelMplus12-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 #app {
-  font-family: "DungGeunMo", "DOSIyagiBoldface", "DNFBitBitv2", Avenir,
-    Helvetica, Arial, sans-serif;
+  font-family: "DungGeunMo", "PixelMplus12-Regular", "DOSIyagiBoldface",
+    "DNFBitBitv2", Avenir, Helvetica, Arial, sans-serif;
   width: 100%;
   height: 100vh;
   height: -webkit-fill-available;
   height: fill-available;
   overflow: hidden;
+}
+
+input,
+textarea,
+button {
+  font-family: "DungGeunMo", "PixelMplus12-Regular", "DOSIyagiBoldface",
+    "DNFBitBitv2", Avenir, Helvetica, Arial, sans-serif;
 }
 </style>

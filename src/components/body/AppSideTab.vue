@@ -112,7 +112,6 @@ onUnmounted(() => {
 
 <style scoped>
 .side-tab {
-  font-family: "DungGeunMo";
   padding: 2px;
   border-radius: 6px;
   background-color: rgb(35, 54, 80);

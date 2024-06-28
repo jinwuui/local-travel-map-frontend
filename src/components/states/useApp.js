@@ -24,7 +24,9 @@ function loadUser() {
 
 function saveUser() {
   try {
-    localStorage.setItem("user", JSON.stringify(user.value));
+    if (user.value) {
+      localStorage.setItem("user", JSON.stringify(user.value));
+    }
   } catch (error) {
     console.error("로컬 저장소에 user 저장 실패", error);
   }

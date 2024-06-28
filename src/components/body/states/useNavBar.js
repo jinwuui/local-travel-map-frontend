@@ -1,13 +1,10 @@
 import { ref, computed } from "vue";
-import { useToast, POSITION } from "vue-toastification";
 
 import { communicationAPI } from "@/services/communication.api";
 import { placeAPI } from "@/services/place.api";
 
 import uiState from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
-
-const toast = useToast();
 
 const { navigateToPreviousComponent } = uiState;
 
@@ -23,11 +20,7 @@ const feedbackWriter = ref("");
 async function fetchFavoritePlaces() {
   const user = loadUser();
   if (!user) {
-    toast.error("로그인이 필요합니다", {
-      position: POSITION.TOP_CENTER,
-      timeout: 2000,
-    });
-    return;
+    throw Error("유저가 없습니다.");
   }
 
   const { places } = await placeAPI.fetchFavoritePlaces(user.userId);
@@ -49,11 +42,7 @@ function setFeedbackWriter(event) {
 
 async function submitFeedback() {
   if (!feedbackContent.value) {
-    toast.error("건의할 내용을 입력해주세요", {
-      position: POSITION.TOP_LEFT,
-      timeout: 2000,
-    });
-    return;
+    throw Error("건의할 내용을 입력해주세요");
   }
 
   await communicationAPI
@@ -62,11 +51,6 @@ async function submitFeedback() {
       writer: feedbackWriter.value,
     })
     .then(() => {
-      toast.success("피드백 감사합니다!", {
-        position: POSITION.TOP_LEFT,
-        timeout: 2000,
-      });
-
       navigateToPreviousComponent();
     });
 }

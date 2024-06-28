@@ -67,16 +67,11 @@ async function addNewPlace(imageFiles) {
         });
       }
 
-      await placeAPI
-        .addPlace(formData)
-        .then((result) => {
-          result.lat = parseFloat(result.lat);
-          result.lng = parseFloat(result.lng);
-          selectPlace(result);
-        })
-        .catch((error) => {
-          throw error;
-        });
+      await placeAPI.addPlace(formData).then((result) => {
+        result.lat = parseFloat(result.lat);
+        result.lng = parseFloat(result.lng);
+        selectPlace(result);
+      });
 
       closeNewPlaceForm();
 
@@ -125,7 +120,6 @@ function openNewPlaceForm(lat, lng) {
 }
 
 function closeNewPlaceForm() {
-  console.log("-- closeNewPlaceForm");
   newPlace.value = null;
   nameText.value = "";
   descriptionText.value = "";

@@ -56,16 +56,13 @@ async function toggleFavoritePlace() {
   );
 
   selectedPlace.value.isFavorite = isFavorite;
-  console.log("isFavorite", isFavorite);
 }
 
 function openSlider() {
-  console.log("show slider");
   imageSlider.imageList = selectedPlace.value.photos;
   if (imageSlider.imageList.length > 0) imageSlider.isOpen = true;
 }
 function closeSlider() {
-  console.log("close slider");
   imageSlider.isOpen = false;
 }
 
