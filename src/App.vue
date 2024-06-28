@@ -18,7 +18,7 @@ import AppNavBar from "@/components/body/AppNavBar.vue";
 import AppSideTab from "@/components/body/AppSideTab.vue";
 
 onBeforeMount(() => {
-  document.title = t("app.로-컬 | 숨은 여행지 찾기");
+  document.title = t("app.로-컬 숨은 여행지 찾기");
 });
 </script>
 
