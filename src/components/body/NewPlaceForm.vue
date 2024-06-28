@@ -7,10 +7,10 @@
         v-bind:value="nameText"
         @input="updateName"
         type="text"
-        placeholder="이름"
+        :placeholder="t('new-place.이름')"
       />
       <div v-if="!nameText && isInvalidInput" class="error-message">
-        필수 입력입니다
+        {{ t("new-place.필수 입력입니다") }}
       </div>
       <div class="category-selection">
         <div
@@ -29,11 +29,11 @@
         :class="{ 'input-error': !descriptionText && isInvalidInput }"
         v-bind:value="descriptionText"
         @input="updateDescription"
-        placeholder="설명"
+        :placeholder="t('new-place.설명')"
         maxlength="100"
       />
       <div v-if="!descriptionText && isInvalidInput" class="error-message">
-        필수 입력입니다.
+        {{ t("new-place.필수 입력입니다") }}
       </div>
     </div>
 
@@ -56,7 +56,11 @@
         >
           <div class="file-upload-text">
             <div>
-              {{ isTooManyImages ? "사진 3장 이하로!" : "사진" }}
+              {{
+                isTooManyImages
+                  ? t("new-place.사진 3장 이하로!")
+                  : t("new-place.사진")
+              }}
             </div>
             <small>{{ selectedFiles.length + " / " + imageLimit }}</small>
           </div>
@@ -88,17 +92,21 @@
 
     <div class="step-change">
       <button @click="handlePrevStep">
-        {{ step === 0 ? "취소" : "이전" }}
+        {{ step === 0 ? t("new-place.취소") : t("new-place.이전") }}
       </button>
       <button @click="handleNextStep">
-        {{ step === 0 ? "다음" : "완료" }}
+        {{ step === 0 ? t("new-place.다음") : t("new-place.완료") }}
       </button>
     </div>
   </div>
-  <div v-if="isSideTabLoading" class="sending-overlay">전송 중...</div>
+  <div v-if="isSideTabLoading" class="sending-overlay">
+    {{ t("new-place.전송 중") }}
+  </div>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import useNewPlace from "@/components/body/states/useNewPlace";
 import uiState from "@/components/states/uiState";
@@ -130,7 +138,14 @@ const selectedFiles = ref([]);
 const imageUrls = ref([]);
 const imageLimit = 3;
 
-const categories = ref(["음식", "관광", "모험", "체험", "숙소", "축제"]);
+const categories = ref([
+  t("tag.음식"),
+  t("tag.관광"),
+  t("tag.모험"),
+  t("tag.체험"),
+  t("tag.숙소"),
+  t("tag.축제"),
+]);
 
 const isInvalidInput = ref(false);
 const isTooManyImages = ref(false);
@@ -199,7 +214,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  console.log("before unmount");
   selectedFiles.value = [];
   imageUrls.value.forEach((url) => URL.revokeObjectURL(url));
   firstInput.value = null;
@@ -207,12 +221,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-input,
-button,
-textarea {
-  font-family: "DungGeunMo";
-}
-
 textarea {
   resize: none;
   height: 6em;
@@ -368,8 +376,8 @@ textarea {
 }
 
 .step-change button {
-  width: 80px;
-  height: 40px;
+  width: 6em;
+  height: 2.2em;
   font-size: 1.2em;
   /* padding: 10px 20px; */
   margin: 10px;
@@ -379,6 +387,9 @@ textarea {
   border: 1.5px solid #6fd4f6;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  white-space: nowrap; /* 텍스트 줄 바꿈을 방지합니다. */
+  overflow: hidden;
+  display: inline-block;
 }
 
 .step-change button:hover {

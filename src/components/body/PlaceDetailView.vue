@@ -39,7 +39,7 @@
             class="favorite-text"
             :class="[selectedPlace.isFavorite ? 'active' : 'inactive']"
           >
-            저장
+            {{ t("navbar.저장") }}
           </div>
         </div>
       </div>
@@ -65,6 +65,8 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import useApp from "@/components/states/useApp";
 import uiState from "@/components/states/uiState";

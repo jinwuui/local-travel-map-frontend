@@ -18,13 +18,17 @@
       </li>
     </ul>
     <div v-else class="no-results">
-      <h2 class="no-results-message">검색된 장소가 없습니다</h2>
+      <h2 class="no-results-message">
+        {{ t("search.검색된 장소가 없습니다") }}
+      </h2>
       <img class="no-results-img" :src="noResultsImage" alert="ㅠㅠ" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import useSearching from "@/components/body/states/useSearching";
 
 const { searchedPlaces, selectPlace } = useSearching();

@@ -27,22 +27,37 @@
       </li>
     </ul>
     <div v-else class="no-results">
-      <h2 class="no-results-message">즐겨찾기된 장소가 없습니다</h2>
+      <h2 class="no-results-message">
+        {{ t("navbar.즐겨찾기된 장소가 없습니다") }}
+      </h2>
       <img class="no-results-img" :src="noResultsImage" alert="ㅠㅠ" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+import { useToast, POSITION } from "vue-toastification";
 import { onMounted } from "vue";
 import useNavBar from "@/components/body/states/useNavBar";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
+
+const toast = useToast();
 
 const { favoritePlaces, fetchFavoritePlaces } = useNavBar();
 const { selectPlaceById } = useSelectedPlace();
 const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
 
-onMounted(async () => await fetchFavoritePlaces());
+onMounted(
+  async () =>
+    await fetchFavoritePlaces().catch(() =>
+      toast.error(t("로그인이 필요합니다"), {
+        position: POSITION.TOP_CENTER,
+        timeout: 2000,
+      })
+    )
+);
 
 function imageSrc(filename) {
   return process.env.VUE_APP_ORIGIN_IMAGE_URL + filename;

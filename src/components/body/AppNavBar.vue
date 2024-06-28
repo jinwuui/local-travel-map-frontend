@@ -1,16 +1,18 @@
 <template>
   <nav class="nav">
     <div class="nav-border">
-      <p class="logo" @click="reloadPage">로-컬<br />xyz</p>
+      <p class="logo" @click="reloadPage">{{ t("app.로-컬") }}<br />xyz</p>
       <ul>
-        <li @click="handleFavorite">저장</li>
+        <li @click="handleFavorite">{{ t("navbar.저장") }}</li>
         <li @click="navigateToComponent(COMPONENT_NAMES.ANNOUNCEMENT_VIEW)">
-          공지
+          {{ t("navbar.공지") }}
         </li>
         <li @click="navigateToComponent(COMPONENT_NAMES.FEEDBACK_FORM)">
-          건의
+          {{ t("navbar.건의") }}
         </li>
-        <li @click="handleLogin">{{ loadUser() ? "로그아웃" : "로그인" }}</li>
+        <li @click="handleLogin">
+          {{ loadUser() ? t("navbar.로그아웃") : t("navbar.로그인") }}
+        </li>
         <li>⚙️</li>
       </ul>
     </div>
@@ -18,6 +20,8 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
@@ -54,7 +58,6 @@ function handleLogin() {
   padding-right: 3.5px;
   color: white;
   z-index: 9000;
-  font-family: "DungGeunMo";
   position: fixed;
   top: 0;
   left: 0;

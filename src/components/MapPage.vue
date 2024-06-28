@@ -9,8 +9,8 @@
       draggableCursor="default"
       mapTypeId="terrain"
       :styles="styles"
-      region="KR"
-      language="ko"
+      regin="KR"
+      :language="locale"
       :fullscreenControl="screenControl.fullscreenControl"
       :scaleControl="screenControl.scaleControl"
       :zoomControl="screenControl.scaleControl"
@@ -29,6 +29,8 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n();
 import { watch, computed } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
@@ -57,7 +59,7 @@ const isNewPlaceFormOpen = computed(
 );
 
 const newPlaceBtnText = computed(() =>
-  isNewPlaceFormOpen.value ? "취소하기" : "등록하기"
+  isNewPlaceFormOpen.value ? t("app.취소하기") : t("app.등록하기")
 );
 
 const newPlaceBtnIcon = computed(() =>

@@ -18,7 +18,8 @@ export default class PlaceAPIService {
       const { data } = await this.axiosInstance.request(config);
       return data;
     } catch (error) {
-      return error;
+      console.error("API 호출 오류:", error);
+      throw error;
     }
   }
 
@@ -27,7 +28,8 @@ export default class PlaceAPIService {
       const { data } = await this.multipartInstance.request(config);
       return data;
     } catch (error) {
-      return error;
+      console.error("API 호출 오류:", error);
+      throw error;
     }
   }
 

@@ -14,7 +14,7 @@
           @search="handleSearch"
           @focus="debounceAutocomplete(inputText)"
           type="text"
-          placeholder="검색어를 입력하세요..."
+          :placeholder="t('search.검색어를 입력하세요')"
         />
         <img
           v-if="isSearchingViewOpen"
@@ -54,6 +54,8 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useSearch from "@/components/header/states/useSearch";
@@ -143,7 +145,6 @@ function handleSelectSuggestion() {
 
 <style scoped>
 .search-bar {
-  font-family: "DungGeunMo";
   font-size: 1.2em;
   padding: 2px;
   border-radius: 6px;
@@ -175,7 +176,6 @@ function handleSelectSuggestion() {
 }
 .search-input {
   color: white;
-  font-family: "DungGeunMo";
   background-color: rgb(46, 67, 90);
   border-radius: 4px;
   width: 100%;

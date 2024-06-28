@@ -13,12 +13,21 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import { ref } from "vue";
 import usePlace from "@/components/states/usePlace";
 import { debounce } from "@/utils/commonUtils";
 
 const { fetchPlaces } = usePlace();
-const categories = ref(["음식", "관광", "모험", "체험", "숙소", "축제"]);
+const categories = ref([
+  t("tag.음식"),
+  t("tag.관광"),
+  t("tag.모험"),
+  t("tag.체험"),
+  t("tag.숙소"),
+  t("tag.축제"),
+]);
 const selectedCategory = ref(null);
 const debounceFetchPlaces = debounce(fetchPlaces, 400);
 

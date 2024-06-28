@@ -3,7 +3,7 @@
     <div class="login">
       <div class="login-header">
         <div class="form-title">
-          <div class="form-title-text">로그인</div>
+          <div class="form-title-text">{{ t("navbar.로그인") }}</div>
         </div>
         <img
           class="close-button"
@@ -19,23 +19,23 @@
             <input
               ref="firstInput"
               type="text"
-              placeholder="이름"
+              :placeholder="t('login.이름')"
               :class="{ 'input-error': !usernameText && isInvalidInput }"
               v-bind:value="usernameText"
               @input="setUsername"
             />
             <input
               type="password"
-              placeholder="비밀번호"
+              :placeholder="t('login.비밀번호')"
               :class="{ 'input-error': !passwordText && isInvalidInput }"
               v-bind:value="passwordText"
               @input="setPassword"
             />
           </div>
           <div class="form-button">
-            <button @click="handleLogin">로그인</button>
+            <button @click="handleLogin">{{ t("navbar.로그인") }}</button>
             <div class="signup-notice">
-              계정이 없으신가요? 로그인 시 자동으로 생성됩니다
+              {{ t("login.계정이 없으신가요? 로그인 시 자동으로 생성됩니다") }}
             </div>
           </div>
         </div>
@@ -45,9 +45,14 @@
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+import { useToast, POSITION } from "vue-toastification";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import useLogin from "@/components/body/states/useLogin";
 import uiState from "@/components/states/uiState";
+
+const toast = useToast();
 
 const { usernameText, passwordText, setUsername, setPassword, login } =
   useLogin();
@@ -61,7 +66,12 @@ function handleLogin() {
   isInvalidInput.value = true;
 
   if (usernameText.value && passwordText.value) {
-    login();
+    login().catch(() =>
+      toast.error(t("toast.로그인 실패!"), {
+        position: POSITION.TOP_CENTER,
+        timeout: 2000,
+      })
+    );
     isInvalidInput.value = false;
   }
 }
@@ -90,7 +100,6 @@ onBeforeUnmount(() => {
 
 input,
 button {
-  font-family: "DungGeunMo", sans-serif;
   font-size: 1.5em;
 }
 
@@ -121,7 +130,6 @@ button {
   flex: 0.4;
   display: flex;
   justify-content: center;
-  font-family: "DungGeunMo";
   background-color: rgb(35, 54, 80);
   color: white;
   font-size: 1.3em;
@@ -133,7 +141,6 @@ button {
 }
 
 .form {
-  font-family: "DungGeunMo";
   background-color: rgb(35, 54, 80);
   color: white;
   border-radius: 6px;
