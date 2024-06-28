@@ -1,11 +1,7 @@
 import { createI18n } from "vue-i18n";
 
 const userLanguage = navigator.language || navigator.userLanguage;
-const locale = userLanguage.startsWith("ko")
-  ? "ko"
-  : userLanguage.startsWith("ja")
-  ? "ja"
-  : "en";
+const locale = userLanguage.startsWith("ja") ? "ja" : "ko";
 
 function loadLocaleMessages() {
   const locales = require.context(
@@ -26,7 +22,7 @@ function loadLocaleMessages() {
 
 export default createI18n({
   legacy: false,
-  locale: locale || process.env.VUE_APP_I18N_LOCALE || "en",
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
+  locale: locale || process.env.VUE_APP_I18N_LOCALE || "ko",
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "ko",
   messages: loadLocaleMessages(),
 });
