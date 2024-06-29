@@ -15,14 +15,14 @@
       <div class="category-selection">
         <div
           v-for="category in categories"
-          :key="category"
+          :key="category.categoryKey"
           :class="[
             'badge',
-            { selected: newPlace.categories.includes(category) },
+            { selected: newPlace.categories.includes(category.categoryKey) },
           ]"
-          @click="toggleCategory(category)"
+          @click="toggleCategory(category.categoryKey)"
         >
-          {{ category }}
+          {{ category.displayName }}
         </div>
       </div>
       <textarea
@@ -139,12 +139,12 @@ const imageUrls = ref([]);
 const imageLimit = 3;
 
 const categories = ref([
-  t("tag.음식"),
-  t("tag.관광"),
-  t("tag.모험"),
-  t("tag.체험"),
-  t("tag.숙소"),
-  t("tag.축제"),
+  { categoryKey: "음식", displayName: t("tag.음식") },
+  { categoryKey: "관광", displayName: t("tag.관광") },
+  { categoryKey: "모험", displayName: t("tag.모험") },
+  { categoryKey: "체험", displayName: t("tag.체험") },
+  { categoryKey: "숙소", displayName: t("tag.숙소") },
+  { categoryKey: "축제", displayName: t("tag.축제") },
 ]);
 
 const isInvalidInput = ref(false);

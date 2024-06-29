@@ -2,12 +2,12 @@
   <div class="category-selection">
     <div
       v-for="category in categories"
-      :key="category"
+      :key="category.categoryKey"
       class="category-badge"
-      :class="{ selected: selectedCategory === category }"
-      @click="fetchByCategory(category)"
+      :class="{ selected: selectedCategory === category.categoryKey }"
+      @click="fetchByCategory(category.categoryKey)"
     >
-      <p>{{ category }}</p>
+      <p>{{ category.displayName }}</p>
     </div>
   </div>
 </template>
@@ -21,22 +21,22 @@ import { debounce } from "@/utils/commonUtils";
 
 const { fetchPlaces } = usePlace();
 const categories = ref([
-  t("tag.음식"),
-  t("tag.관광"),
-  t("tag.모험"),
-  t("tag.체험"),
-  t("tag.숙소"),
-  t("tag.축제"),
+  { categoryKey: "음식", displayName: t("tag.음식") },
+  { categoryKey: "관광", displayName: t("tag.관광") },
+  { categoryKey: "모험", displayName: t("tag.모험") },
+  { categoryKey: "체험", displayName: t("tag.체험") },
+  { categoryKey: "숙소", displayName: t("tag.숙소") },
+  { categoryKey: "축제", displayName: t("tag.축제") },
 ]);
 const selectedCategory = ref(null);
 const debounceFetchPlaces = debounce(fetchPlaces, 400);
 
-async function fetchByCategory(category) {
+async function fetchByCategory(categoryKey) {
   let params = null;
 
-  if (category !== selectedCategory.value) {
-    selectedCategory.value = category;
-    params = { category: category };
+  if (categoryKey !== selectedCategory.value) {
+    selectedCategory.value = categoryKey;
+    params = { category: categoryKey };
   } else {
     selectedCategory.value = null;
   }
