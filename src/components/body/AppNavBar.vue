@@ -76,7 +76,7 @@ function handleLogin() {
 
 .logo {
   display: block;
-  font-family: "DNFBitBitv2";
+  font-family: "subset-DNFBitBitv2";
   font-size: 1.4em;
   margin-top: 30px;
   margin-bottom: 0px;

@@ -40,7 +40,7 @@ Google Map API / Nginx / Jenkins
 
 ---
 
-# ローカルxyz
+# ローーカルxyz
 
 [サイトリンク](https://looocal.xyz)
 

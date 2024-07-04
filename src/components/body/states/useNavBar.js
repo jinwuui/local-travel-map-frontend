@@ -6,7 +6,7 @@ import { placeAPI } from "@/services/place.api";
 import uiState from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
-const { navigateToPreviousComponent } = uiState;
+const { navigateToPreviousComponent, toggleSideTabLoading } = uiState;
 
 const { loadUser } = useApp();
 
@@ -23,13 +23,29 @@ async function fetchFavoritePlaces() {
     throw Error("유저가 없습니다.");
   }
 
-  const { places } = await placeAPI.fetchFavoritePlaces(user.userId);
-  favoritePlaces.value = places;
+  try {
+    toggleSideTabLoading();
+
+    const { places } = await placeAPI.fetchFavoritePlaces(user.userId);
+    favoritePlaces.value = places;
+  } catch (error) {
+    alert("즐겨찾기를 불러오는데 실패했습니다.");
+  } finally {
+    toggleSideTabLoading();
+  }
 }
 
 async function fetchAnnouncements() {
-  const fetched = await communicationAPI.fetchAnnouncements();
-  announcements.value = fetched.announcements;
+  try {
+    toggleSideTabLoading();
+
+    const fetched = await communicationAPI.fetchAnnouncements();
+    announcements.value = fetched.announcements;
+  } catch (error) {
+    alert("공지를 불러오는데 실패했습니다.");
+  } finally {
+    toggleSideTabLoading();
+  }
 }
 
 function setFeedbackContent(event) {
@@ -45,14 +61,22 @@ async function submitFeedback() {
     throw Error("건의할 내용을 입력해주세요");
   }
 
-  await communicationAPI
-    .submitFeedback({
-      content: feedbackContent.value,
-      writer: feedbackWriter.value,
-    })
-    .then(() => {
-      navigateToPreviousComponent();
-    });
+  try {
+    toggleSideTabLoading();
+
+    await communicationAPI
+      .submitFeedback({
+        content: feedbackContent.value,
+        writer: feedbackWriter.value,
+      })
+      .then(() => {
+        navigateToPreviousComponent();
+      });
+  } catch (error) {
+    alert("건의하기가 실패했습니다.");
+  } finally {
+    toggleSideTabLoading();
+  }
 }
 
 export default function useNavBar() {

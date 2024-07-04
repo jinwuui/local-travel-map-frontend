@@ -18,11 +18,16 @@
           </p>
         </div>
       </div>
+      <div v-if="isSideTabLoading" class="sending-overlay">
+        {{ t("side-tab.로딩") }}
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 import { onMounted, onUnmounted, computed, ref, watch } from "vue";
 import ImageSlider from "@/components/body/ImageSlider.vue";
 
@@ -36,7 +41,13 @@ import FeedbackForm from "@/components/body/FeedbackForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 
-const { isMobile, isSideTabOpen, toggleSideTab, activeSideTab } = uiState;
+const {
+  isMobile,
+  isSideTabOpen,
+  isSideTabLoading,
+  toggleSideTab,
+  activeSideTab,
+} = uiState;
 
 const tabComponents = {
   [COMPONENT_NAMES.DEFAULT_VIEW]: DefaultView,
@@ -192,6 +203,21 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.sending-overlay {
+  position: fixed;
+  border-radius: 6px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2222;
+  font-size: 1.6em;
 }
 
 /* 모바일 화면 */

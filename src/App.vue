@@ -24,12 +24,19 @@ onBeforeMount(() => {
 
 <style>
 @font-face {
-  font-family: "DungGeunMo";
-  src: url("./assets/fonts/DungGeunMo.woff2") format("woff2"),
-    url("./assets/fonts/DungGeunMo.woff") format("woff");
+  font-family: "subset-DungGeunMo";
+  src: url("./assets/fonts/subset-DungGeunMo.woff") format("woff"),
+    url("./assets/fonts/subset-DungGeunMo.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
-  /* font-display: swap; */
+}
+
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("./assets/fonts/DungGeunMo.woff") format("woff"),
+    url("./assets/fonts/DungGeunMo.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
@@ -40,8 +47,17 @@ onBeforeMount(() => {
 }
 
 @font-face {
-  font-family: "DNFBitBitv2";
-  src: url("./assets/fonts/DNFBitBitv2.otf") format("opentype");
+  font-family: "subset-DNFBitBitv2";
+  src: url("./assets/fonts/subset-DNFBitBitv2.woff") format("woff"),
+    url("./assets/fonts/subset-DNFBitBitv2.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "subset-PixelMplus12-Regular";
+  src: url("./assets/fonts/subset-PixelMplus12-Regular.woff") format("woff"),
+    url("./assets/fonts/subset-PixelMplus12-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
@@ -54,8 +70,8 @@ onBeforeMount(() => {
 }
 
 #app {
-  font-family: "DungGeunMo", "PixelMplus12-Regular", "DOSIyagiBoldface",
-    "DNFBitBitv2", Avenir, Helvetica, Arial, sans-serif;
+  font-family: "subset-DungGeunMo", "subset-PixelMplus12-Regular", "DungGeunMo",
+    "PixelMplus12-Regular", Helvetica, Arial;
   width: 100%;
   height: 100vh;
   height: -webkit-fill-available;
@@ -66,7 +82,12 @@ onBeforeMount(() => {
 input,
 textarea,
 button {
-  font-family: "DungGeunMo", "PixelMplus12-Regular", "DOSIyagiBoldface",
-    "DNFBitBitv2", Avenir, Helvetica, Arial, sans-serif;
+  font-family: "DungGeunMo", "PixelMplus12-Regular", Helvetica, Arial;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: "subset-DungGeunMo", "subset-PixelMplus12-Regular", "DungGeunMo",
+    "PixelMplus12-Regular", Helvetica, Arial;
 }
 </style>

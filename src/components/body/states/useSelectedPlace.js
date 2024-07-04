@@ -6,7 +6,7 @@ import useMap from "@/components/states/useMap";
 import useApp from "@/components/states/useApp";
 import PlaceDetail from "@/models/PlaceDetail";
 
-const { navigateToComponent } = uiState;
+const { navigateToComponent, toggleSideTabLoading } = uiState;
 const { setMapCenter } = useMap();
 const { user, loadUser } = useApp();
 
@@ -15,36 +15,52 @@ const selectedPlace = reactive({ value: null });
 const imageSlider = reactive({ imageList: [], isOpen: false });
 
 async function selectPlace(place) {
-  const fetched = await placeAPI.fetchPlaceDetails(
-    place.placeId,
-    loadUser()?.userId
-  );
+  try {
+    toggleSideTabLoading();
+    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 
-  selectedPlace.value = PlaceDetail.fromPlace({
-    place: place,
-    description: fetched.placeDetails?.description || "기본 설명",
-    rating: fetched.placeDetails?.rating || 0,
-    photos: fetched.placeDetails?.photos,
-    country: fetched.placeDetails?.country,
-  });
+    const fetched = await placeAPI.fetchPlaceDetails(
+      place.placeId,
+      loadUser()?.userId
+    );
 
-  setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
-  if (detailInfo.value) {
-    detailInfo.value.scrollTop = 0;
+    selectedPlace.value = PlaceDetail.fromPlace({
+      place: place,
+      description: fetched.placeDetails?.description || "기본 설명",
+      rating: fetched.placeDetails?.rating || 0,
+      photos: fetched.placeDetails?.photos,
+      country: fetched.placeDetails?.country,
+    });
+
+    setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+    if (detailInfo.value) {
+      detailInfo.value.scrollTop = 0;
+    }
+  } catch (error) {
+    alert("여행지 불러오기 실패");
+  } finally {
+    toggleSideTabLoading();
   }
-  navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 }
 
 async function selectPlaceById(placeId) {
-  const fetched = await placeAPI.fetchPlace(placeId, loadUser()?.userId);
+  try {
+    toggleSideTabLoading();
+    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 
-  selectedPlace.value = PlaceDetail.fromJson(fetched.place);
+    const fetched = await placeAPI.fetchPlace(placeId, loadUser()?.userId);
 
-  setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
-  if (detailInfo.value) {
-    detailInfo.value.scrollTop = 0;
+    selectedPlace.value = PlaceDetail.fromJson(fetched.place);
+
+    setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+    if (detailInfo.value) {
+      detailInfo.value.scrollTop = 0;
+    }
+  } catch (error) {
+    alert("여행지 불러오기 실패");
+  } finally {
+    toggleSideTabLoading();
   }
-  navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 }
 
 async function toggleFavoritePlace() {

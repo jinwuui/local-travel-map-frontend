@@ -99,9 +99,6 @@
       </button>
     </div>
   </div>
-  <div v-if="isSideTabLoading" class="sending-overlay">
-    {{ t("new-place.전송 중") }}
-  </div>
 </template>
 
 <script setup>
@@ -109,9 +106,7 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import useNewPlace from "@/components/body/states/useNewPlace";
-import uiState from "@/components/states/uiState";
 
-const { isSideTabLoading } = uiState;
 const {
   nameText,
   descriptionText,
