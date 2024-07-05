@@ -18,7 +18,7 @@
           </p>
         </div>
       </div>
-      <div v-if="isSideTabLoading" class="sending-overlay">
+      <div v-if="isSideTabLoading" class="loading-overlay">
         {{ t("side-tab.로딩") }}
       </div>
     </div>
@@ -205,7 +205,7 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-.sending-overlay {
+.loading-overlay {
   position: fixed;
   border-radius: 6px;
   top: 0;

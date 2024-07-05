@@ -26,6 +26,7 @@
     <p v-else>{{ newPlaceBtnText }}</p>
   </div>
   <LoginForm v-if="isLoginFormOpen" />
+  <LoadingDots v-if="isMapFetchLoading" />
 </template>
 
 <script setup>
@@ -34,6 +35,7 @@ const { t, locale } = useI18n();
 import { watch, computed } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
+import LoadingDots from "@/components/LoadingDots.vue";
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlaceMarker from "@/components/NewPlaceMarker.vue";
 import LoginForm from "@/components/body/LoginForm.vue";
@@ -45,7 +47,7 @@ import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMobile, activeSideTab, isLoginFormOpen } = uiState;
+const { isMobile, activeSideTab, isLoginFormOpen, isMapFetchLoading } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
 // const { fetchPlaces } = usePlace();
