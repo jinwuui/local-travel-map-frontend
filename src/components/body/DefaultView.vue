@@ -25,10 +25,10 @@ onMounted(() => {
 });
 
 const bannerImages = [
-  require("@/assets/pixelarts/climb_mountain.png"),
-  require("@/assets/pixelarts/meet_oasis_1.webp"),
-  require("@/assets/pixelarts/meet_oasis_2.webp"),
-  require("@/assets/pixelarts/sailboat.webp"),
+  require("@/assets/pixelarts/climb_mountain.jpeg"),
+  require("@/assets/pixelarts/meet_oasis_1.jpeg"),
+  require("@/assets/pixelarts/meet_oasis_2.jpeg"),
+  require("@/assets/pixelarts/sailboat.jpeg"),
 ];
 
 const bannerTexts = [

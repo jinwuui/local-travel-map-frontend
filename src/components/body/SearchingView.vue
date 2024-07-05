@@ -32,7 +32,7 @@ const { t } = useI18n();
 import useSearching from "@/components/body/states/useSearching";
 
 const { searchedPlaces, selectPlace } = useSearching();
-const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
+const noResultsImage = require("@/assets/pixelarts/no-results-image.jpeg");
 </script>
 
 <style scoped>

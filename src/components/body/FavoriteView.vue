@@ -47,7 +47,7 @@ const toast = useToast();
 
 const { favoritePlaces, fetchFavoritePlaces } = useNavBar();
 const { selectPlaceById } = useSelectedPlace();
-const noResultsImage = require("@/assets/pixelarts/no-results-image.png");
+const noResultsImage = require("@/assets/pixelarts/no-results-image.jpeg");
 
 onMounted(
   async () =>
