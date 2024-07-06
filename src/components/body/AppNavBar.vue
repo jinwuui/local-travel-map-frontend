@@ -13,7 +13,6 @@
         <li @click="handleLogin">
           {{ loadUser() ? t("navbar.로그아웃") : t("navbar.로그인") }}
         </li>
-        <li>⚙️</li>
       </ul>
     </div>
   </nav>
