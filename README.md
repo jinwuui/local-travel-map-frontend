@@ -1,10 +1,19 @@
 ### 바로가기
 
+[Service Structure](#Service-Structure)
+
 [한국어](#로컬xyz)
 
 [日本語](#ローーカルxyz)
 
 ---
+
+# Service Structure
+
+<img alt="looocal-architecture" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/ed2eb9ac-8525-42fd-96ba-ee6d8d28ab0f">
+
+---
+
 # 로컬xyz
 
 [사이트 링크](https://looocal.xyz)
