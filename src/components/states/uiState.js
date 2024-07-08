@@ -14,6 +14,7 @@ const state = reactive({
   isMapFetchLoading: false,
 
   isLoginFormOpen: false,
+  loginNextAction: null,
 
   isSideTabOpen: false,
   isSideTabLoading: false,
@@ -25,8 +26,18 @@ function toggleMapFetchLoading() {
   state.isMapFetchLoading = !state.isMapFetchLoading;
 }
 
-function toggleLoginForm() {
+function toggleLoginForm(nextAction = null) {
   state.isLoginFormOpen = !state.isLoginFormOpen;
+  if (state.isLoginFormOpen) {
+    state.loginNextAction = nextAction;
+  }
+}
+
+function executeLoginNextAction() {
+  if (state.loginNextAction) {
+    state.loginNextAction();
+    state.loginNextAction = null;
+  }
 }
 
 function toggleSideTab() {
@@ -55,6 +66,7 @@ const uiState = {
 
   isLoginFormOpen: computed(() => state.isLoginFormOpen),
   toggleLoginForm,
+  executeLoginNextAction,
 
   isSideTabOpen: computed(() => state.isSideTabOpen),
   isSideTabLoading: computed(() => state.isSideTabLoading),

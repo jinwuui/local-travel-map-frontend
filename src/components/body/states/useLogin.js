@@ -6,7 +6,7 @@ import uiState from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
 const { setUser } = useApp();
-const { toggleLoginForm } = uiState;
+const { toggleLoginForm, executeLoginNextAction } = uiState;
 
 const state = reactive({
   username: null,
@@ -27,6 +27,7 @@ async function login() {
     .then((data) => {
       setUser(data.user);
       toggleLoginForm();
+      executeLoginNextAction();
     });
 }
 

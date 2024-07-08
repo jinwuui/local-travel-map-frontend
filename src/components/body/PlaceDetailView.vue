@@ -76,7 +76,7 @@ const { toggleLoginForm } = uiState;
 const { detailInfo, selectedPlace, openSlider, toggleFavoritePlace } =
   useSelectedPlace();
 const { loadUser } = useApp();
-const debounceToggleFavoritePlace = debounceLeading(toggleFavoritePlace, 400);
+const debounceToggleFavoritePlace = debounceLeading(toggleFavoritePlace, 300);
 
 const ratingActivedIcon = require("@/assets/pixels/rating_star.png");
 const ratingInactivedIcon = require("@/assets/pixels/rating_star_inactived.png");
@@ -91,7 +91,7 @@ function handleFavorite() {
     debounceToggleFavoritePlace();
   } else {
     // 로그인 X -> 로그인폼 열기
-    toggleLoginForm();
+    toggleLoginForm(() => debounceToggleFavoritePlace());
   }
 }
 </script>

@@ -3,11 +3,28 @@
     <div class="nav-border">
       <p class="logo" @click="reloadPage">{{ t("app.로-컬") }}<br />xyz</p>
       <ul>
-        <li @click="handleFavorite">{{ t("navbar.저장") }}</li>
-        <li @click="navigateToComponent(COMPONENT_NAMES.ANNOUNCEMENT_VIEW)">
+        <li
+          :class="{
+            active: activeSideTab === COMPONENT_NAMES.FAVORITE_VIEW,
+          }"
+          @click="handleFavorite"
+        >
+          {{ t("navbar.저장") }}
+        </li>
+        <li
+          :class="{
+            active: activeSideTab === COMPONENT_NAMES.ANNOUNCEMENT_VIEW,
+          }"
+          @click="navigateToComponent(COMPONENT_NAMES.ANNOUNCEMENT_VIEW)"
+        >
           {{ t("navbar.공지") }}
         </li>
-        <li @click="navigateToComponent(COMPONENT_NAMES.FEEDBACK_FORM)">
+        <li
+          :class="{
+            active: activeSideTab === COMPONENT_NAMES.FEEDBACK_FORM,
+          }"
+          @click="navigateToComponent(COMPONENT_NAMES.FEEDBACK_FORM)"
+        >
           {{ t("navbar.건의") }}
         </li>
         <li @click="handleLogin">
@@ -24,7 +41,7 @@ const { t } = useI18n();
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
-const { navigateToComponent, toggleLoginForm } = uiState;
+const { navigateToComponent, toggleLoginForm, activeSideTab } = uiState;
 const { loadUser, removeUser } = useApp();
 
 const reloadPage = () => {
@@ -32,21 +49,19 @@ const reloadPage = () => {
 };
 
 function handleFavorite() {
-  // 로그인 여부 확인
   if (loadUser()) {
     navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW);
   } else {
-    // 로그인 폼 열기
-    toggleLoginForm();
+    toggleLoginForm(() => navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW));
   }
 }
 
 function handleLogin() {
   if (loadUser()) {
-    reloadPage();
     removeUser();
+    reloadPage();
   } else {
-    toggleLoginForm();
+    toggleLoginForm(() => reloadPage());
   }
 }
 </script>
@@ -107,6 +122,10 @@ ul {
   flex-grow: 0;
   font-size: 1.2em;
   cursor: pointer;
+}
+
+.nav li.active {
+  color: grey;
 }
 
 .content {
