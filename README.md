@@ -1,4 +1,3 @@
-# looocal.xyz
 
 [한국어](#로컬xyz)
 
