@@ -4,29 +4,18 @@
       <textarea
         class="content-input"
         v-bind:value="feedbackContent"
-        @input="setFeedbackContent"
+        @input="handleInputContent"
         :placeholder="t('feedback.여기에 글을 작성하세요')"
+        maxlength="300"
       />
       <textarea
         class="writer-input"
         v-bind:value="feedbackWriter"
-        @input="setFeedbackWriter"
+        @input="handleInputWriter"
         :placeholder="t('feedback.익명의 모험가')"
+        maxlength="20"
       />
-      <div id="parchment">
-        <svg>
-          <filter id="wavy2">
-            <feTurbulence
-              x="0"
-              y="0"
-              baseFrequency="0.02"
-              numOctaves="5"
-              seed="1"
-            ></feTurbulence>
-            <feDisplacementMap in="SourceGraphic" scale="20" />
-          </filter>
-        </svg>
-      </div>
+      <img class="input-background-img" :src="oldPaperImg" />
     </div>
     <div class="step-change">
       <button @click="navigateToPreviousComponent">
@@ -55,6 +44,27 @@ const {
   submitFeedback,
 } = useNavBar();
 
+const oldPaperImg = require("@/assets/pixelarts/old_paper.webp");
+
+const maxLinesContent = 14;
+const maxLinesWriter = 1;
+
+function handleInputContent(event) {
+  const lines = event.target.value.split("\n");
+  if (lines.length > maxLinesContent) {
+    event.target.value = lines.slice(0, maxLinesContent).join("\n");
+  }
+  setFeedbackContent(event.target.value);
+}
+
+function handleInputWriter(event) {
+  const lines = event.target.value.split("\n");
+  if (lines.length > maxLinesWriter) {
+    event.target.value = lines.slice(0, maxLinesWriter).join("\n");
+  }
+  setFeedbackWriter(event.target.value);
+}
+
 async function handleSubmitFeedback() {
   await submitFeedback()
     .then(() =>
@@ -74,27 +84,16 @@ async function handleSubmitFeedback() {
 
 <style scoped>
 .feedback-view {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   padding: 10px;
-}
-
-.image-container {
-  position: relative;
-  width: 600px; /* 필요에 따라 조정 */
-  height: 800px; /* 필요에 따라 조정 */
-}
-
-.background-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  padding-top: 15px;
 }
 
 .feedback-input {
@@ -133,13 +132,9 @@ async function handleSubmitFeedback() {
   z-index: 2222;
 }
 
-#parchment {
-  display: flex;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
-  background: #fffef0;
-  filter: url(#wavy2);
+.input-background-img {
+  width: 100%;
+  height: 100%;
 }
 
 .step-change {
@@ -162,12 +157,31 @@ async function handleSubmitFeedback() {
   border: 1.5px solid #6fd4f6;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  white-space: nowrap; /* 텍스트 줄 바꿈을 방지합니다. */
+  white-space: nowrap;
   overflow: hidden;
   display: inline-block;
 }
 
 .step-change button:hover {
-  background-color: #1f4c7a; /* 호버 시 배경 색상 */
+  background-color: #1f4c7a;
+}
+
+/* 모바일 화면 */
+@media (max-width: 768px) {
+  .feedback-view {
+    height: 500px;
+  }
+
+  .feedback-input {
+    height: 425px;
+  }
+
+  .content-input {
+    height: 250px;
+  }
+
+  .step-change {
+    margin: 0px;
+  }
 }
 </style>

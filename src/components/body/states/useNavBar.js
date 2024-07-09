@@ -48,12 +48,12 @@ async function fetchAnnouncements() {
   }
 }
 
-function setFeedbackContent(event) {
-  feedbackContent.value = event.target.value;
+function setFeedbackContent(newValue) {
+  feedbackContent.value = newValue;
 }
 
-function setFeedbackWriter(event) {
-  feedbackWriter.value = event.target.value;
+function setFeedbackWriter(newValue) {
+  feedbackWriter.value = newValue;
 }
 
 async function submitFeedback() {
