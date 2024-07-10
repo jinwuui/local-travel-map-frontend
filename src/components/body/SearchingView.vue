@@ -11,10 +11,10 @@
         @mousedown="selectPlace(index)"
       >
         <div class="header">
-          <h1 class="name">{{ place.name }}</h1>
+          <h2 class="name">{{ place.name }}</h2>
           <h5 class="country">{{ place.country }}</h5>
         </div>
-        <h2 class="description">{{ place.description }}</h2>
+        <h3 class="description">{{ place.description }}</h3>
       </li>
     </ul>
     <div v-else class="no-results">
@@ -75,11 +75,14 @@ const noResultsImage = require("@/assets/pixelarts/no-results-image.jpeg");
 .name {
   margin: 0;
   text-shadow: 2.5px 2.5px 0 #111111;
+  flex-shrink: 1;
 }
 
 .country {
   margin: 0;
   color: lightgrey;
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 .description {
