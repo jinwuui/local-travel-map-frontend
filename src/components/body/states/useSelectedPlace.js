@@ -17,7 +17,6 @@ const imageSlider = reactive({ imageList: [], isOpen: false });
 async function selectPlace(place) {
   try {
     toggleSideTabLoading();
-    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 
     const fetched = await placeAPI.fetchPlaceDetails(
       place.placeId,
@@ -36,6 +35,8 @@ async function selectPlace(place) {
     if (detailInfo.value) {
       detailInfo.value.scrollTop = 0;
     }
+
+    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
   } catch (error) {
     alert("여행지 불러오기 실패");
   } finally {
@@ -46,7 +47,6 @@ async function selectPlace(place) {
 async function selectPlaceById(placeId) {
   try {
     toggleSideTabLoading();
-    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
 
     const fetched = await placeAPI.fetchPlace(placeId, loadUser()?.userId);
 
@@ -56,6 +56,8 @@ async function selectPlaceById(placeId) {
     if (detailInfo.value) {
       detailInfo.value.scrollTop = 0;
     }
+
+    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
   } catch (error) {
     alert("여행지 불러오기 실패");
   } finally {

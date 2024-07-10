@@ -1,4 +1,4 @@
-import { reactive, computed, ref } from "vue";
+import { computed, ref } from "vue";
 import imageCompression from "browser-image-compression";
 
 import NewPlace from "@/models/NewPlace";
@@ -17,7 +17,7 @@ const nameText = ref("");
 const descriptionText = ref("");
 
 const step = ref(0);
-const newPlace = reactive({ value: null });
+const newPlace = ref(null);
 
 function updateName(event) {
   nameText.value = event.target.value;
@@ -67,15 +67,14 @@ async function addNewPlace(imageFiles) {
         });
       }
 
-      await placeAPI.addPlace(formData).then((result) => {
+      const data = await placeAPI.addPlace(formData).then((result) => {
         result.lat = parseFloat(result.lat);
         result.lng = parseFloat(result.lng);
-        selectPlace(result);
+        closeNewPlaceForm();
+        return result;
       });
 
-      closeNewPlaceForm();
-
-      // TODO: 로딩 보여주기 -> 저장 완료 -> places에 넣기 -> 창 닫기
+      await selectPlace(data);
     } catch (error) {
       console.error("Error during add new place", error);
       throw error;
