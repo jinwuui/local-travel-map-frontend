@@ -43,6 +43,18 @@ Google Map API / Nginx / Jenkins
     1. 임베딩 값 저장: 여행지를 생성할 때, 제목/내용/나라/카테고리 정보를 OpenAI의 텍스트 임베딩 모델을 사용하여 임베딩 값을 계산하고 별도로 저장
     2. 유사도 계산: 사용자가 검색을 수행할 때, 입력된 검색어의 임베딩 값을 구하고, 벡터 연산을 통해 저장된 여행지들과의 유사도를 계산
     3. 결과 통합: 기존 '일치 방식'에서 나온 결과와 임베딩 방식에서 나온 결과를 병합하고 중복을 제거하여 사용자에게 반환
+
+  - 전후 비교
+    - 전 (완전 일치 검색)
+      
+      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/6331d094-c421-4803-a31a-6996d1081630">
+
+    - 후 (유사도 검색)
+      
+      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
+
+
+
   - 추후 개선 사항
     1. 한국어 최적화: 한국어 텍스트의 임베딩 정확도를 향상시키기 위해 KoBERT, KoSentenceBERT와 같은 한국어에 특화된 임베딩 모델을 테스트
     2. 캐싱: 동일한 검색어에 대한 임베딩값과 검색어 목록을 캐싱
@@ -78,6 +90,16 @@ Google Map API / Nginx / Jenkins
     1. 埋め込み値の保存: 旅行先を生成する際、タイトル/内容/国/カテゴリ情報をOpenAIのテキスト埋め込みモデルを使用して埋め込み値を計算し、別途保存
     2. 類似度計算: ユーザーが検索を行う際、入力された検索語の埋め込み値を求め、ベクトル演算を通じて保存された旅行先との類似度を計算
     3. 結果の統合: 既存の「一致方式」から出た結果と埋め込み方式から出た結果を統合し、重複を除去してユーザーに返還
+
+  - 前後比較
+    - 以前（完全一致検索）
+
+      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/6331d094-c421-4803-a31a-6996d1081630">
+
+    - 以後（類似度検索）
+
+      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
+
   - 今後の改善事項
     1. 韓国語最適化: 韓国語テキストの埋め込み精度を向上させるためにKoBERT、KoSentenceBERTのような韓国語に特化した埋め込みモデルをテスト
     2. キャッシング: 同じ検索語の埋め込み値と検索語リストをキャッシング
