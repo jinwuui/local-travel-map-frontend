@@ -4,7 +4,7 @@
     <h2 class="banner-quote">
       {{ currentBannerText.quote }}
     </h2>
-    <h2 class="banner-author">{{ currentBannerText.author }}</h2>
+    <h3 class="banner-author">{{ currentBannerText.author }}</h3>
   </div>
 </template>
 
@@ -446,9 +446,10 @@ const bannerTexts = [
   padding: 16px;
 }
 
-h2 {
+h2,
+h3 {
   line-height: 1.5;
-  font-family: "DOSIyagiBoldface";
+  font-family: "subset-DOSIyagiBoldface";
 }
 
 .banner-image {

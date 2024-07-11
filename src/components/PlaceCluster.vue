@@ -54,7 +54,7 @@ const renderer = {
       label: {
         text: String(count),
         color: "black",
-        fontFamily: "DOSIyagiBoldface",
+        fontFamily: "subset-DOSIyagiBoldface",
         fontSize: "30px",
       },
       position,

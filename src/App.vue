@@ -40,6 +40,14 @@ onBeforeMount(() => {
 }
 
 @font-face {
+  font-family: "subset-DOSIyagiBoldface";
+  src: url("./assets/fonts/subset-DOSIyagiBoldface.woff") format("woff"),
+    url("./assets/fonts/subset-DOSIyagiBoldface.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "DOSIyagiBoldface";
   src: url("./assets/fonts/DOSIyagiBoldface.ttf") format("truetype");
   font-weight: normal;
@@ -80,13 +88,13 @@ onBeforeMount(() => {
 }
 
 input,
-textarea,
-button {
+textarea {
   font-family: "DungGeunMo", "PixelMplus12-Regular", Helvetica, Arial;
 }
 
 input::placeholder,
-textarea::placeholder {
+textarea::placeholder,
+button {
   font-family: "subset-DungGeunMo", "subset-PixelMplus12-Regular", "DungGeunMo",
     "PixelMplus12-Regular", Helvetica, Arial;
 }
