@@ -4,8 +4,8 @@ const MAX_AGE = 15 * 60 * 1000; // 15분
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(() => {
-      console.log("Opened cache");
+    caches.open(CACHE_NAME).catch((error) => {
+      console.error("Error: Failed to open cache", error);
     })
   );
 });
@@ -38,20 +38,18 @@ self.addEventListener("fetch", (event) => {
             new Date(cachedResponse.headers.get("date")).getTime();
 
           if (age < MAX_AGE) {
-            console.log("Cache hit");
             return cachedResponse;
           } else {
             caches.open(CACHE_NAME).then((cache) => {
               cache.delete(request);
             });
-            console.log(`Cache expired: ${age}ms`);
+            console.info(`Cache expired: ${age}ms`);
           }
         }
 
         return fetch(request).then((networkResponse) => {
           return caches.open(CACHE_NAME).then((cache) => {
             cache.put(request, networkResponse.clone());
-            console.log("New Fetch");
             return networkResponse;
           });
         });

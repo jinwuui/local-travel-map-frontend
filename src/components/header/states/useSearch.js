@@ -30,7 +30,6 @@ function setInputText(value) {
 }
 
 async function autocomplete(query) {
-  console.log("    autocomplete:", query);
   if (document.activeElement !== inputRef.value) {
     return;
   }
@@ -54,8 +53,6 @@ async function autocomplete(query) {
   ) {
     return;
   }
-
-  console.log("       api:", trimmedQuery);
 
   const data = await searchAPI.autocomplete(trimmedQuery);
   const newIdSet = new Set(data.suggestions.map((item) => item.placeId));
@@ -82,7 +79,6 @@ async function autocomplete(query) {
 }
 
 function clearSuggestions() {
-  console.log("    clearSuggestions");
   suggestions.value = [];
   selectedIndex.value = -1;
 }
