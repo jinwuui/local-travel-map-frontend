@@ -53,11 +53,17 @@ Google Map API / Nginx / Jenkins
       
       <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
 
-
-
   - 추후 개선 사항
     1. 한국어 최적화: 한국어 텍스트의 임베딩 정확도를 향상시키기 위해 KoBERT, KoSentenceBERT와 같은 한국어에 특화된 임베딩 모델을 테스트
     2. 캐싱: 동일한 검색어에 대한 임베딩값과 검색어 목록을 캐싱
+
+- 성능 개선 (검색어 자동 완성)
+  - Cache API와 Service Worker로 프론트엔드 성능 최적화
+  - 동일 키워드로 재검색 시 네트워크 요청을 최소화하고 로드 시간을 단축
+    - 540ms -> 2ms / 1010ms -> 2ms
+    
+    <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
+
 
 ---
 
@@ -103,4 +109,11 @@ Google Map API / Nginx / Jenkins
   - 今後の改善事項
     1. 韓国語最適化: 韓国語テキストの埋め込み精度を向上させるためにKoBERT、KoSentenceBERTのような韓国語に特化した埋め込みモデルをテスト
     2. キャッシング: 同じ検索語の埋め込み値と検索語リストをキャッシング
+
+- 性能改善(検索語自動完成)
+  - Cache APIとService Workerでフロントエンドの性能を最適化
+  - 同一キーワードで再検索時のネットワーク要請を最小化し、ロード時間を短縮
+    - 540ms -> 2ms / 1010ms -> 2ms
+   
+    <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
 
