@@ -54,15 +54,21 @@ Google Map API / Nginx / Jenkins
       <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
 
   - 추후 개선 사항
-    1. 한국어 최적화: 한국어 텍스트의 임베딩 정확도를 향상시키기 위해 KoBERT, KoSentenceBERT와 같은 한국어에 특화된 임베딩 모델을 테스트
-    2. 캐싱: 동일한 검색어에 대한 임베딩값과 검색어 목록을 캐싱
+    - 한국어 최적화: 한국어 텍스트의 임베딩 정확도를 향상시키기 위해 KoBERT, KoSentenceBERT와 같은 한국어에 특화된 임베딩 모델을 테스트
 
 - 성능 개선 (검색어 자동 완성)
   - Cache API와 Service Worker로 프론트엔드 성능 최적화
-  - 동일 키워드로 재검색 시 네트워크 요청을 최소화하고 로드 시간을 단축
+    - 동일 키워드로 재검색 시 네트워크 요청을 최소화하고 로드 시간을 단축
     - 540ms -> 2ms / 1010ms -> 2ms
+      
+      <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
+
+  - Redis로 백엔드 성능 최적화
+    - 동일 키워드에 대한 결과값을 Redis에 캐싱
+    - 불필요한 외부 API 요청을 줄임
+    - 600ms -> 2ms / 540 -> 2ms
     
-    <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
+      <img width="770" alt="스크린샷 2024-07-14 오전 10 29 34" src="https://github.com/user-attachments/assets/231007f3-116d-4489-b7a5-3962fc0f1cf4">
 
 
 ---
@@ -112,8 +118,14 @@ Google Map API / Nginx / Jenkins
 
 - 性能改善(検索語自動完成)
   - Cache APIとService Workerでフロントエンドの性能を最適化
-  - 同一キーワードで再検索時のネットワーク要請を最小化し、ロード時間を短縮
+    - 同一キーワードで再検索時のネットワーク要請を最小化し、ロード時間を短縮
     - 540ms -> 2ms / 1010ms -> 2ms
    
-    <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
+      <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
 
+  - Redisによるバックエンドパフォーマンスの最適化
+    - 同一キーワードに対する結果をRedisにキャッシュ
+    - 不要な外部APIリクエストを削減
+    - 600ms -> 2ms / 540ms -> 2ms
+    
+      <img width="770" alt="스크린샷 2024-07-14 오전 10 29 34" src="https://github.com/user-attachments/assets/231007f3-116d-4489-b7a5-3962fc0f1cf4">
