@@ -23,7 +23,7 @@ const tempQuery = ref(null);
 const lastQuery = ref(null);
 const lastSuggestions = ref(null);
 
-const debounceAutocomplete = debounce(autocomplete, 200);
+const debounceAutocomplete = debounce(autocomplete, 400);
 
 function setInputText(value) {
   inputText.value = value;
