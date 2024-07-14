@@ -1,10 +1,13 @@
 import { computed, ref } from "vue";
 
+import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import { searchAPI } from "@/services/search.api";
 
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import useSearching from "@/components/body/states/useSearching";
 import { debounce } from "@/utils/commonUtils";
+
+const { navigateToComponent, toggleSideTabLoading } = uiState;
 
 const { selectPlaceById } = useSelectedPlace();
 const { setSearchedPlaces } = useSearching();
@@ -112,18 +115,29 @@ async function searching() {
     return;
   }
 
-  if (index === -1) {
-    // query mode
-    if (lastQuery.value !== query.trim()) {
-      debounceAutocomplete(query);
-    }
+  inputRef.value?.blur();
 
-    setSearchedPlaces(lastSuggestions.value);
+  const trimmedQuery = query.trim();
+
+  if (index === -1) {
+    try {
+      toggleSideTabLoading();
+      navigateToComponent(COMPONENT_NAMES.SEARCHING_VIEW);
+
+      if (lastQuery.value === trimmedQuery) {
+        setSearchedPlaces(lastSuggestions.value);
+      } else {
+        await searchAPI.autocomplete(trimmedQuery).then((data) => {
+          setSearchedPlaces(data.suggestions);
+        });
+      }
+    } finally {
+      toggleSideTabLoading();
+    }
   } else {
     selectSuggestion(index);
   }
 
-  inputRef.value?.blur();
   clearSuggestions();
 }
 

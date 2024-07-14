@@ -17,7 +17,7 @@
         <h3 class="description">{{ place.description }}</h3>
       </li>
     </ul>
-    <div v-else class="no-results">
+    <div v-else-if="!isSideTabLoading" class="no-results">
       <h2 class="no-results-message">
         {{ t("search.검색된 장소가 없습니다") }}
       </h2>
@@ -30,7 +30,9 @@
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 import useSearching from "@/components/body/states/useSearching";
+import uiState from "@/components/states/uiState";
 
+const { isSideTabLoading } = uiState;
 const { searchedPlaces, selectPlace } = useSearching();
 const noResultsImage = require("@/assets/pixelarts/no-results-image.jpeg");
 </script>

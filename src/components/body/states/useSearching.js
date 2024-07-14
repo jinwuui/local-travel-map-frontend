@@ -1,16 +1,15 @@
 import { computed, ref } from "vue";
 
-import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
+import uiState from "@/components/states/uiState";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
-const { navigateToComponent, navigateToPreviousComponent } = uiState;
+const { navigateToPreviousComponent } = uiState;
 const { selectPlaceById } = useSelectedPlace();
 
 const searchedPlaces = ref([]);
 
 function setSearchedPlaces(newSearchedPlaces) {
   searchedPlaces.value = newSearchedPlaces;
-  navigateToComponent(COMPONENT_NAMES.SEARCHING_VIEW);
 }
 
 async function selectPlace(index) {
