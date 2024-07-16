@@ -38,34 +38,29 @@ Google Map API / Nginx / Jenkins
 
 - 검색어 자동 완성
   - 기존 방식: 여행지의 제목 또는 내용과 일치하는 초성 및 한/영 철자를 기반으로 검색
-  - 개선 방식: 기존의 '일치 방식'에 더해, 임베딩(embedding)을 계산하여 유사도를 기반으로 검색어를 자동 완성하도록 구현 변경
-  - 해결 방법
-    1. 임베딩 값 저장: 여행지를 생성할 때, 제목/내용/나라/카테고리 정보를 OpenAI의 텍스트 임베딩 모델을 사용하여 임베딩 값을 계산하고 별도로 저장
-    2. 유사도 계산: 사용자가 검색을 수행할 때, 입력된 검색어의 임베딩 값을 구하고, 벡터 연산을 통해 저장된 여행지들과의 유사도를 계산
-    3. 결과 통합: 기존 '일치 방식'에서 나온 결과와 임베딩 방식에서 나온 결과를 병합하고 중복을 제거하여 사용자에게 반환
+  - 개선 방식 1: 기존의 '일치 방식'에 더해, 임베딩(embedding)으로 유사도를 계산하여 검색어를 자동 완성하도록 구현 변경
+    - 해결 방법
+      1. 임베딩 값 저장: 여행지를 생성할 때, OpenAI의 텍스트 임베딩 모델로 제목/나라 등의 여행지 정보에 대한 임베딩 값을 계산
+      2. 유사도 계산: 사용자가 검색을 수행할 때, 입력된 검색어의 임베딩 값과 저장된 여행지들의 유사도를 계산 (벡터 연산)
+      3. 결과 통합: 기존 '일치 방식'의 결과와 유사도 계산 방식의 결과를 합하여 사용자에게 반환
 
-  - 전후 비교
-    - 전 (완전 일치 검색)
+    - 전후 비교
+      - 전 (완전 일치 검색)
       
-      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/6331d094-c421-4803-a31a-6996d1081630">
+        <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/6331d094-c421-4803-a31a-6996d1081630">
 
-    - 후 (유사도 검색)
+      - 후 (유사도 검색)
       
-      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
+        <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
 
-  - 추후 개선 사항
-    - 한국어 최적화: 한국어 텍스트의 임베딩 정확도를 향상시키기 위해 KoBERT, KoSentenceBERT와 같은 한국어에 특화된 임베딩 모델을 테스트
-
-- 성능 개선 (검색어 자동 완성)
-  - Cache API와 Service Worker로 프론트엔드 성능 최적화
-    - 동일 키워드로 재검색 시 네트워크 요청을 최소화하고 로드 시간을 단축
+  - 개선 방식 2: Cache API와 Service Worker로 프론트엔드 성능 최적화
+    - 동일 키워드로 재검색 시, 네트워크 요청을 최소화하고 로드 시간을 단축
     - 540ms -> 2ms / 1010ms -> 2ms
       
       <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
 
-  - Redis로 백엔드 성능 최적화
-    - 동일 키워드에 대한 결과값을 Redis에 캐싱
-    - 불필요한 외부 API 요청을 줄임
+  - 개선 방식 3: 동일 키워드에 대한 결과값을 Redis에 캐싱하여 백엔드 성능 최적화
+    - 불필요한 외부 API 요청과 DB 연산을 줄임
     - 600ms -> 2ms / 540 -> 2ms
     
       <img width="770" alt="스크린샷 2024-07-14 오전 10 29 34" src="https://github.com/user-attachments/assets/231007f3-116d-4489-b7a5-3962fc0f1cf4">
@@ -95,37 +90,32 @@ Google Map API / Nginx / Jenkins
 
 ## 技術的な挑戦と解決方法
 
-- 検索語の自動補完
-  - 従来の方式: 旅行先のタイトルまたは内容と一致する初声および韓/英のスペルに基づいて検索
-  - 改善方式: 従来の「一致方式」に加え、埋め込み(embedding)を計算して類似度に基づいて検索語を自動補完するように実装変更
-  - 解決方法
-    1. 埋め込み値の保存: 旅行先を生成する際、タイトル/内容/国/カテゴリ情報をOpenAIのテキスト埋め込みモデルを使用して埋め込み値を計算し、別途保存
-    2. 類似度計算: ユーザーが検索を行う際、入力された検索語の埋め込み値を求め、ベクトル演算を通じて保存された旅行先との類似度を計算
-    3. 結果の統合: 既存の「一致方式」から出た結果と埋め込み方式から出た結果を統合し、重複を除去してユーザーに返還
+- 検索キーワードの自動補完
+  - 既存方式: 旅行先のタイトルまたは内容と一致する初声および日/英文字を基に検索
+  - 改善方式 1: 既存の「一致方式」に加え、エンベディング（embedding）で類似度を計算して検索キーワードを自動補完するように実装変更
+    - 解決方法
+      1. エンベディング値の保存: 旅行先を生成する際、OpenAIのテキストエンベディングモデルでタイトル/国などの旅行先情報のエンベディング値を計算
+      2. 類似度計算: ユーザーが検索を行う際、入力された検索キーワードのエンベディング値と保存された旅行先の類似度を計算（ベクトル演算）
+      3. 結果統合: 既存の「一致方式」の結果と類似度計算方式の結果を統合してユーザーに返す
 
-  - 前後比較
-    - 以前（完全一致検索）
+    - 前後比較
+      - 前（完全一致検索）
+      
+        <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/6331d094-c421-4803-a31a-6996d1081630">
 
-      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/6331d094-c421-4803-a31a-6996d1081630">
+      - 後（類似度検索）
+      
+        <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
 
-    - 以後（類似度検索）
-
-      <img width="300" alt="Screenshot 2024-07-11 at 12 46 31 PM" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/67bf6d98-6bc7-4d93-8d47-33150dbd4924">
-
-  - 今後の改善事項
-    1. 韓国語最適化: 韓国語テキストの埋め込み精度を向上させるためにKoBERT、KoSentenceBERTのような韓国語に特化した埋め込みモデルをテスト
-    2. キャッシング: 同じ検索語の埋め込み値と検索語リストをキャッシング
-
-- 性能改善(検索語自動完成)
-  - Cache APIとService Workerでフロントエンドの性能を最適化
-    - 同一キーワードで再検索時のネットワーク要請を最小化し、ロード時間を短縮
+  - 改善方式 2: Cache APIとService Workerでフロントエンド性能最適化
+    - 同じキーワードで再検索する際、ネットワークリクエストを最小限にし、ロード時間を短縮
     - 540ms -> 2ms / 1010ms -> 2ms
-   
+      
       <img width="521" alt="Screenshot 2024-07-12 at 3 18 17 PM" src="https://github.com/user-attachments/assets/cd397ad4-b05f-4949-a39f-d76354d03c4e">
 
-  - Redisによるバックエンドパフォーマンスの最適化
-    - 同一キーワードに対する結果をRedisにキャッシュ
-    - 不要な外部APIリクエストを削減
-    - 600ms -> 2ms / 540ms -> 2ms
+  - 改善方式 3: 同じキーワードに対する結果をRedisにキャッシュしてバックエンド性能最適化
+    - 不必要な外部APIリクエストとDB演算を削減
+    - 600ms -> 2ms / 540 -> 2ms
     
-      <img width="770" alt="스크린샷 2024-07-14 오전 10 29 34" src="https://github.com/user-attachments/assets/231007f3-116d-4489-b7a5-3962fc0f1cf4">
+      <img width="770" alt="Screenshot 2024-07-14 10 29 34" src="https://github.com/user-attachments/assets/231007f3-116d-4489-b7a5-3962fc0f1cf4">
+
