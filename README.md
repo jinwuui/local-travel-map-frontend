@@ -10,7 +10,7 @@
 
 # Service Structure
 
-<img alt="looocal-architecture" src="https://github.com/jinwuui/local-travel-map-frontend/assets/97392729/ed2eb9ac-8525-42fd-96ba-ee6d8d28ab0f">
+<img alt="looocal-architecture" src="https://github.com/user-attachments/assets/fd0477d0-e47a-466a-a460-00626f02f3ca">
 
 ---
 
