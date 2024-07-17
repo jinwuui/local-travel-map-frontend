@@ -2,13 +2,25 @@ import { ref, computed, watch } from "vue";
 import Place from "@/models/Place";
 import { placeAPI } from "@/services/place.api";
 
+import useMap from "@/components/states/useMap";
 import useApp from "@/components/states/useApp";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import uiState from "@/components/states/uiState";
 
 const { toggleMapFetchLoading } = uiState;
 const { loadUser } = useApp();
+const { mapRef } = useMap();
+
 const places = ref([]);
+const renderCluster = ref(false);
+
+watch(places.value, (newPlaces) => {
+  if (mapRef.value?.ready && newPlaces) {
+    setTimeout(() => {
+      renderCluster.value = true;
+    }, 400);
+  }
+});
 
 async function fetchPlaces(params) {
   try {
@@ -61,6 +73,7 @@ watch(selectedPlace, (newSelectedPlace) => {
 export default function usePlace() {
   return {
     places: computed(() => places.value),
+    renderCluster: computed(() => renderCluster.value),
     fetchPlaces,
   };
 }

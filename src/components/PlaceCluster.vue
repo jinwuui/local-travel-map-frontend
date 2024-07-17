@@ -1,6 +1,6 @@
 <template>
   <MarkerCluster :options="{ renderer: renderer }">
-    <div v-if="renderCluster">
+    <template v-if="renderCluster">
       <div v-for="place in places" :key="place.placeId">
         <CustomMarker
           v-if="place.placeId !== selectedPlace?.placeId"
@@ -28,24 +28,22 @@
           <img class="selected-marker" :src="selectedMarker" />
         </CustomMarker>
       </div>
-    </div>
+    </template>
   </MarkerCluster>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
 import { CustomMarker, MarkerCluster } from "vue3-google-map";
 
 import usePlace from "@/components/states/usePlace";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
-const { places, fetchPlaces } = usePlace();
+const { places, renderCluster } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();
 
 const defaultMarker = require("@/assets/pixels/default_marker.png");
 const favoriteMarker = require("@/assets/pixels/favorite_marker.png");
 const selectedMarker = require("@/assets/pixels/selected_marker.png");
-const renderCluster = ref(false);
 
 const renderer = {
   render: ({ count, position }) =>
@@ -67,15 +65,6 @@ const renderer = {
       zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
     }),
 };
-
-onMounted(async () => {
-  await fetchPlaces()
-    .then(() => (renderCluster.value = true))
-    .catch(async (error) => {
-      console.error("장소 불러오기 재시도 - ", error);
-      await fetchPlaces().then(() => (renderCluster.value = true));
-    });
-});
 </script>
 
 <style>

@@ -42,7 +42,7 @@ import LoginForm from "@/components/body/LoginForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
-// import usePlace from "@/components/states/usePlace";
+import usePlace from "@/components/states/usePlace";
 import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
@@ -50,11 +50,20 @@ const apiKey = process.env.VUE_APP_MAP_KEY;
 const { isMobile, activeSideTab, isLoginFormOpen, isMapFetchLoading } = uiState;
 
 const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
-// const { fetchPlaces } = usePlace();
+const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
 
 const closeIcon = require("@/assets/icons/close.svg");
 const addIcon = require("@/assets/icons/add.svg");
+
+watch(
+  () => mapRef.value?.ready,
+  (ready) => {
+    if (ready) {
+      fetchPlaces();
+    }
+  }
+);
 
 const isNewPlaceFormOpen = computed(
   () => activeSideTab.value === COMPONENT_NAMES.NEW_PLACE_FORM
@@ -74,8 +83,6 @@ const screenControl = {
   zoomControl: false,
   mapTypeControlOptions: { position: 7 },
 };
-
-// onMounted(async () => await fetchPlaces());
 
 function clickNewPlaceBtn() {
   if (isNewPlaceFormOpen.value) {
