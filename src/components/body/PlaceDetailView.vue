@@ -113,6 +113,7 @@ function handleFavorite() {
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 15px;
+  cursor: pointer;
 }
 
 .info-image.mobile {

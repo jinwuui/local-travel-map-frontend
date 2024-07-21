@@ -6,6 +6,8 @@
       :api-key="apiKey"
       :center="mapCenter"
       :zoom="mapZoom"
+      :minZoom="minZoom"
+      :restriction="restriction"
       draggableCursor="default"
       mapTypeId="terrain"
       :styles="styles"
@@ -32,7 +34,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
-import { watch, computed } from "vue";
+import { watch, computed, onBeforeMount } from "vue";
 import { GoogleMap } from "vue3-google-map";
 
 import LoadingDots from "@/components/LoadingDots.vue";
@@ -49,12 +51,25 @@ const apiKey = process.env.VUE_APP_MAP_KEY;
 
 const { isMobile, activeSideTab, isLoginFormOpen, isMapFetchLoading } = uiState;
 
-const { mapRef, mapCenter, mapZoom, getCenterOutsideSidetab } = useMap();
+const {
+  mapRef,
+  mapCenter,
+  mapZoom,
+  minZoom,
+  setMinZoom,
+  getCenterOutsideSidetab,
+} = useMap();
 const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
 
 const closeIcon = require("@/assets/icons/close.svg");
 const addIcon = require("@/assets/icons/add.svg");
+
+onBeforeMount(() => {
+  const longerLength =
+    window.devicePixelRatio * Math.max(window.innerWidth, window.innerHeight);
+  setMinZoom(Math.min(Math.floor(longerLength / 1200) + 1, 5));
+});
 
 watch(
   () => mapRef.value?.ready,
@@ -76,6 +91,15 @@ const newPlaceBtnText = computed(() =>
 const newPlaceBtnIcon = computed(() =>
   isNewPlaceFormOpen.value ? closeIcon : addIcon
 );
+
+const restriction = {
+  latLngBounds: {
+    north: 85,
+    south: -85,
+    west: -180,
+    east: 180,
+  },
+};
 
 const screenControl = {
   fullscreenControl: false,
