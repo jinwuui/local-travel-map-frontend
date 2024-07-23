@@ -1,5 +1,13 @@
 <template>
   <div class="announcement-view">
+    <div class="announcement-view-header">
+      <img
+        class="close-button"
+        @click="navigateToPreviousComponent"
+        :src="close_icon"
+        alt="X"
+      />
+    </div>
     <ul v-if="announcements" class="announcement-list">
       <li
         v-for="(announcement, index) in announcements"
@@ -17,10 +25,14 @@
 </template>
 
 <script setup>
-import useNavBar from "@/components/body/states/useNavBar";
 import { onBeforeMount } from "vue";
+import uiState from "@/components/states/uiState";
+import useNavBar from "@/components/body/states/useNavBar";
 
+const { navigateToPreviousComponent } = uiState;
 const { announcements, fetchAnnouncements } = useNavBar();
+
+const close_icon = require("@/assets/pixels/close.png");
 
 onBeforeMount(async () => await fetchAnnouncements());
 </script>
@@ -75,5 +87,17 @@ onBeforeMount(async () => await fetchAnnouncements());
   margin-top: 1em;
   margin-left: 0;
   text-shadow: 2.5px 2.5px 0 #111111;
+}
+
+.announcement-view-header {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1.5px solid white;
+}
+
+.close-button {
+  padding: 8px;
+  width: 25px;
+  cursor: pointer;
 }
 </style>
