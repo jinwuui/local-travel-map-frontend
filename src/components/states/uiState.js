@@ -50,6 +50,12 @@ function toggleSideTabLoading() {
 
 function navigateToComponent(componentName) {
   if (!state.isSideTabOpen) toggleSideTab();
+
+  const index = state.sideTabStack.indexOf(componentName);
+  if (index !== -1) {
+    state.sideTabStack.splice(index, 1);
+  }
+
   state.sideTabStack.push(componentName);
 }
 
