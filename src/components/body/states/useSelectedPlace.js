@@ -7,7 +7,7 @@ import useApp from "@/components/states/useApp";
 import PlaceDetail from "@/models/PlaceDetail";
 
 const { navigateToComponent, toggleSideTabLoading } = uiState;
-const { setMapCenter } = useMap();
+const { setMapCenter, setMapZoom } = useMap();
 const { user, loadUser } = useApp();
 
 const detailInfo = ref(null);
@@ -32,6 +32,7 @@ async function selectPlace(place) {
     });
 
     setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+    setMapZoom(8);
     if (detailInfo.value) {
       detailInfo.value.scrollTop = 0;
     }
@@ -53,6 +54,7 @@ async function selectPlaceById(placeId) {
     selectedPlace.value = PlaceDetail.fromJson(fetched.place);
 
     setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
+    setMapZoom(8);
     if (detailInfo.value) {
       detailInfo.value.scrollTop = 0;
     }

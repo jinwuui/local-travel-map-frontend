@@ -17,10 +17,11 @@
       :scaleControl="screenControl.scaleControl"
       :zoomControl="screenControl.scaleControl"
       :map-type-control-options="screenControl.mapTypeControlOptions"
+      @click="handleClick"
     >
       <PlaceCluster />
-
       <NewPlaceMarker v-if="isNewPlaceFormOpen" />
+      <GoogleImportWindow />
     </GoogleMap>
   </div>
   <div class="new-place-btn" @click="clickNewPlaceBtn">
@@ -40,6 +41,7 @@ import { GoogleMap } from "vue3-google-map";
 import LoadingDots from "@/components/LoadingDots.vue";
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlaceMarker from "@/components/NewPlaceMarker.vue";
+import GoogleImportWindow from "@/components/GoogleImportWindow.vue";
 import LoginForm from "@/components/body/LoginForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
@@ -58,6 +60,7 @@ const {
   minZoom,
   setMinZoom,
   getCenterOutsideSidetab,
+  handleClick,
 } = useMap();
 const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
@@ -68,15 +71,20 @@ const addIcon = require("@/assets/icons/add.svg");
 onBeforeMount(() => {
   const longerLength =
     window.devicePixelRatio * Math.max(window.innerWidth, window.innerHeight);
-  setMinZoom(Math.min(Math.floor(longerLength / 1200) + 1, 5));
+  setMinZoom(Math.min(Math.floor(longerLength / 1200) + 1, 4));
 });
 
 watch(
   () => mapRef.value?.ready,
   (ready) => {
-    if (ready) {
-      fetchPlaces();
-    }
+    if (!ready) return;
+
+    mapRef.value.map.get("streetView").setOptions({
+      addressControlOptions: {
+        position: mapRef.value.api.ControlPosition.BOTTOM_CENTER,
+      },
+    });
+    fetchPlaces();
   }
 );
 
@@ -113,22 +121,9 @@ function clickNewPlaceBtn() {
     closeNewPlaceForm();
   } else {
     const { lat, lng } = getCenterOutsideSidetab();
-    openNewPlaceForm(lat, lng);
+    openNewPlaceForm({ lat: lat, lng: lng });
   }
 }
-
-watch(
-  () => mapRef.value?.ready,
-  (ready) => {
-    if (!ready) return;
-
-    mapRef.value.map.get("streetView").setOptions({
-      addressControlOptions: {
-        position: mapRef.value.api.ControlPosition.BOTTOM_CENTER,
-      },
-    });
-  }
-);
 
 const styles = [
   {

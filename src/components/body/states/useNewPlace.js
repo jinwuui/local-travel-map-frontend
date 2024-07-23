@@ -108,10 +108,13 @@ function nextStep() {
   step.value++;
 }
 
-function openNewPlaceForm(lat, lng) {
+function openNewPlaceForm({ lat, lng, name = "", description = "" } = {}) {
+  nameText.value = name;
+  descriptionText.value = description;
+
   newPlace.value = new NewPlace({
-    lat: lat,
-    lng: lng,
+    lat,
+    lng,
   });
 
   navigateToComponent(COMPONENT_NAMES.NEW_PLACE_FORM);
