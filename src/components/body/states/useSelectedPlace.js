@@ -12,7 +12,8 @@ const { user, loadUser } = useApp();
 
 const detailInfo = ref(null);
 const selectedPlace = ref(null);
-const imageSlider = reactive({ imageList: [], isOpen: false });
+
+const imageSlider = reactive({ imageList: [], index: 0, isOpen: false });
 
 async function selectPlace(place) {
   try {
@@ -92,6 +93,7 @@ function openSlider() {
 
 function closeSlider() {
   imageSlider.isOpen = false;
+  imageSlider.index = 0;
 }
 
 export default function useSelectedPlace() {

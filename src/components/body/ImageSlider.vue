@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { imageSlider, closeSlider } = useSelectedPlace();
@@ -47,20 +47,18 @@ const close_icon = require("@/assets/pixels/close.png");
 const prev_icon = require("@/assets/pixels/image_slider_prev.png");
 const next_icon = require("@/assets/pixels/image_slider_next.png");
 
-const currentIndex = ref(0);
-
 const nextImage = () => {
-  currentIndex.value = (currentIndex.value + 1) % imageSlider.imageList.length;
+  imageSlider.index = (imageSlider.index + 1) % imageSlider.imageList.length;
 };
 
 const prevImage = () => {
-  currentIndex.value =
-    (currentIndex.value - 1 + imageSlider.imageList.length) %
+  imageSlider.index =
+    (imageSlider.index - 1 + imageSlider.imageList.length) %
     imageSlider.imageList.length;
 };
 
 const currentImage = computed(() => {
-  const image = imageSlider.imageList[currentIndex.value];
+  const image = imageSlider.imageList[imageSlider.index];
 
   const srcset = [
     `${image.resizedPhotoUrl_s} 640w`,
