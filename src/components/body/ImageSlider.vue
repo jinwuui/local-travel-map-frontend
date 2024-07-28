@@ -4,24 +4,36 @@
     class="slider-overlay"
     @click.self="closeSlider"
   >
+    <div class="move-button">
+      <img
+        class="prev-button"
+        :class="{ inactive: imageSlider.imageList.length <= 1 }"
+        @click="prevImage"
+        :src="prev_icon"
+        alt="&lt;"
+      />
+    </div>
     <div class="slider-container" @click.self="closeSlider">
-      <img class="slider-image" :src="currentImage" />
+      <img
+        class="slider-image"
+        :src="currentImage.src"
+        :srcset="currentImage.srcset"
+        :sizes="currentImage.sizes"
+        loading="lazy"
+        decoding="async"
+        alt="Image description"
+      />
     </div>
     <img class="close-button" @click="closeSlider" :src="close_icon" alt="X" />
-    <img
-      class="prev-button"
-      :class="{ inactive: imageSlider.imageList.length <= 1 }"
-      @click="prevImage"
-      :src="prev_icon"
-      alt="&lt;"
-    />
-    <img
-      class="next-button"
-      :class="{ inactive: imageSlider.imageList.length <= 1 }"
-      @click="nextImage"
-      :src="next_icon"
-      alt="&gt;"
-    />
+    <div class="move-button">
+      <img
+        class="next-button"
+        :class="{ inactive: imageSlider.imageList.length <= 1 }"
+        @click="nextImage"
+        :src="next_icon"
+        alt="&gt;"
+      />
+    </div>
   </div>
 </template>
 
@@ -47,11 +59,26 @@ const prevImage = () => {
     imageSlider.imageList.length;
 };
 
-const currentImage = computed(
-  () =>
-    process.env.VUE_APP_ORIGIN_IMAGE_URL +
-    imageSlider.imageList[currentIndex.value].filename
-);
+const currentImage = computed(() => {
+  const image = imageSlider.imageList[currentIndex.value];
+
+  const srcset = [
+    `${image.resizedPhotoUrl_s} 640w`,
+    `${image.resizedPhotoUrl_m} 1280w`,
+    `${image.resizedPhotoUrl_l} 1920w`,
+  ].join(", ");
+
+  const sizes =
+    "(max-width: 768px) 85vw, \
+  (max-width: 1440px) 90vw, \
+  1920px";
+
+  return {
+    src: image.resizedPhotoUrl_m,
+    srcset,
+    sizes,
+  };
+});
 </script>
 
 <style scoped>
@@ -64,7 +91,7 @@ const currentImage = computed(
   background: rgba(0, 0, 0, 0.5);
   z-index: 9999;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -73,11 +100,9 @@ const currentImage = computed(
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
-  max-width: 1200px; /* 최대 너비 설정 */
-  padding: 20px;
-  border-radius: 10px;
+  width: 100%;
 }
+
 .slider-image {
   max-width: 100%;
   max-height: 80vh;
@@ -92,35 +117,29 @@ const currentImage = computed(
   right: 20px;
 }
 
-.prev-button,
-.next-button {
-  top: 50%;
-  transform: translateY(-50%);
+.move-button {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .close-button,
 .prev-button,
 .next-button {
-  position: absolute;
-  background: transparent;
-  cursor: pointer;
   width: 50px;
   height: 50px;
+  cursor: pointer;
 }
 
-.prev-button {
-  left: 20px;
-}
-
+.prev-button,
 .next-button {
-  right: 20px;
+  cursor: pointer;
+  padding: 10px;
 }
 
-.close-button img,
-.prev-button img,
-.next-button img {
-  width: 100%;
-  height: 100%;
+.close-button {
+  position: absolute;
+  background: transparent;
 }
 
 .inactive {
@@ -128,19 +147,10 @@ const currentImage = computed(
 }
 
 @media (max-width: 768px) {
-  .close-button,
   .prev-button,
   .next-button {
     width: 40px;
     height: 40px;
-  }
-
-  .prev-button {
-    left: 10px;
-  }
-
-  .next-button {
-    right: 10px;
   }
 
   .close-button {

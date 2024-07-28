@@ -15,8 +15,16 @@
             img
             class="favorite-marker"
             :src="favoriteMarker"
+            height="50px"
+            width="50px"
           />
-          <img v-else class="default-marker" :src="defaultMarker" />
+          <img
+            v-else
+            class="default-marker"
+            :src="defaultMarker"
+            height="35px"
+            width="35px"
+          />
         </CustomMarker>
         <CustomMarker
           v-else
@@ -25,7 +33,12 @@
             anchorPoint: 'BOTTOM_CENTER',
           }"
         >
-          <img class="selected-marker" :src="selectedMarker" />
+          <img
+            class="selected-marker"
+            :src="selectedMarker"
+            height="50px"
+            width="50px"
+          />
         </CustomMarker>
       </div>
     </template>
@@ -41,9 +54,9 @@ import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 const { places, renderCluster } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();
 
-const defaultMarker = require("@/assets/pixels/default_marker.png");
-const favoriteMarker = require("@/assets/pixels/favorite_marker.png");
-const selectedMarker = require("@/assets/pixels/selected_marker.png");
+const defaultMarker = require("@/assets/pixels/default_marker.webp");
+const favoriteMarker = require("@/assets/pixels/favorite_marker.webp");
+const selectedMarker = require("@/assets/pixels/selected_marker.webp");
 
 const renderer = {
   render: ({ count, position }) =>
@@ -57,7 +70,7 @@ const renderer = {
       },
       position,
       icon: {
-        url: require("@/assets/pixels/cluster.png"),
+        url: require("@/assets/pixels/cluster.webp"),
         // eslint-disable-next-line
         scaledSize: new google.maps.Size(50, 50),
       },
@@ -70,13 +83,16 @@ const renderer = {
 <style>
 .default-marker {
   height: 35px;
+  width: auto;
 }
 
 .favorite-marker {
   height: 50px;
+  width: auto;
 }
 
 .selected-marker {
   height: 50px;
+  width: auto;
 }
 </style>

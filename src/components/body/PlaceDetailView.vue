@@ -1,8 +1,9 @@
 <template>
-  <div class="detail-info" ref="detailInfo" v-if="selectedPlace != null">
+  <div class="detail-info" ref="detailInfo" v-if="selectedPlace">
     <img
       class="info-image desktop"
-      :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
+      :class="{ 'no-image': selectedPlace.photos.length === 0 }"
+      :src="imageUrl"
       alt="Image"
       @click="openSlider"
     />
@@ -57,7 +58,8 @@
     <p>{{ selectedPlace.description }}</p>
     <img
       class="info-image mobile"
-      :src="selectedPlace ? selectedPlace.getFirstPhoto() : defaultPhoto"
+      :class="{ 'no-image': selectedPlace.photos.length === 0 }"
+      :src="imageUrl"
       alt="Image"
       @click="openSlider"
     />
@@ -67,6 +69,7 @@
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+import { computed } from "vue";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import useApp from "@/components/states/useApp";
 import uiState from "@/components/states/uiState";
@@ -82,7 +85,11 @@ const ratingActivedIcon = require("@/assets/pixels/rating_star.png");
 const ratingInactivedIcon = require("@/assets/pixels/rating_star_inactived.png");
 const favoriteIcon = require("@/assets/pixels/favorite.png");
 
-const defaultPhoto = process.env.VUE_APP_DEFAULT_IMAGE_URL;
+const imageUrl = computed(() => {
+  return selectedPlace.value.photos.length === 0
+    ? process.env.VUE_APP_DEFAULT_IMAGE_URL
+    : selectedPlace.value.photos[0].resizedPhotoUrl_t;
+});
 
 function handleFavorite() {
   // 로그인 여부 확인
@@ -122,6 +129,10 @@ function handleFavorite() {
 
 .info-image.desktop {
   display: block; /* 데스크탑 이미지를 기본적으로 표시 */
+}
+
+.no-image {
+  cursor: default;
 }
 
 .info-image + .name,

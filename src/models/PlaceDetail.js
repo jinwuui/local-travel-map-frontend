@@ -1,4 +1,5 @@
 import Place from "@/models/Place";
+import Photo from "@/models/Photo";
 
 export default class PlaceDetail extends Place {
   constructor({
@@ -23,18 +24,12 @@ export default class PlaceDetail extends Place {
     });
     this.description = description;
     this.rating = rating;
-    this.photos = photos;
+    this.photos = photos.map((photo) => new Photo(photo));
     this.country = country;
   }
 
   isValid() {
     return this.name.trim() && this.description.trim() && this.rating != 0;
-  }
-
-  getFirstPhoto() {
-    return this.photos.length > 0
-      ? process.env.VUE_APP_THUMB_IMAGE_URL + this.photos[0].filename
-      : process.env.VUE_APP_DEFAULT_IMAGE_URL;
   }
 
   static fromJson(json) {

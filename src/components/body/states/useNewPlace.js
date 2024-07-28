@@ -88,8 +88,8 @@ async function addNewPlace(imageFiles) {
 
 async function compressImageFile(imageFile) {
   const options = {
-    maxSizeMB: 1,
-    maxWidthOrHeight: 1024,
+    maxSizeMB: 5,
+    maxWidthOrHeight: 2560,
     useWebWorker: true,
   };
 

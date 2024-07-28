@@ -11,7 +11,7 @@ const { setMapCenter, setMapZoom } = useMap();
 const { user, loadUser } = useApp();
 
 const detailInfo = ref(null);
-const selectedPlace = reactive({ value: null });
+const selectedPlace = ref(null);
 const imageSlider = reactive({ imageList: [], isOpen: false });
 
 async function selectPlace(place) {
@@ -79,9 +79,17 @@ async function toggleFavoritePlace() {
 }
 
 function openSlider() {
+  if (
+    !Array.isArray(selectedPlace.value.photos) ||
+    selectedPlace.value.photos.length === 0
+  ) {
+    return;
+  }
+
+  imageSlider.isOpen = true;
   imageSlider.imageList = selectedPlace.value.photos;
-  if (imageSlider.imageList.length > 0) imageSlider.isOpen = true;
 }
+
 function closeSlider() {
   imageSlider.isOpen = false;
 }
