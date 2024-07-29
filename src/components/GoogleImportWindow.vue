@@ -7,6 +7,7 @@
         lng: googlePlace.location.longitude,
       },
       anchorPoint: 'BOTTOM_CENTER',
+      zIndex: 999,
     }"
     @click.stop
   >

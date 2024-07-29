@@ -21,13 +21,41 @@ function setMinZoom(newMinZoom) {
   minZoom.value = newMinZoom;
 }
 
-function getCenterOutsideSidetab() {
+function getCenterOfMap() {
   if (!mapRef.value) return null;
 
   const gmap = mapRef.value.map;
   const center = gmap.getCenter();
 
   return { lat: center.lat(), lng: center.lng() };
+}
+
+function getCenterWithImportWindow(placeLat, placeLng) {
+  try {
+    const map = mapRef.value?.map;
+    if (!map) throw new Error("Map is not available");
+
+    const projection = map.getProjection();
+    if (!projection) throw new Error("Projection is not available");
+
+    const centerPoint = projection.fromLatLngToPoint({
+      lat: placeLat,
+      lng: placeLng,
+    });
+    if (!centerPoint) throw new Error("Failed to convert from LatLng to Point");
+
+    const scale = Math.pow(2, map.getZoom());
+    const offset = 230 / 2 / scale;
+    const newPoint = { x: centerPoint.x, y: centerPoint.y - offset };
+
+    const newLatLng = projection.fromPointToLatLng(newPoint);
+    if (!newLatLng) throw new Error("Failed to convert from Point to LatLng");
+
+    return { lat: newLatLng.lat(), lng: newLatLng.lng() };
+  } catch (error) {
+    console.error("Error in getCenterWithImportWindow:", error);
+    return { lat: placeLat, lng: placeLng };
+  }
 }
 
 async function handleClick(event) {
@@ -39,10 +67,12 @@ async function handleClick(event) {
       isClickedGooglePlace.value = true;
       googlePlace.value = data;
 
-      setMapCenter(
+      const latLng = getCenterWithImportWindow(
         googlePlace.value.location.latitude,
         googlePlace.value.location.longitude
       );
+
+      setMapCenter(latLng.lat, latLng.lng);
     } catch (error) {
       console.error("Error in import google place", error);
       throw error;
@@ -81,7 +111,7 @@ export default function useMap() {
     minZoom: computed(() => minZoom.value),
     setMinZoom,
 
-    getCenterOutsideSidetab,
+    getCenterOfMap,
     handleClick,
     googlePlace: computed(() => googlePlace.value),
     isClickedGooglePlace: computed(() => isClickedGooglePlace.value),

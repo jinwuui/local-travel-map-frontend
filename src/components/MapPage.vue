@@ -59,7 +59,7 @@ const {
   mapZoom,
   minZoom,
   setMinZoom,
-  getCenterOutsideSidetab,
+  getCenterOfMap,
   handleClick,
 } = useMap();
 const { fetchPlaces } = usePlace();
@@ -120,7 +120,7 @@ function clickNewPlaceBtn() {
   if (isNewPlaceFormOpen.value) {
     closeNewPlaceForm();
   } else {
-    const { lat, lng } = getCenterOutsideSidetab();
+    const { lat, lng } = getCenterOfMap();
     openNewPlaceForm({ lat: lat, lng: lng });
   }
 }
