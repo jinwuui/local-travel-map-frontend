@@ -45,7 +45,7 @@ function getCenterWithImportWindow(placeLat, placeLng) {
     if (!centerPoint) throw new Error("Failed to convert from LatLng to Point");
 
     const scale = Math.pow(2, map.getZoom());
-    const offset = 230 / 2 / scale;
+    const offset = 300 / 2 / scale;
     const newPoint = { x: centerPoint.x, y: centerPoint.y - offset };
 
     const newLatLng = projection.fromPointToLatLng(newPoint);
