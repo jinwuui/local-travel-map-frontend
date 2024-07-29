@@ -6,6 +6,8 @@
 
 [日本語](#ローーカルxyz)
 
+[사이트 UI（サイト UI）](#사이트-UI)
+
 ---
 
 # Service Structure
@@ -148,3 +150,18 @@ Google Map API / Nginx / Jenkins
   - **前**: 原本全体 24MB、サムネイル全体 3.3MB
   - **後**: medium サイズ全体 2.2MB、サムネイル全体 483KB
   - **改善効果**: 詳細イメージサイズ約11倍減少、サムネイルサイズ約7倍減少
+
+
+---
+
+
+# 사이트 UI
+
+<img width="500" alt="Screenshot 2024-07-29 at 2 18 03 PM" src="https://github.com/user-attachments/assets/c29c80a1-8bd7-4787-9883-e18d8c5e6f72">
+<img width="500" alt="Screenshot 2024-07-29 at 2 17 36 PM" src="https://github.com/user-attachments/assets/3deccbfa-610b-4e0e-bbae-468c4d5d3811">
+<img width="500" alt="Screenshot 2024-07-29 at 2 16 57 PM" src="https://github.com/user-attachments/assets/24399ff4-f95b-4a5b-92d3-21e0218fb898">
+<img width="500" alt="Screenshot 2024-07-29 at 2 16 37 PM" src="https://github.com/user-attachments/assets/aee17791-411a-4dac-8bd8-6ecdaa7ae8b0">
+<img width="500" alt="Screenshot 2024-07-29 at 2 15 50 PM" src="https://github.com/user-attachments/assets/702f4602-f793-4232-8501-52f5d24bbb92">
+<img width="500" alt="Screenshot 2024-07-29 at 2 15 50 PM" src="https://github.com/user-attachments/assets/192f0d64-a251-4f62-a43b-5b8f8de6a926">
+
+
