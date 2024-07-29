@@ -15,13 +15,15 @@
         <div class="photos">
           <img
             v-for="(photo, photoIndex) in place.photos"
-            :src="imageSrc(photo.filename)"
+            :src="getResizedPhotoUrl(photo.filename, 's')"
             :key="photoIndex"
             class="photo"
             :class="{
               first: photoIndex === 0,
               last: photoIndex === place.photos.length - 1,
             }"
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </li>
@@ -59,8 +61,17 @@ onMounted(
     )
 );
 
-function imageSrc(filename) {
-  return process.env.VUE_APP_ORIGIN_IMAGE_URL + filename;
+function getResizedPhotoUrl(filename, type) {
+  const baseUrl = process.env.VUE_APP_RESIZED_IMAGE_URL;
+  const resizedFilename = convertToWebp(filename, type);
+
+  return `${baseUrl}${type}/${resizedFilename}`;
+}
+
+function convertToWebp(filename, type) {
+  const extensionIndex = filename.lastIndexOf(".");
+  const basename = filename.substring(0, extensionIndex);
+  return `${basename}-${type}.webp`;
 }
 </script>
 
