@@ -8,10 +8,10 @@
         @mousedown="selectPlaceById(place.placeId)"
       >
         <div class="header">
-          <h1 class="name">{{ place.name }}</h1>
+          <h2 class="name">{{ place.name }}</h2>
           <h5 class="country">{{ place.country }}</h5>
         </div>
-        <h2 class="description">{{ place.description }}</h2>
+        <h3 class="description">{{ place.description }}</h3>
         <div class="photos">
           <img
             v-for="(photo, photoIndex) in place.photos"
@@ -114,6 +114,7 @@ function imageSrc(filename) {
 .description {
   margin-top: 1em;
   text-shadow: 2.5px 2.5px 0 #111111;
+  line-height: 1.2;
 }
 
 .favorite-list li:hover {
