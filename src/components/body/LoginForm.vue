@@ -19,7 +19,7 @@
             <input
               ref="firstInput"
               type="text"
-              :placeholder="t('login.이름')"
+              :placeholder="t('login.이메일')"
               :class="{ 'input-error': !usernameText && isInvalidInput }"
               v-bind:value="usernameText"
               @input="setUsername"
