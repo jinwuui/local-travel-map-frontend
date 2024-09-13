@@ -1,16 +1,9 @@
-import axios from "axios";
+import { apiClient, multipartClient } from "./axiosClient";
 
 export default class PlaceAPIService {
   constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: process.env.VUE_APP_BASE_URL + "/places",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    this.multipartInstance = axios.create({
-      baseURL: process.env.VUE_APP_BASE_URL + "/places",
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    this.axiosInstance = apiClient;
+    this.multipartInstance = multipartClient;
   }
 
   async _axiosCall(config) {
@@ -34,7 +27,9 @@ export default class PlaceAPIService {
   }
 
   async addPlace(placeFormData) {
+    console.log("addPlace", placeFormData);
     return this._axiosMultipartCall({
+      url: "/places",
       method: "post",
       data: placeFormData,
     });
