@@ -28,7 +28,7 @@
     <img v-if="isMobile" :src="newPlaceBtnIcon" />
     <p v-else>{{ newPlaceBtnText }}</p>
   </div>
-  <LoginForm v-if="isLoginFormOpen" />
+  <AuthForm v-if="isAuthFormOpen" />
   <LoadingDots v-if="isMapFetchLoading" />
 </template>
 
@@ -42,7 +42,7 @@ import LoadingDots from "@/components/LoadingDots.vue";
 import PlaceCluster from "@/components/PlaceCluster.vue";
 import NewPlaceMarker from "@/components/NewPlaceMarker.vue";
 import GoogleImportWindow from "@/components/GoogleImportWindow.vue";
-import LoginForm from "@/components/body/LoginForm.vue";
+import AuthForm from "@/components/body/AuthForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
@@ -51,7 +51,7 @@ import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMobile, activeSideTab, isLoginFormOpen, isMapFetchLoading } = uiState;
+const { isMobile, activeSideTab, isAuthFormOpen, isMapFetchLoading } = uiState;
 
 const {
   mapRef,

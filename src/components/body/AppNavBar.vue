@@ -41,7 +41,7 @@ const { t } = useI18n();
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
 
-const { navigateToComponent, toggleLoginForm, activeSideTab } = uiState;
+const { navigateToComponent, toggleAuthForm, activeSideTab } = uiState;
 const { loadUser, removeUser } = useApp();
 
 const reloadPage = () => {
@@ -52,7 +52,7 @@ function handleFavorite() {
   if (loadUser()) {
     navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW);
   } else {
-    toggleLoginForm(() => navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW));
+    toggleAuthForm(() => navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW));
   }
 }
 
@@ -61,7 +61,7 @@ function handleLogin() {
     removeUser();
     reloadPage();
   } else {
-    toggleLoginForm(() => reloadPage());
+    toggleAuthForm(() => reloadPage());
   }
 }
 </script>

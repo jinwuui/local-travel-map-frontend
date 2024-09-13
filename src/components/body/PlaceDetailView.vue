@@ -75,7 +75,7 @@ import useApp from "@/components/states/useApp";
 import uiState from "@/components/states/uiState";
 import { debounceLeading } from "@/utils/commonUtils";
 
-const { toggleLoginForm } = uiState;
+const { toggleAuthForm } = uiState;
 const { detailInfo, selectedPlace, openSlider, toggleFavoritePlace } =
   useSelectedPlace();
 const { loadUser } = useApp();
@@ -98,7 +98,7 @@ function handleFavorite() {
     debounceToggleFavoritePlace();
   } else {
     // 로그인 X -> 로그인폼 열기
-    toggleLoginForm(() => debounceToggleFavoritePlace());
+    toggleAuthForm(() => debounceToggleFavoritePlace());
   }
 }
 </script>

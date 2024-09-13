@@ -1,13 +1,15 @@
 <template>
   <div class="background">
-    <div class="login">
-      <div class="login-header">
+    <div class="auth-form">
+      <div class="auth-header">
         <div class="form-title">
-          <div class="form-title-text">{{ t("navbar.로그인") }}</div>
+          <div class="form-title-text">
+            {{ isLogin ? t("navbar.로그인") : t("navbar.회원가입") }}
+          </div>
         </div>
         <img
           class="close-button"
-          @click="toggleLoginForm"
+          @click="toggleAuthForm"
           :src="close_icon"
           alt="X"
         />
@@ -19,23 +21,37 @@
             <input
               ref="firstInput"
               type="text"
-              :placeholder="t('login.이메일')"
-              :class="{ 'input-error': !usernameText && isInvalidInput }"
-              v-bind:value="usernameText"
-              @input="setUsername"
+              :placeholder="t('auth.이메일')"
+              :class="{ 'input-error': !email && isInvalidInput }"
+              v-bind:value="emailText"
+              @input="setEmail"
+            />
+            <input
+              v-if="!isLogin"
+              type="text"
+              :placeholder="t('auth.닉네임')"
+              :class="{ 'input-error': !nickname && isInvalidInput }"
+              v-bind:value="nicknameText"
+              @input="setNickname"
             />
             <input
               type="password"
-              :placeholder="t('login.비밀번호')"
-              :class="{ 'input-error': !passwordText && isInvalidInput }"
+              :placeholder="t('auth.비밀번호')"
+              :class="{ 'input-error': !password && isInvalidInput }"
               v-bind:value="passwordText"
               @input="setPassword"
             />
           </div>
           <div class="form-button">
-            <button @click="handleLogin">{{ t("navbar.로그인") }}</button>
-            <div class="signup-notice">
-              {{ t("login.계정이 없으신가요? 로그인 시 자동으로 생성됩니다") }}
+            <button @click="handleSubmit">
+              {{ isLogin ? t("navbar.로그인") : t("navbar.회원가입") }}
+            </button>
+            <div class="toggle-auth" @click="toggleAuthMode">
+              {{
+                isLogin
+                  ? t("auth.계정이 없으신가요? 회원가입")
+                  : t("auth.이미 계정이 있으신가요? 로그인")
+              }}
             </div>
           </div>
         </div>
@@ -49,31 +65,61 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 import { useToast, POSITION } from "vue-toastification";
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import useLogin from "@/components/body/states/useLogin";
+import useAuth from "@/components/body/states/useAuth";
 import uiState from "@/components/states/uiState";
 
 const toast = useToast();
 
-const { usernameText, passwordText, setUsername, setPassword, login } =
-  useLogin();
-const { toggleLoginForm } = uiState;
+const {
+  emailText,
+  passwordText,
+  nicknameText,
+  setEmail,
+  setPassword,
+  setNickname,
+  resetForm,
+  login,
+  signUp,
+} = useAuth();
+const { toggleAuthForm } = uiState;
 
 const close_icon = require("@/assets/pixels/close.png");
 const firstInput = ref(null);
 const isInvalidInput = ref(false);
+const isLogin = ref(true);
 
-function handleLogin() {
+function handleSubmit() {
   isInvalidInput.value = true;
 
-  if (usernameText.value && passwordText.value) {
-    login().catch(() =>
-      toast.error(t("toast.로그인 실패!"), {
-        position: POSITION.TOP_CENTER,
-        timeout: 2000,
+  if (isLogin.value) {
+    login()
+      .then(() => {
+        isInvalidInput.value = false;
       })
-    );
-    isInvalidInput.value = false;
+      .catch(() =>
+        toast.error(t("toast.로그인 실패!"), {
+          position: POSITION.TOP_CENTER,
+          timeout: 2000,
+        })
+      );
+  } else {
+    signUp()
+      .then(() => {
+        isInvalidInput.value = false;
+      })
+      .catch(() =>
+        toast.error(t("toast.회원가입 실패!"), {
+          position: POSITION.TOP_CENTER,
+          timeout: 2000,
+        })
+      );
   }
+}
+
+function toggleAuthMode() {
+  isLogin.value = !isLogin.value;
+  resetForm();
+  isInvalidInput.value = false;
 }
 
 onMounted(() => {
@@ -103,14 +149,14 @@ button {
   font-size: 1.5em;
 }
 
-.login {
+.auth-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.login-header {
+.auth-header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -188,11 +234,16 @@ button {
   margin-top: 30px;
 }
 
-.signup-notice {
+.toggle-auth {
   font-size: 0.75em;
   position: relative;
   padding-bottom: 2px;
   border-bottom: 0.1em solid white;
+  cursor: pointer;
+}
+
+.toggle-auth:hover {
+  opacity: 0.8;
 }
 
 .input-error {
