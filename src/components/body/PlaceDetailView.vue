@@ -2,7 +2,7 @@
   <div class="detail-info" ref="detailInfo" v-if="selectedPlace">
     <img
       class="info-image desktop"
-      :class="{ 'no-image': selectedPlace.photos.length === 0 }"
+      :class="{ 'no-image': selectedPlace.images.length === 0 }"
       :src="imageUrl"
       alt="Image"
       @click="openSlider"
@@ -58,7 +58,7 @@
     <p>{{ selectedPlace.description }}</p>
     <img
       class="info-image mobile"
-      :class="{ 'no-image': selectedPlace.photos.length === 0 }"
+      :class="{ 'no-image': selectedPlace.images.length === 0 }"
       :src="imageUrl"
       alt="Image"
       @click="openSlider"
@@ -86,9 +86,9 @@ const ratingInactivedIcon = require("@/assets/pixels/rating_star_inactived.png")
 const favoriteIcon = require("@/assets/pixels/favorite.png");
 
 const imageUrl = computed(() => {
-  return selectedPlace.value.photos.length === 0
+  return selectedPlace.value.images.length === 0
     ? process.env.VUE_APP_DEFAULT_IMAGE_URL
-    : selectedPlace.value.photos[0].resizedPhotoUrl_t;
+    : selectedPlace.value.images[0].resizedImageUrl_t;
 });
 
 function handleFavorite() {

@@ -61,9 +61,9 @@ const currentImage = computed(() => {
   const image = imageSlider.imageList[imageSlider.index];
 
   const srcset = [
-    `${image.resizedPhotoUrl_s} 640w`,
-    `${image.resizedPhotoUrl_m} 1280w`,
-    `${image.resizedPhotoUrl_l} 1920w`,
+    `${image.resizedImageUrl_s} 640w`,
+    `${image.resizedImageUrl_m} 1280w`,
+    `${image.resizedImageUrl_l} 1920w`,
   ].join(", ");
 
   const sizes =
@@ -72,7 +72,7 @@ const currentImage = computed(() => {
   1920px";
 
   return {
-    src: image.resizedPhotoUrl_m,
+    src: image.resizedImageUrl_m,
     srcset,
     sizes,
   };

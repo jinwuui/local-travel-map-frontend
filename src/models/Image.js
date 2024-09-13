@@ -1,16 +1,16 @@
-export default class Photo {
-  constructor({ photoId, filename, order }) {
-    this.photoId = photoId;
+export default class Image {
+  constructor({ imageId, filename, order }) {
+    this.imageId = imageId;
     this.filename = filename;
     this.order = order;
 
-    this.resizedPhotoUrl_t = this.getResizedPhotoUrl("t");
-    this.resizedPhotoUrl_s = this.getResizedPhotoUrl("s");
-    this.resizedPhotoUrl_m = this.getResizedPhotoUrl("m");
-    this.resizedPhotoUrl_l = this.getResizedPhotoUrl("l");
+    this.resizedImageUrl_t = this.getResizedImageUrl("t");
+    this.resizedImageUrl_s = this.getResizedImageUrl("s");
+    this.resizedImageUrl_m = this.getResizedImageUrl("m");
+    this.resizedImageUrl_l = this.getResizedImageUrl("l");
   }
 
-  getResizedPhotoUrl(type) {
+  getResizedImageUrl(type) {
     const baseUrl = process.env.VUE_APP_RESIZED_IMAGE_URL;
     const resizedFilename = this.convertToWebp(type);
 

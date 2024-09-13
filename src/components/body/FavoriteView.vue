@@ -12,15 +12,15 @@
           <h5 class="country">{{ place.country }}</h5>
         </div>
         <h3 class="description">{{ place.description }}</h3>
-        <div class="photos">
+        <div class="images">
           <img
-            v-for="(photo, photoIndex) in place.photos"
-            :src="getResizedPhotoUrl(photo.filename, 's')"
-            :key="photoIndex"
-            class="photo"
+            v-for="(image, imageIndex) in place.images"
+            :src="getResizedImageUrl(image.filename, 's')"
+            :key="imageIndex"
+            class="image"
             :class="{
-              first: photoIndex === 0,
-              last: photoIndex === place.photos.length - 1,
+              first: imageIndex === 0,
+              last: imageIndex === place.images.length - 1,
             }"
             loading="lazy"
             decoding="async"
@@ -61,7 +61,7 @@ onMounted(
     )
 );
 
-function getResizedPhotoUrl(filename, type) {
+function getResizedImageUrl(filename, type) {
   const baseUrl = process.env.VUE_APP_RESIZED_IMAGE_URL;
   const resizedFilename = convertToWebp(filename, type);
 
@@ -148,12 +148,12 @@ function convertToWebp(filename, type) {
   border-radius: 6px;
 }
 
-.photos {
+.images {
   display: flex;
   width: 100%;
   gap: 3px;
 }
-.photo {
+.image {
   display: block;
   width: calc(100% / 3 - 6px);
   height: 111px;

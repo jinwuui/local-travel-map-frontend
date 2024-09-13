@@ -7,7 +7,7 @@ export default class NewPlace {
 
     rating = 0,
     categories = [],
-    photos = [],
+    images = [],
   }) {
     this.lat = lat;
     this.lng = lng;
@@ -16,7 +16,7 @@ export default class NewPlace {
 
     this.rating = rating;
     this.categories = categories;
-    this.photos = photos;
+    this.images = images;
   }
 
   isValid() {

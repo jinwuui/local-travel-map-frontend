@@ -28,7 +28,7 @@ async function selectPlace(place) {
       place: place,
       description: fetched.placeDetails?.description || "기본 설명",
       rating: fetched.placeDetails?.rating || 0,
-      photos: fetched.placeDetails?.photos,
+      images: fetched.placeDetails?.images,
       country: fetched.placeDetails?.country,
     });
 
@@ -81,14 +81,14 @@ async function toggleFavoritePlace() {
 
 function openSlider() {
   if (
-    !Array.isArray(selectedPlace.value.photos) ||
-    selectedPlace.value.photos.length === 0
+    !Array.isArray(selectedPlace.value.images) ||
+    selectedPlace.value.images.length === 0
   ) {
     return;
   }
 
   imageSlider.isOpen = true;
-  imageSlider.imageList = selectedPlace.value.photos;
+  imageSlider.imageList = selectedPlace.value.images;
 }
 
 function closeSlider() {

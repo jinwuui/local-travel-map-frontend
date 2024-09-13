@@ -77,7 +77,7 @@
         <div
           v-for="(url, index) in imageUrls"
           :key="index"
-          class="preview-container photos"
+          class="preview-container images"
         >
           <img
             class="remove-badge"
@@ -85,7 +85,7 @@
             :src="removeBadgeIcon"
             alt="Remove Image"
           />
-          <img class="photo" :src="url" alt="Image preview" />
+          <img class="image" :src="url" alt="Image preview" />
         </div>
       </div>
     </div>
@@ -329,10 +329,10 @@ textarea {
   color: red;
 }
 
-.photos {
+.images {
   padding-bottom: 10px;
 }
-.photos .photo {
+.images .image {
   border-radius: 5px;
   border: 2px solid rgb(112, 213, 247);
   height: 100%;

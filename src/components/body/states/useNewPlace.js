@@ -63,7 +63,7 @@ async function addNewPlace(imageFiles) {
         );
 
         compressedImageFiles?.forEach((file) => {
-          formData.append("photos", file);
+          formData.append("images", file);
         });
       }
 

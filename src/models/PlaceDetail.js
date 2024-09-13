@@ -1,5 +1,5 @@
 import Place from "@/models/Place";
-import Photo from "@/models/Photo";
+import Image from "@/models/Image";
 
 export default class PlaceDetail extends Place {
   constructor({
@@ -11,7 +11,7 @@ export default class PlaceDetail extends Place {
     isFavorite,
     description = "",
     rating = 0,
-    photos = [],
+    images = [],
     country,
   }) {
     super({
@@ -24,7 +24,7 @@ export default class PlaceDetail extends Place {
     });
     this.description = description;
     this.rating = rating;
-    this.photos = photos.map((photo) => new Photo(photo));
+    this.images = images.map((image) => new Image(image));
     this.country = country;
   }
 
@@ -36,12 +36,12 @@ export default class PlaceDetail extends Place {
     return new PlaceDetail({ ...json });
   }
 
-  static fromPlace({ place, description, rating, photos, country }) {
+  static fromPlace({ place, description, rating, images, country }) {
     return new PlaceDetail({
       ...place,
       description,
       rating,
-      photos,
+      images,
       country,
     });
   }
