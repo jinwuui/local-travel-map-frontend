@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export default class UserAPIService {
+export default class AuthAPIService {
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: process.env.VUE_APP_BASE_URL + "/users",
+      baseURL: process.env.VUE_APP_BASE_URL + "/auth",
       headers: { "Content-Type": "application/json" },
     });
   }
@@ -18,16 +18,21 @@ export default class UserAPIService {
       throw error;
     }
   }
-
-  async toggleFavoritePlace(userId, placeId) {
-    if (!userId) return;
-
+  async signUp(signUpInfo) {
     return this._axiosCall({
       method: "post",
-      headers: { Authorization: `Bearer ${userId}` },
-      url: `/favorites/${placeId}`,
+      url: "/signup",
+      data: signUpInfo,
+    });
+  }
+
+  async login(loginInfo) {
+    return this._axiosCall({
+      method: "post",
+      url: "/login",
+      data: loginInfo,
     });
   }
 }
 
-export const userAPI = new UserAPIService();
+export const authAPI = new AuthAPIService();

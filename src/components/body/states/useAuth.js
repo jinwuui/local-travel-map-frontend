@@ -1,6 +1,6 @@
 import { reactive, computed } from "vue";
 
-import { userAPI } from "@/services/user.api";
+import { authAPI } from "@/services/auth.api";
 
 import uiState from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
@@ -33,16 +33,26 @@ function resetForm() {
 }
 
 async function login() {
-  await userAPI
+  if (!state.email || !state.password) {
+    throw new Error("이메일 비밀번호를 입력해주세요.");
+  }
+
+  await authAPI
     .login({ email: state.email, password: state.password })
     .then((data) => {
-      setUser(data.user);
+      setUser(data);
       toggleAuthForm();
       executeLoginNextAction();
     });
 }
 
-async function signUp() {}
+async function signUp() {
+  if (!state.email || !state.nickname || !state.password) {
+    throw new Error("모든 정보를 입력해주세요.");
+  }
+
+  await authAPI.signUp({ ...state });
+}
 
 export default function useAuth() {
   return {

@@ -22,7 +22,7 @@
               ref="firstInput"
               type="text"
               :placeholder="t('auth.이메일')"
-              :class="{ 'input-error': !email && isInvalidInput }"
+              :class="{ 'input-error': !emailText && isInvalidInput }"
               v-bind:value="emailText"
               @input="setEmail"
             />
@@ -30,14 +30,14 @@
               v-if="!isLogin"
               type="text"
               :placeholder="t('auth.닉네임')"
-              :class="{ 'input-error': !nickname && isInvalidInput }"
+              :class="{ 'input-error': !nicknameText && isInvalidInput }"
               v-bind:value="nicknameText"
               @input="setNickname"
             />
             <input
               type="password"
               :placeholder="t('auth.비밀번호')"
-              :class="{ 'input-error': !password && isInvalidInput }"
+              :class="{ 'input-error': !passwordText && isInvalidInput }"
               v-bind:value="passwordText"
               @input="setPassword"
             />
@@ -94,25 +94,33 @@ function handleSubmit() {
   if (isLogin.value) {
     login()
       .then(() => {
+        toast.success(t("toast.로그인 성공"), {
+          position: POSITION.TOP_CENTER,
+          timeout: 1500,
+        });
         isInvalidInput.value = false;
       })
-      .catch(() =>
+      .catch(() => {
         toast.error(t("toast.로그인 실패!"), {
           position: POSITION.TOP_CENTER,
-          timeout: 2000,
-        })
-      );
+          timeout: 1500,
+        });
+      });
   } else {
     signUp()
       .then(() => {
+        toast.success(t("toast.회원가입 완료"), {
+          position: POSITION.TOP_CENTER,
+          timeout: 1500,
+        });
         isInvalidInput.value = false;
       })
-      .catch(() =>
+      .catch(() => {
         toast.error(t("toast.회원가입 실패!"), {
           position: POSITION.TOP_CENTER,
-          timeout: 2000,
-        })
-      );
+          timeout: 1500,
+        });
+      });
   }
 }
 
