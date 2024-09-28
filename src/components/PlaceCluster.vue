@@ -11,10 +11,10 @@
           }"
         >
           <img
-            v-if="place.isFavorite"
+            v-if="place.isBookmarked"
             img
-            class="favorite-marker"
-            :src="favoriteMarker"
+            class="bookmark-marker"
+            :src="bookmarkMarker"
             height="50px"
             width="50px"
           />
@@ -55,7 +55,7 @@ const { places, renderCluster } = usePlace();
 const { selectedPlace, selectPlace } = useSelectedPlace();
 
 const defaultMarker = require("@/assets/pixels/default_marker.webp");
-const favoriteMarker = require("@/assets/pixels/favorite_marker.webp");
+const bookmarkMarker = require("@/assets/pixels/bookmark_marker.webp");
 const selectedMarker = require("@/assets/pixels/selected_marker.webp");
 
 const renderer = {
@@ -86,7 +86,7 @@ const renderer = {
   width: auto;
 }
 
-.favorite-marker {
+.bookmark-marker {
   height: 50px;
   width: auto;
 }

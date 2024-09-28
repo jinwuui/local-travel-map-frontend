@@ -19,13 +19,13 @@ export default class UserAPIService {
     }
   }
 
-  async toggleFavoritePlace(userId, placeId) {
+  async toggleBookmarkPlace(userId, placeId) {
     if (!userId) return;
 
     return this._axiosCall({
       method: "post",
       headers: { Authorization: `Bearer ${userId}` },
-      url: `/favorites/${placeId}`,
+      url: `/bookmarks/${placeId}`,
     });
   }
 }

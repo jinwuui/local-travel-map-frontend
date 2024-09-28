@@ -45,13 +45,20 @@ import GoogleImportWindow from "@/components/GoogleImportWindow.vue";
 import AuthForm from "@/components/body/AuthForm.vue";
 
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
+import useApp from "@/components/states/useApp";
 import useMap from "@/components/states/useMap";
 import usePlace from "@/components/states/usePlace";
 import useNewPlace from "@/components/body/states/useNewPlace";
 
 const apiKey = process.env.VUE_APP_MAP_KEY;
 
-const { isMobile, activeSideTab, isAuthFormOpen, isMapFetchLoading } = uiState;
+const {
+  isMobile,
+  activeSideTab,
+  isAuthFormOpen,
+  isMapFetchLoading,
+  toggleAuthForm,
+} = uiState;
 
 const {
   mapRef,
@@ -62,6 +69,7 @@ const {
   getCenterOfMap,
   handleClick,
 } = useMap();
+const { loadUser } = useApp();
 const { fetchPlaces } = usePlace();
 const { openNewPlaceForm, closeNewPlaceForm } = useNewPlace();
 
@@ -117,11 +125,18 @@ const screenControl = {
 };
 
 function clickNewPlaceBtn() {
-  if (isNewPlaceFormOpen.value) {
-    closeNewPlaceForm();
+  if (loadUser()) {
+    if (isNewPlaceFormOpen.value) {
+      closeNewPlaceForm();
+    } else {
+      const { lat, lng } = getCenterOfMap();
+      openNewPlaceForm({ lat: lat, lng: lng });
+    }
   } else {
-    const { lat, lng } = getCenterOfMap();
-    openNewPlaceForm({ lat: lat, lng: lng });
+    toggleAuthForm(() => {
+      const { lat, lng } = getCenterOfMap();
+      openNewPlaceForm({ lat: lat, lng: lng });
+    });
   }
 }
 

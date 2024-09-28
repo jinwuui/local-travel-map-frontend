@@ -29,16 +29,16 @@
             alt="star"
           />
         </div>
-        <div class="favorite" @click="handleFavorite">
+        <div class="bookmark" @click="handleBookmark">
           <img
-            class="favorite-icon"
-            :class="[selectedPlace.isFavorite ? 'active' : 'inactive']"
-            :src="favoriteIcon"
+            class="bookmark-icon"
+            :class="[selectedPlace.isBookmarked ? 'active' : 'inactive']"
+            :src="bookmarkIcon"
             alt="❤️"
           />
           <div
-            class="favorite-text"
-            :class="[selectedPlace.isFavorite ? 'active' : 'inactive']"
+            class="bookmark-text"
+            :class="[selectedPlace.isBookmarked ? 'active' : 'inactive']"
           >
             {{ t("navbar.저장") }}
           </div>
@@ -76,14 +76,14 @@ import uiState from "@/components/states/uiState";
 import { debounceLeading } from "@/utils/commonUtils";
 
 const { toggleAuthForm } = uiState;
-const { detailInfo, selectedPlace, openSlider, toggleFavoritePlace } =
+const { detailInfo, selectedPlace, openSlider, toggleBookmarkPlace } =
   useSelectedPlace();
 const { loadUser } = useApp();
-const debounceToggleFavoritePlace = debounceLeading(toggleFavoritePlace, 300);
+const debounceToggleBookmarkPlace = debounceLeading(toggleBookmarkPlace, 300);
 
 const ratingActivedIcon = require("@/assets/pixels/rating_star.png");
 const ratingInactivedIcon = require("@/assets/pixels/rating_star_inactived.png");
-const favoriteIcon = require("@/assets/pixels/favorite.png");
+const bookmarkIcon = require("@/assets/pixels/bookmark.png");
 
 const imageUrl = computed(() => {
   return selectedPlace.value.images.length === 0
@@ -91,14 +91,14 @@ const imageUrl = computed(() => {
     : selectedPlace.value.images[0].resizedImageUrl_t;
 });
 
-function handleFavorite() {
+function handleBookmark() {
   // 로그인 여부 확인
   if (loadUser()) {
     // 로그인 O -> 즐겨찾기 토글
-    debounceToggleFavoritePlace();
+    debounceToggleBookmarkPlace();
   } else {
     // 로그인 X -> 로그인폼 열기
-    toggleAuthForm(() => debounceToggleFavoritePlace());
+    toggleAuthForm(() => debounceToggleBookmarkPlace());
   }
 }
 </script>
@@ -178,11 +178,11 @@ h2 {
   justify-content: space-between;
 }
 
-.favorite {
+.bookmark {
   cursor: pointer;
 }
 
-.favorite-text {
+.bookmark-text {
   position: relative;
   top: -0.5em;
   font-size: 0.8em;

@@ -10,14 +10,14 @@ const { navigateToPreviousComponent, toggleSideTabLoading } = uiState;
 
 const { loadUser } = useApp();
 
-const favoritePlaces = ref([]);
+const bookmarkPlaces = ref([]);
 
 const announcements = ref([]);
 
 const feedbackContent = ref("");
 const feedbackWriter = ref("");
 
-async function fetchFavoritePlaces() {
+async function fetchBookmarkPlaces() {
   const user = loadUser();
   if (!user) {
     throw Error("유저가 없습니다.");
@@ -26,8 +26,8 @@ async function fetchFavoritePlaces() {
   try {
     toggleSideTabLoading();
 
-    const { places } = await placeAPI.fetchFavoritePlaces(user.userId);
-    favoritePlaces.value = places;
+    const { places } = await placeAPI.fetchBookmarkPlaces(user.userId);
+    bookmarkPlaces.value = places;
   } catch (error) {
     alert("즐겨찾기를 불러오는데 실패했습니다.");
   } finally {
@@ -81,8 +81,8 @@ async function submitFeedback() {
 
 export default function useNavBar() {
   return {
-    favoritePlaces: computed(() => favoritePlaces.value),
-    fetchFavoritePlaces,
+    bookmarkPlaces: computed(() => bookmarkPlaces.value),
+    fetchBookmarkPlaces,
 
     announcements: computed(() => announcements.value),
     fetchAnnouncements,

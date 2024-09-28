@@ -1,10 +1,10 @@
 export default class Place {
-  constructor({ placeId, lat, lng, name, categories, isFavorite = false }) {
+  constructor({ placeId, lat, lng, name, categories, isBookmarked = false }) {
     this.placeId = placeId;
     this.lat = lat;
     this.lng = lng;
     this.name = name;
     this.categories = categories;
-    this.isFavorite = isFavorite;
+    this.isBookmarked = isBookmarked;
   }
 }

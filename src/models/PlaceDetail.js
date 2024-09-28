@@ -8,7 +8,7 @@ export default class PlaceDetail extends Place {
     lng,
     name,
     categories,
-    isFavorite,
+    isBookmarked,
     description = "",
     rating = 0,
     images = [],
@@ -20,7 +20,7 @@ export default class PlaceDetail extends Place {
       lng,
       name,
       categories,
-      isFavorite,
+      isBookmarked,
     });
     this.description = description;
     this.rating = rating;

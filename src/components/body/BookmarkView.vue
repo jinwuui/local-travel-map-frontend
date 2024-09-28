@@ -1,9 +1,9 @@
 <template>
-  <div class="favorite-view">
-    <ul v-if="favoritePlaces.length > 0" class="favorite-list">
+  <div class="bookmark-view">
+    <ul v-if="bookmarkPlaces.length > 0" class="bookmark-list">
       <li
-        v-for="(place, index) in favoritePlaces"
-        :class="{ 'border-line': index < favoritePlaces.length - 1 }"
+        v-for="(place, index) in bookmarkPlaces"
+        :class="{ 'border-line': index < bookmarkPlaces.length - 1 }"
         :key="index"
         @mousedown="selectPlaceById(place.placeId)"
       >
@@ -47,13 +47,13 @@ import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const toast = useToast();
 
-const { favoritePlaces, fetchFavoritePlaces } = useNavBar();
+const { bookmarkPlaces, fetchBookmarkPlaces } = useNavBar();
 const { selectPlaceById } = useSelectedPlace();
 const noResultsImage = require("@/assets/pixelarts/no-results-image.jpeg");
 
 onMounted(
   async () =>
-    await fetchFavoritePlaces().catch(() =>
+    await fetchBookmarkPlaces().catch(() =>
       toast.error(t("로그인이 필요합니다"), {
         position: POSITION.TOP_CENTER,
         timeout: 2000,
@@ -76,12 +76,12 @@ function convertToWebp(filename, type) {
 </script>
 
 <style scoped>
-.favorite-view {
+.bookmark-view {
   width: 100%;
   height: 100%;
 }
 
-.favorite-list {
+.bookmark-list {
   list-style: none;
   overflow-y: auto;
   width: 100%;
@@ -91,7 +91,7 @@ function convertToWebp(filename, type) {
   overflow: auto;
 }
 
-.favorite-list li {
+.bookmark-list li {
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
@@ -128,7 +128,7 @@ function convertToWebp(filename, type) {
   line-height: 1.2;
 }
 
-.favorite-list li:hover {
+.bookmark-list li:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 

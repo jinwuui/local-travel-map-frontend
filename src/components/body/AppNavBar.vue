@@ -5,9 +5,9 @@
       <ul>
         <li
           :class="{
-            active: activeSideTab === COMPONENT_NAMES.FAVORITE_VIEW,
+            active: activeSideTab === COMPONENT_NAMES.BOOKMARK_VIEW,
           }"
-          @click="handleFavorite"
+          @click="handleBookmark"
         >
           {{ t("navbar.저장") }}
         </li>
@@ -48,11 +48,11 @@ const reloadPage = () => {
   window.location.reload();
 };
 
-function handleFavorite() {
+function handleBookmark() {
   if (loadUser()) {
-    navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW);
+    navigateToComponent(COMPONENT_NAMES.BOOKMARK_VIEW);
   } else {
-    toggleAuthForm(() => navigateToComponent(COMPONENT_NAMES.FAVORITE_VIEW));
+    toggleAuthForm(() => navigateToComponent(COMPONENT_NAMES.BOOKMARK_VIEW));
   }
 }
 

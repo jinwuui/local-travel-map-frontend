@@ -30,59 +30,38 @@ export default class PlaceAPIService {
     console.log("addPlace", placeFormData);
     return this._axiosMultipartCall({
       url: "/places",
+      headers: { accessToken: true },
       method: "post",
       data: placeFormData,
     });
   }
 
   // TODO: 브라우저 창에 보이는 경도/위도 값으로 조회 가능하도록 변경
-  async fetchPlaces(params, userId) {
-    const config = { method: "get" };
-
-    if (userId) {
-      config.headers = {
-        Authorization: `Bearer ${userId}`, // Authorization 헤더에 userId 추가
-      };
-    }
-    if (params) {
-      config.params = params;
-    }
-
-    return this._axiosCall(config);
+  async fetchPlaces(params) {
+    return this._axiosCall({
+      url: "/places",
+      method: "get",
+      headers: { accessToken: true },
+      params: params,
+    });
   }
 
-  async fetchFavoritePlaces(userId) {
+  async fetchBookmarkPlaces(userId) {
     if (!userId) return;
 
     return this._axiosCall({
       method: "get",
-      url: "/favorites",
+      url: "/bookmarks",
       headers: { Authorization: `Bearer ${userId}` },
     });
   }
 
-  async fetchPlace(placeId, userId) {
-    const config = { method: "get", url: `/${placeId}` };
-
-    if (userId) {
-      config.headers = {
-        Authorization: `Bearer ${userId}`, // Authorization 헤더에 userId 추가
-      };
-    }
-
-    return this._axiosCall(config);
-  }
-
-  async fetchPlaceDetails(placeId, userId) {
-    const config = { method: "get", url: `/${placeId}/details` };
-
-    if (userId) {
-      config.headers = {
-        Authorization: `Bearer ${userId}`, // Authorization 헤더에 userId 추가
-      };
-    }
-
-    return this._axiosCall(config);
+  async fetchPlace(placeId) {
+    return this._axiosCall({
+      url: `/places/${placeId}`,
+      method: "get",
+      headers: { accessToken: true },
+    });
   }
 
   async updatePlace(placeId, place, password) {

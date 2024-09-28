@@ -3,12 +3,10 @@ import Place from "@/models/Place";
 import { placeAPI } from "@/services/place.api";
 
 import useMap from "@/components/states/useMap";
-import useApp from "@/components/states/useApp";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import uiState from "@/components/states/uiState";
 
 const { toggleMapFetchLoading } = uiState;
-const { loadUser } = useApp();
 const { mapRef } = useMap();
 
 const places = ref([]);
@@ -26,12 +24,12 @@ async function fetchPlaces(params) {
   try {
     toggleMapFetchLoading();
 
-    const fetchedData = await placeAPI.fetchPlaces(params, loadUser()?.userId);
+    const fetchedData = await placeAPI.fetchPlaces(params);
 
     if (params) {
-      updatePlacesWithParams(fetchedData.places);
+      updatePlacesWithParams(fetchedData.items);
     } else {
-      updatePlacesWithoutParams(fetchedData.places);
+      updatePlacesWithoutParams(fetchedData.items);
     }
   } catch (error) {
     console.error("Error fetching places:", error);

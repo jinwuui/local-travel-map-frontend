@@ -8,7 +8,7 @@ import PlaceDetail from "@/models/PlaceDetail";
 
 const { navigateToComponent, toggleSideTabLoading } = uiState;
 const { setMapCenter, setMapZoom } = useMap();
-const { user, loadUser } = useApp();
+const { user } = useApp();
 
 const detailInfo = ref(null);
 const selectedPlace = ref(null);
@@ -19,17 +19,14 @@ async function selectPlace(place) {
   try {
     toggleSideTabLoading();
 
-    const fetched = await placeAPI.fetchPlaceDetails(
-      place.placeId,
-      loadUser()?.userId
-    );
-
+    const fetched = await placeAPI.fetchPlace(place.placeId);
+    console.log(">> place", place);
     selectedPlace.value = PlaceDetail.fromPlace({
       place: place,
-      description: fetched.placeDetails?.description || "기본 설명",
-      rating: fetched.placeDetails?.rating || 0,
-      images: fetched.placeDetails?.images,
-      country: fetched.placeDetails?.country,
+      description: fetched?.description || "기본 설명",
+      rating: fetched?.rating || 0,
+      images: fetched?.images,
+      country: fetched?.country,
     });
 
     setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
@@ -50,7 +47,7 @@ async function selectPlaceById(placeId) {
   try {
     toggleSideTabLoading();
 
-    const fetched = await placeAPI.fetchPlace(placeId, loadUser()?.userId);
+    const fetched = await placeAPI.fetchPlace(placeId);
 
     selectedPlace.value = PlaceDetail.fromJson(fetched.place);
 
@@ -68,15 +65,15 @@ async function selectPlaceById(placeId) {
   }
 }
 
-async function toggleFavoritePlace() {
+async function toggleBookmarkPlace() {
   if (!user.value) return;
 
-  const { isFavorite } = await userAPI.toggleFavoritePlace(
+  const { isBookmarked } = await userAPI.toggleBookmarkPlace(
     user.value.userId,
     selectedPlace.value.placeId
   );
 
-  selectedPlace.value.isFavorite = isFavorite;
+  selectedPlace.value.isBookmarked = isBookmarked;
 }
 
 function openSlider() {
@@ -103,7 +100,7 @@ export default function useSelectedPlace() {
     selectPlace,
     selectPlaceById,
 
-    toggleFavoritePlace,
+    toggleBookmarkPlace,
 
     imageSlider,
     openSlider,
