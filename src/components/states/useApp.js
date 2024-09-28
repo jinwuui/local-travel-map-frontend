@@ -37,6 +37,8 @@ function saveUser() {
 function removeUser() {
   user.value = null;
   localStorage.removeItem("user");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
 }
 
 export default function useApp() {
