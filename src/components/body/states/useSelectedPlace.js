@@ -72,6 +72,7 @@ async function selectPlaceById(placeId) {
 async function toggleBookmarkPlace() {
   if (!user.value) return;
 
+  // TODO: 변경된 백엔드 사항에 맞춰 변경할 것
   const { isBookmarked } = await userAPI.toggleBookmarkPlace(
     user.value.userId,
     selectedPlace.value.placeId

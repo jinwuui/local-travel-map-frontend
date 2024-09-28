@@ -40,7 +40,7 @@ async function fetchAnnouncements() {
     toggleSideTabLoading();
 
     const fetched = await communicationAPI.fetchAnnouncements();
-    announcements.value = fetched.announcements;
+    announcements.value = fetched.items;
   } catch (error) {
     alert("공지를 불러오는데 실패했습니다.");
   } finally {

@@ -1,14 +1,11 @@
-import axios from "axios";
+import { apiClient } from "./axiosClient";
 
 export default class CommunicationAPIService {
   constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: process.env.VUE_APP_BASE_URL + "/communications",
-      headers: { "Content-Type": "application/json" },
-    });
+    this.axiosInstance = apiClient;
   }
 
-  async _axiosCall(config) {
+  async _makeApiCall(config) {
     try {
       const { data } = await this.axiosInstance.request(config);
       return data;
@@ -19,16 +16,18 @@ export default class CommunicationAPIService {
   }
 
   async fetchAnnouncements() {
-    return await this._axiosCall({
+    return this._makeApiCall({
       method: "get",
-      url: "/announcements",
+      url: "/communications/announcements",
+      headers: { accessToken: true },
     });
   }
 
   async submitFeedback(feedback) {
-    return await this._axiosCall({
+    return this._makeApiCall({
       method: "post",
-      url: "/feedbacks",
+      url: "/communications/feedbacks",
+      headers: { accessToken: true },
       data: feedback,
     });
   }

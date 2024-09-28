@@ -6,19 +6,9 @@ export default class PlaceAPIService {
     this.multipartInstance = multipartClient;
   }
 
-  async _axiosCall(config) {
+  async _makeApiCall(config, instance = this.axiosInstance) {
     try {
-      const { data } = await this.axiosInstance.request(config);
-      return data;
-    } catch (error) {
-      console.error("API 호출 오류:", error);
-      throw error;
-    }
-  }
-
-  async _axiosMultipartCall(config) {
-    try {
-      const { data } = await this.multipartInstance.request(config);
+      const { data } = await instance.request(config);
       return data;
     } catch (error) {
       console.error("API 호출 오류:", error);
@@ -28,36 +18,39 @@ export default class PlaceAPIService {
 
   async addPlace(placeFormData) {
     console.log("addPlace", placeFormData);
-    return this._axiosMultipartCall({
-      url: "/places",
-      headers: { accessToken: true },
-      method: "post",
-      data: placeFormData,
-    });
+    return this._makeApiCall(
+      {
+        method: "post",
+        url: "/places",
+        headers: { accessToken: true },
+        data: placeFormData,
+      },
+      this.multipartInstance
+    );
   }
 
   // TODO: 브라우저 창에 보이는 경도/위도 값으로 조회 가능하도록 변경
   async fetchPlaces(params) {
-    return this._axiosCall({
+    return this._makeApiCall({
+      method: "get",
       url: "/places",
-      method: "get",
       headers: { accessToken: true },
-      params: params,
-    });
-  }
-
-  async fetchBookmarkPlaces() {
-    return this._axiosCall({
-      url: "/places/bookmarks",
-      headers: { accessToken: true },
-      method: "get",
+      params,
     });
   }
 
   async fetchPlace(placeId) {
-    return this._axiosCall({
-      url: `/places/${placeId}`,
+    return this._makeApiCall({
       method: "get",
+      url: `/places/${placeId}`,
+      headers: { accessToken: true },
+    });
+  }
+
+  async fetchBookmarkPlaces() {
+    return this._makeApiCall({
+      method: "get",
+      url: "/places/bookmarks",
       headers: { accessToken: true },
     });
   }
