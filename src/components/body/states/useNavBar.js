@@ -26,8 +26,8 @@ async function fetchBookmarkPlaces() {
   try {
     toggleSideTabLoading();
 
-    const { places } = await placeAPI.fetchBookmarkPlaces(user.userId);
-    bookmarkPlaces.value = places;
+    const fetched = await placeAPI.fetchBookmarkPlaces();
+    bookmarkPlaces.value = fetched.items;
   } catch (error) {
     alert("즐겨찾기를 불러오는데 실패했습니다.");
   } finally {

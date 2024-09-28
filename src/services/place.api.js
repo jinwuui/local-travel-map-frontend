@@ -46,13 +46,11 @@ export default class PlaceAPIService {
     });
   }
 
-  async fetchBookmarkPlaces(userId) {
-    if (!userId) return;
-
+  async fetchBookmarkPlaces() {
     return this._axiosCall({
+      url: "/places/bookmarks",
+      headers: { accessToken: true },
       method: "get",
-      url: "/bookmarks",
-      headers: { Authorization: `Bearer ${userId}` },
     });
   }
 
@@ -61,22 +59,6 @@ export default class PlaceAPIService {
       url: `/places/${placeId}`,
       method: "get",
       headers: { accessToken: true },
-    });
-  }
-
-  async updatePlace(placeId, place, password) {
-    return this._axiosCall({
-      method: "put",
-      url: `/${placeId}`,
-      data: { place: place, password: password },
-    });
-  }
-
-  async deletePlace(placeId, password) {
-    return this._axiosCall({
-      method: "delete",
-      url: `/${placeId}`,
-      data: password,
     });
   }
 }
