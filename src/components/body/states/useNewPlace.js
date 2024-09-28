@@ -11,7 +11,7 @@ const {
   navigateToComponent,
   navigateToPreviousComponent,
 } = uiState;
-const { selectPlace } = useSelectedPlace();
+const { selectPlaceById } = useSelectedPlace();
 
 const nameText = ref("");
 const descriptionText = ref("");
@@ -67,14 +67,10 @@ async function addNewPlace(imageFiles) {
         });
       }
 
-      const data = await placeAPI.addPlace(formData).then((result) => {
-        result.lat = parseFloat(result.lat);
-        result.lng = parseFloat(result.lng);
-        closeNewPlaceForm();
-        return result;
-      });
+      const data = await placeAPI.addPlace(formData);
 
-      await selectPlace(data);
+      closeNewPlaceForm();
+      await selectPlaceById(data);
     } catch (error) {
       console.error("Error during add new place", error);
       throw error;

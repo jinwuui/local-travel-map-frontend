@@ -20,7 +20,7 @@ async function selectPlace(place) {
     toggleSideTabLoading();
 
     const fetched = await placeAPI.fetchPlace(place.placeId);
-    console.log(">> place", place);
+
     selectedPlace.value = PlaceDetail.fromPlace({
       place: place,
       description: fetched?.description || "기본 설명",
@@ -47,9 +47,13 @@ async function selectPlaceById(placeId) {
   try {
     toggleSideTabLoading();
 
-    const fetched = await placeAPI.fetchPlace(placeId);
+    const fetched = await placeAPI.fetchPlace(placeId).then((result) => {
+      result.lat = parseFloat(result.lat);
+      result.lng = parseFloat(result.lng);
+      return result;
+    });
 
-    selectedPlace.value = PlaceDetail.fromJson(fetched.place);
+    selectedPlace.value = PlaceDetail.fromJson(fetched);
 
     setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
     setMapZoom(8);
