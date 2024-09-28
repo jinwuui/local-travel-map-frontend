@@ -1,6 +1,5 @@
 import { ref, reactive, computed } from "vue";
 import { placeAPI } from "@/services/place.api";
-import { userAPI } from "@/services/user.api";
 import uiState, { COMPONENT_NAMES } from "@/components/states/uiState";
 import useMap from "@/components/states/useMap";
 import useApp from "@/components/states/useApp";
@@ -72,9 +71,7 @@ async function selectPlaceById(placeId) {
 async function toggleBookmarkPlace() {
   if (!user.value) return;
 
-  // TODO: 변경된 백엔드 사항에 맞춰 변경할 것
-  const { isBookmarked } = await userAPI.toggleBookmarkPlace(
-    user.value.userId,
+  const { isBookmarked } = await placeAPI.toggleBookmarkPlace(
     selectedPlace.value.placeId
   );
 

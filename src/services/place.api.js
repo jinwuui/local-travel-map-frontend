@@ -54,6 +54,14 @@ export default class PlaceAPIService {
       headers: { accessToken: true },
     });
   }
+
+  async toggleBookmarkPlace(placeId) {
+    return this._makeApiCall({
+      method: "post",
+      url: `/places/bookmarks/${placeId}`,
+      headers: { accessToken: true },
+    });
+  }
 }
 
 export const placeAPI = new PlaceAPIService();

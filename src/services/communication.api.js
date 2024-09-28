@@ -19,7 +19,6 @@ export default class CommunicationAPIService {
     return this._makeApiCall({
       method: "get",
       url: "/communications/announcements",
-      headers: { accessToken: true },
     });
   }
 
@@ -27,7 +26,6 @@ export default class CommunicationAPIService {
     return this._makeApiCall({
       method: "post",
       url: "/communications/feedbacks",
-      headers: { accessToken: true },
       data: feedback,
     });
   }

@@ -1,11 +1,8 @@
-import axios from "axios";
+import { apiClient } from "./axiosClient";
 
 export default class AuthAPIService {
   constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: process.env.VUE_APP_BASE_URL + "/auth",
-      headers: { "Content-Type": "application/json" },
-    });
+    this.axiosInstance = apiClient;
   }
 
   async _axiosCall(config) {
@@ -18,10 +15,11 @@ export default class AuthAPIService {
       throw error;
     }
   }
+
   async signUp(signUpInfo) {
     return this._axiosCall({
       method: "post",
-      url: "/signup",
+      url: "/auth/signup",
       data: signUpInfo,
     });
   }
@@ -29,7 +27,7 @@ export default class AuthAPIService {
   async login(loginInfo) {
     return this._axiosCall({
       method: "post",
-      url: "/login",
+      url: "/auth/login",
       data: loginInfo,
     });
   }
