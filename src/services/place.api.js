@@ -18,7 +18,7 @@ export default class PlaceAPIService {
 
   async addPlace(placeFormData) {
     console.log("addPlace", placeFormData);
-    return this._makeApiCall(
+    return await this._makeApiCall(
       {
         method: "post",
         url: "/places",
@@ -31,7 +31,7 @@ export default class PlaceAPIService {
 
   // TODO: 브라우저 창에 보이는 경도/위도 값으로 조회 가능하도록 변경
   async fetchPlaces(params) {
-    return this._makeApiCall({
+    return await this._makeApiCall({
       method: "get",
       url: "/places",
       headers: { accessToken: true },
@@ -40,7 +40,7 @@ export default class PlaceAPIService {
   }
 
   async fetchPlace(placeId) {
-    return this._makeApiCall({
+    return await this._makeApiCall({
       method: "get",
       url: `/places/${placeId}`,
       headers: { accessToken: true },
@@ -48,7 +48,7 @@ export default class PlaceAPIService {
   }
 
   async fetchBookmarkPlaces() {
-    return this._makeApiCall({
+    return await this._makeApiCall({
       method: "get",
       url: "/places/bookmarks",
       headers: { accessToken: true },
@@ -56,7 +56,7 @@ export default class PlaceAPIService {
   }
 
   async toggleBookmarkPlace(placeId) {
-    return this._makeApiCall({
+    return await this._makeApiCall({
       method: "post",
       url: `/places/bookmarks/${placeId}`,
       headers: { accessToken: true },

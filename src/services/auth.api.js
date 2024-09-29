@@ -17,7 +17,7 @@ export default class AuthAPIService {
   }
 
   async signUp(signUpInfo) {
-    return this._axiosCall({
+    return await this._axiosCall({
       method: "post",
       url: "/auth/signup",
       data: signUpInfo,
@@ -25,7 +25,7 @@ export default class AuthAPIService {
   }
 
   async login(loginInfo) {
-    return this._axiosCall({
+    return await this._axiosCall({
       method: "post",
       url: "/auth/login",
       data: loginInfo,

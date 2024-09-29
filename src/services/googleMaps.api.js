@@ -24,7 +24,7 @@ export default class GoogleMapsAPIService {
   }
 
   async getPlaceDetails(placeId) {
-    return this._axiosCall({
+    return await this._axiosCall({
       method: "get",
       url: `/places/${placeId}`,
     });

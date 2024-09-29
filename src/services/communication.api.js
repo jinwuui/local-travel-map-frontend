@@ -16,14 +16,14 @@ export default class CommunicationAPIService {
   }
 
   async fetchAnnouncements() {
-    return this._makeApiCall({
+    return await this._makeApiCall({
       method: "get",
       url: "/communications/announcements",
     });
   }
 
   async submitFeedback(feedback) {
-    return this._makeApiCall({
+    return await this._makeApiCall({
       method: "post",
       url: "/communications/feedbacks",
       data: feedback,

@@ -58,7 +58,7 @@ async function autocomplete(query) {
   }
 
   const data = await searchAPI.autocomplete(trimmedQuery);
-  const newIdSet = new Set(data.suggestions.map((item) => item.placeId));
+  const newIdSet = new Set(data.items.map((item) => item.placeId));
 
   const recentSuggestions = searchHistory.value
     .filter((item) => {
@@ -70,7 +70,7 @@ async function autocomplete(query) {
     })
     .map((item) => ({ ...item, type: "recent" }));
 
-  const newSuggestions = data.suggestions
+  const newSuggestions = data.items
     .filter((item) => newIdSet.has(item.placeId))
     .map((item) => ({ ...item, type: "auto" }));
 
@@ -128,7 +128,7 @@ async function searching() {
         setSearchedPlaces(lastSuggestions.value);
       } else {
         await searchAPI.autocomplete(trimmedQuery).then((data) => {
-          setSearchedPlaces(data.suggestions);
+          setSearchedPlaces(data.items);
         });
       }
     } finally {
