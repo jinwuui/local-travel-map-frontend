@@ -34,7 +34,7 @@ Vue.js / Express.js / SQLite3
 
 Google Map API / Nginx / Jenkins
 
-***Spring Boot로 마이그레이션 진행중***
+[***Spring Boot로 마이그레이션 진행중***](https://github.com/jinwuui/local-travel-spring-backend)
 
 [링크](https://github.com/jinwuui/local-travel-spring-backend)
 
