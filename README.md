@@ -1,26 +1,24 @@
-### 바로가기
-
-[프로젝트 설명](#로컬xyz)
-
-[Service Structure](#Service-Structure)
-
-[UI](#UI)
-
----
-
-# 로컬xyz
+# 로-컬.xyz
 
 [사이트 링크](https://looocal.xyz)
 
 ## 1. 개요
 
-2024.05 ~ 진행중
+기간: 2024.05 ~ 2024.08
 
-전 세계 곳곳의 숨겨진 로컬 여행지를 공유하고 검색할 수 있는 사이트
+***2024.09 ~ [***Spring Boot로 마이그레이션 진행중***](https://github.com/jinwuui/local-travel-spring-backend)***
+
+<br/>
+
+1인 프로젝트
+
+숨겨진 로컬 여행지를 공유하고 탐색하는 플랫폼으로, 사용자들이 경험한 여행지를 서로 나누고 특별한 여행지를 발견할 수 있습니다.
+
+처음에는 Express.js로 개발하고 배포하였으나, 현재는 Spring Boot로 마이그레이션을 진행 중입니다. **(개발 완료 / AWS에 배포 진행중)**
+
+<br/>
 
 ## 2. 기술 스택
-
-[***Spring Boot로 마이그레이션 진행중***](https://github.com/jinwuui/local-travel-spring-backend)
 
 **Backend-V2:** Java / Spring Boot / Spring Security / JPA(Hibernate) / PostgreSQL / Redis
 
@@ -30,15 +28,19 @@
 
 **ETC:** AWS EC2, S3, Lambda / NginX / Docker / Github Webhooks / Jenkins
 
+<br/>
+
 ## 3. 주요 성과
 
 - 검색어 자동 완성, 태그 검색, 즐겨찾기, 건의 기능 등의 사용자 편의 기능
 - Nginx를 이용하여 로컬 컴퓨터에서 웹 서버와 백엔드 서버 운영중
 - GitHub 웹훅과 Jenkins를 활용한 CI/CD 구축
 
+<br/>
+
 ## 4. 기술적 도전과 해결 방법
 
-### 검색어 자동 완성
+### 4.1. 검색어 자동 완성
 - **기존 방식**: 여행지의 제목 또는 내용과 일치하는 초성 및 한/영 철자를 기반으로 검색
 - **개선 방식 1**: 기존의 '일치 방식'에 더해, 임베딩(embedding)으로 유사도를 계산하여 검색어를 자동 완성하도록 구현 변경
   - **해결 방법**
@@ -67,8 +69,9 @@
   
     <img width="770" alt="스크린샷 2024-07-14 오전 10 29 34" src="https://github.com/user-attachments/assets/231007f3-116d-4489-b7a5-3962fc0f1cf4">
 
+<br/>
 
-### 이미지 최적화
+### 4.2. 이미지 최적화
 - **기존 방식**: 상세 이미지와 썸네일에 2가지 종류를 사용 (원본 / 썸네일)
 - **개선 방식**: 상세 이미지와 썸네일에 4가지 종류를 사용 (small, medium, large / 썸네일)
 - **세부 설명**:
