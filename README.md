@@ -1,16 +1,10 @@
 ### 바로가기
 
-[Service Structure](#Service-Structure)
-
 [프로젝트 설명](#로컬xyz)
 
-[사이트 UI](#사이트-UI)
+[Service Structure](#Service-Structure)
 
----
-
-# Service Structure
-
-<img alt="looocal-architecture" src="https://github.com/user-attachments/assets/fd0477d0-e47a-466a-a460-00626f02f3ca">
+[UI](#UI)
 
 ---
 
@@ -18,25 +12,31 @@
 
 [사이트 링크](https://looocal.xyz)
 
-## 개요
+## 1. 개요
+
+2024.05 ~ 진행중
 
 전 세계 곳곳의 숨겨진 로컬 여행지를 공유하고 검색할 수 있는 사이트
 
-## 주요 성과
+## 2. 기술 스택
+
+[***Spring Boot로 마이그레이션 진행중***](https://github.com/jinwuui/local-travel-spring-backend)
+
+**Backend-V2:** Java / Spring Boot / Spring Security / JPA(Hibernate) / PostgreSQL / Redis
+
+**Backend-V1:** Javascript / Express.js / Sequelize / SQLite / PostgreSQL / Redis
+
+**Frontend:** Javascript / Vue.js
+
+**ETC:** AWS EC2, S3, Lambda / NginX / Docker / Github Webhooks / Jenkins
+
+## 3. 주요 성과
 
 - 검색어 자동 완성, 태그 검색, 즐겨찾기, 건의 기능 등의 사용자 편의 기능
 - Nginx를 이용하여 로컬 컴퓨터에서 웹 서버와 백엔드 서버 운영중
 - GitHub 웹훅과 Jenkins를 활용한 CI/CD 구축
 
-## 기술 스택
-
-Vue.js / Express.js / SQLite3
-
-Google Map API / Nginx / Jenkins
-
-[***Spring Boot로 마이그레이션 진행중***](https://github.com/jinwuui/local-travel-spring-backend)
-
-## 기술적 도전과 해결 방법
+## 4. 기술적 도전과 해결 방법
 
 ### 검색어 자동 완성
 - **기존 방식**: 여행지의 제목 또는 내용과 일치하는 초성 및 한/영 철자를 기반으로 검색
@@ -85,7 +85,13 @@ Google Map API / Nginx / Jenkins
 
 ---
 
-# 사이트 UI
+# Service Structure
+
+<img alt="looocal-architecture" src="https://github.com/user-attachments/assets/fd0477d0-e47a-466a-a460-00626f02f3ca">
+
+---
+
+# UI
 
 ![ss1](https://github.com/user-attachments/assets/c29c80a1-8bd7-4787-9883-e18d8c5e6f72) |![ss2](https://github.com/user-attachments/assets/3deccbfa-610b-4e0e-bbae-468c4d5d3811) 
 --- | --- |
