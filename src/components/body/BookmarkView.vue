@@ -14,13 +14,13 @@
         <h3 class="description">{{ place.description }}</h3>
         <div class="images">
           <img
-            v-for="(image, imageIndex) in place.images"
-            :src="getResizedImageUrl(image.filename, 's')"
+            v-for="(imageUrl, imageIndex) in place.imageUrls"
+            :src="imageUrl.resizedImageUrl_s"
             :key="imageIndex"
             class="image"
             :class="{
               first: imageIndex === 0,
-              last: imageIndex === place.images.length - 1,
+              last: imageIndex === place.imageUrls.length - 1,
             }"
             loading="lazy"
             decoding="async"
@@ -60,19 +60,6 @@ onMounted(
       })
     )
 );
-
-function getResizedImageUrl(filename, type) {
-  const baseUrl = process.env.VUE_APP_RESIZED_IMAGE_URL;
-  const resizedFilename = convertToWebp(filename, type);
-
-  return `${baseUrl}${type}/${resizedFilename}`;
-}
-
-function convertToWebp(filename, type) {
-  const extensionIndex = filename.lastIndexOf(".");
-  const basename = filename.substring(0, extensionIndex);
-  return `${basename}-${type}.webp`;
-}
 </script>
 
 <style scoped>

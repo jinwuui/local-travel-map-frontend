@@ -11,7 +11,7 @@ export default class PlaceDetail extends Place {
     isBookmarked,
     description = "",
     rating = 0,
-    images = [],
+    imageUrls = [],
     country,
   }) {
     super({
@@ -24,7 +24,7 @@ export default class PlaceDetail extends Place {
     });
     this.description = description;
     this.rating = rating;
-    this.images = images.map((image) => new Image(image));
+    this.imageUrls = imageUrls.map((url) => new Image(url));
     this.country = country;
   }
 
@@ -34,15 +34,5 @@ export default class PlaceDetail extends Place {
 
   static fromJson(json) {
     return new PlaceDetail({ ...json });
-  }
-
-  static fromPlace({ place, description, rating, images, country }) {
-    return new PlaceDetail({
-      ...place,
-      description,
-      rating,
-      images,
-      country,
-    });
   }
 }

@@ -4,7 +4,7 @@
       <div v-for="place in places" :key="place.placeId">
         <CustomMarker
           v-if="place.placeId !== selectedPlace?.placeId"
-          @click.stop="selectPlace(place)"
+          @click.stop="selectPlaceById(place.placeId)"
           :options="{
             position: { lat: place.lat, lng: place.lng },
             anchorPoint: 'BOTTOM_CENTER',
@@ -52,7 +52,7 @@ import usePlace from "@/components/states/usePlace";
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 
 const { places, renderCluster } = usePlace();
-const { selectedPlace, selectPlace } = useSelectedPlace();
+const { selectedPlace, selectPlaceById } = useSelectedPlace();
 
 const defaultMarker = require("@/assets/pixels/default_marker.webp");
 const bookmarkMarker = require("@/assets/pixels/bookmark_marker.webp");

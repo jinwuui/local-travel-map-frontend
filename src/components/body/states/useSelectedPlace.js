@@ -14,34 +14,6 @@ const selectedPlace = ref(null);
 
 const imageSlider = reactive({ imageList: [], index: 0, isOpen: false });
 
-async function selectPlace(place) {
-  try {
-    toggleSideTabLoading();
-
-    const fetched = await placeAPI.fetchPlace(place.placeId);
-
-    selectedPlace.value = PlaceDetail.fromPlace({
-      place: place,
-      description: fetched?.description || "기본 설명",
-      rating: fetched?.rating || 0,
-      images: fetched?.images,
-      country: fetched?.country,
-    });
-
-    setMapCenter(selectedPlace.value.lat, selectedPlace.value.lng);
-    setMapZoom(8);
-    if (detailInfo.value) {
-      detailInfo.value.scrollTop = 0;
-    }
-
-    navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
-  } catch (error) {
-    alert("여행지 불러오기 실패");
-  } finally {
-    toggleSideTabLoading();
-  }
-}
-
 async function selectPlaceById(placeId) {
   try {
     toggleSideTabLoading();
@@ -61,8 +33,9 @@ async function selectPlaceById(placeId) {
     }
 
     navigateToComponent(COMPONENT_NAMES.PLACE_DETAIL_VIEW);
-  } catch (error) {
+  } catch (e) {
     alert("여행지 불러오기 실패");
+    console.error("Error - 여행지 불러오기 실패:", e);
   } finally {
     toggleSideTabLoading();
   }
@@ -80,14 +53,14 @@ async function toggleBookmarkPlace() {
 
 function openSlider() {
   if (
-    !Array.isArray(selectedPlace.value.images) ||
-    selectedPlace.value.images.length === 0
+    !Array.isArray(selectedPlace.value.imageUrls) ||
+    selectedPlace.value.imageUrls.length === 0
   ) {
     return;
   }
 
   imageSlider.isOpen = true;
-  imageSlider.imageList = selectedPlace.value.images;
+  imageSlider.imageList = selectedPlace.value.imageUrls;
 }
 
 function closeSlider() {
@@ -99,7 +72,6 @@ export default function useSelectedPlace() {
   return {
     detailInfo,
     selectedPlace: computed(() => selectedPlace.value),
-    selectPlace,
     selectPlaceById,
 
     toggleBookmarkPlace,
