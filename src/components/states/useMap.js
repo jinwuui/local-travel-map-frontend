@@ -52,8 +52,8 @@ function getCenterWithImportWindow(placeLat, placeLng) {
     if (!newLatLng) throw new Error("Failed to convert from Point to LatLng");
 
     return { lat: newLatLng.lat(), lng: newLatLng.lng() };
-  } catch (error) {
-    console.error("Error in getCenterWithImportWindow:", error);
+  } catch (e) {
+    console.error("Error in getCenterWithImportWindow:", e);
     return { lat: placeLat, lng: placeLng };
   }
 }
@@ -73,9 +73,9 @@ async function handleClick(event) {
       );
 
       setMapCenter(latLng.lat, latLng.lng);
-    } catch (error) {
-      console.error("Error in import google place", error);
-      throw error;
+    } catch (e) {
+      console.error("Error in import google place", e);
+      throw e;
     }
   }
 }

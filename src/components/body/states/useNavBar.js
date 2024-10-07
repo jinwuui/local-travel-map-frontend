@@ -5,6 +5,7 @@ import { placeAPI } from "@/services/place.api";
 
 import uiState from "@/components/states/uiState";
 import useApp from "@/components/states/useApp";
+import PlaceDetail from "@/models/PlaceDetail";
 
 const { navigateToPreviousComponent, toggleSideTabLoading } = uiState;
 
@@ -27,9 +28,11 @@ async function fetchBookmarkPlaces() {
     toggleSideTabLoading();
 
     const fetched = await placeAPI.fetchBookmarkPlaces();
-    bookmarkPlaces.value = fetched.items;
-  } catch (error) {
+    bookmarkPlaces.value =
+      fetched.items.map((item) => new PlaceDetail(item)) || [];
+  } catch (e) {
     alert("즐겨찾기를 불러오는데 실패했습니다.");
+    console.error("Error 즐겨찾기 불러오기 실패:", e);
   } finally {
     toggleSideTabLoading();
   }
@@ -41,8 +44,9 @@ async function fetchAnnouncements() {
 
     const fetched = await communicationAPI.fetchAnnouncements();
     announcements.value = fetched.items;
-  } catch (error) {
+  } catch (e) {
     alert("공지를 불러오는데 실패했습니다.");
+    console.error("Error 공지 불러오기 실패:", e);
   } finally {
     toggleSideTabLoading();
   }
@@ -72,8 +76,9 @@ async function submitFeedback() {
       .then(() => {
         navigateToPreviousComponent();
       });
-  } catch (error) {
+  } catch (e) {
     alert("건의하기가 실패했습니다.");
+    console.error("Error 건의하기 실패:", e);
   } finally {
     toggleSideTabLoading();
   }

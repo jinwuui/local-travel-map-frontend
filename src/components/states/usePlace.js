@@ -31,9 +31,9 @@ async function fetchPlaces(params) {
     } else {
       updatePlacesWithoutParams(fetchedData.items);
     }
-  } catch (error) {
-    console.error("Error fetching places:", error);
-    throw error;
+  } catch (e) {
+    console.error("Error fetching places:", e);
+    throw e;
   } finally {
     toggleMapFetchLoading();
   }

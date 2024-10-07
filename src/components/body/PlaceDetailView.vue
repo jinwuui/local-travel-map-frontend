@@ -6,7 +6,9 @@
       :src="imageUrl"
       alt="Image"
       @click="openSlider"
+      v-if="!isLoading"
     />
+    <div v-else class="info-image desktop loading-overlay" />
     <div class="name">
       <h2>{{ selectedPlace.name }}</h2>
       <h5 v-if="selectedPlace.country">{{ selectedPlace.country }}</h5>
@@ -55,29 +57,37 @@
       </div>
     </div>
 
-    <p>{{ selectedPlace.description }}</p>
+    <p v-html="convertLineBreaks(selectedPlace.description)"></p>
     <img
       class="info-image mobile"
       :class="{ 'no-image': selectedPlace.imageUrls.length === 0 }"
       :src="imageUrl"
       alt="Image"
       @click="openSlider"
+      v-if="!isLoading"
     />
+    <div v-else class="info-image mobile loading-overlay" />
   </div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
-import { computed } from "vue";
+
 import useSelectedPlace from "@/components/body/states/useSelectedPlace";
 import useApp from "@/components/states/useApp";
 import uiState from "@/components/states/uiState";
 import { debounceLeading } from "@/utils/commonUtils";
 
 const { toggleAuthForm } = uiState;
-const { detailInfo, selectedPlace, openSlider, toggleBookmarkPlace } =
-  useSelectedPlace();
+const {
+  detailInfo,
+  selectedPlace,
+  openSlider,
+  toggleBookmarkPlace,
+  isLoading,
+  imageUrl,
+} = useSelectedPlace();
 const { loadUser } = useApp();
 const debounceToggleBookmarkPlace = debounceLeading(toggleBookmarkPlace, 300);
 
@@ -85,11 +95,9 @@ const ratingActivedIcon = require("@/assets/pixels/rating_star.png");
 const ratingInactivedIcon = require("@/assets/pixels/rating_star_inactived.png");
 const bookmarkIcon = require("@/assets/pixels/bookmark.png");
 
-const imageUrl = computed(() => {
-  return selectedPlace.value.imageUrls.length === 0
-    ? process.env.VUE_APP_DEFAULT_IMAGE_URL
-    : selectedPlace.value.imageUrls[0].resizedImageUrl_t;
-});
+function convertLineBreaks(text) {
+  return text.replace(/\n/g, "<br/>");
+}
 
 function handleBookmark() {
   // 로그인 여부 확인
@@ -133,6 +141,15 @@ function handleBookmark() {
 
 .no-image {
   cursor: default;
+}
+
+.loading-overlay {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  cursor: default;
+  margin-bottom: 15px;
 }
 
 .info-image + .name,

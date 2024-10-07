@@ -15,7 +15,7 @@
         <div class="images">
           <img
             v-for="(imageUrl, imageIndex) in place.imageUrls"
-            :src="imageUrl.resizedImageUrl_s"
+            :src="imageUrl.resizedImageUrl_t"
             :key="imageIndex"
             class="image"
             :class="{

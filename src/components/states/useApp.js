@@ -13,8 +13,8 @@ function loadUser() {
     if (savedUser) {
       try {
         user.value = JSON.parse(savedUser);
-      } catch (error) {
-        console.error("로컬 저장소로부터 user 불러오기 실패", error);
+      } catch (e) {
+        console.error("로컬 저장소로부터 user 불러오기 실패", e);
         user.value = null;
       }
     }
@@ -29,8 +29,8 @@ function saveUser() {
       localStorage.setItem("accessToken", user.value.accessToken);
       localStorage.setItem("refreshToken", user.value.refreshToken);
     }
-  } catch (error) {
-    console.error("로컬 저장소에 user 저장 실패", error);
+  } catch (e) {
+    console.error("로컬 저장소에 user 저장 실패", e);
   }
 }
 

@@ -25,7 +25,7 @@ const createApiClient = (contentType) => {
       }
       return config;
     },
-    (error) => Promise.reject(error)
+    (e) => Promise.reject(e)
   );
 
   return client;

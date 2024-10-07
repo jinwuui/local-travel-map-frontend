@@ -10,14 +10,13 @@ export default class PlaceAPIService {
     try {
       const { data } = await instance.request(config);
       return data;
-    } catch (error) {
-      console.error("API 호출 오류:", error);
-      throw error;
+    } catch (e) {
+      console.error("API 호출 오류:", e);
+      throw e;
     }
   }
 
   async addPlace(placeFormData) {
-    console.log("addPlace", placeFormData);
     return await this._makeApiCall(
       {
         method: "post",

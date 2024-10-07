@@ -4,8 +4,8 @@ const MAX_AGE = 15 * 60 * 1000; // 15분
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).catch((error) => {
-      console.error("Error: Failed to open cache", error);
+    caches.open(CACHE_NAME).catch((e) => {
+      console.error("Error: Failed to open cache", e);
     })
   );
 });
@@ -29,7 +29,7 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  if (url.pathname === "/api/search/autocomplete") {
+  if (url.pathname && url.pathname.includes("autocomplete")) {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
         if (cachedResponse) {

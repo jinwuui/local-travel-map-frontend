@@ -9,9 +9,9 @@ export default class CommunicationAPIService {
     try {
       const { data } = await this.axiosInstance.request(config);
       return data;
-    } catch (error) {
-      console.error("API 호출 오류:", error);
-      throw error;
+    } catch (e) {
+      console.error("API 호출 오류:", e);
+      throw e;
     }
   }
 

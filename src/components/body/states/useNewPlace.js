@@ -71,9 +71,9 @@ async function addNewPlace(imageFiles) {
 
       closeNewPlaceForm();
       await selectPlaceById(data);
-    } catch (error) {
-      console.error("Error during add new place", error);
-      throw error;
+    } catch (e) {
+      console.error("Error during add new place", e);
+      throw e;
     } finally {
       toggleSideTabLoading();
     }
