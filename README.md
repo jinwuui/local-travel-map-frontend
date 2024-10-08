@@ -1,28 +1,22 @@
 # 로-컬.xyz
 
-[사이트 링크](https://looocal.xyz)
-
 ## 1. 개요
 
-기간: 2024.05 ~ 2024.08
+***로-컬.xyz에서 Express.js 서버를 사용하던 시기의 프로젝트 README 입니다.***
 
-***2024.09 ~ [***Spring Boot로 마이그레이션 진행중***](https://github.com/jinwuui/local-travel-spring-backend)***
+기간: 2024.05 ~ 2024.07
 
-<br/>
+링크: [로-컬.xyz](https://looocal.xyz)
 
 1인 프로젝트
 
 숨겨진 로컬 여행지를 공유하고 탐색하는 플랫폼으로, 사용자들이 경험한 여행지를 서로 나누고 특별한 여행지를 발견할 수 있습니다.
 
-처음에는 Express.js로 개발하고 배포하였으나, 현재는 Spring Boot로 마이그레이션을 진행 중입니다. **(개발 완료 / AWS에 배포 진행중)**
-
 <br/>
 
 ## 2. 기술 스택
 
-**Backend-V2:** Java / Spring Boot / Spring Security / JPA(Hibernate) / PostgreSQL / Redis
-
-**Backend-V1:** Javascript / Express.js / Sequelize / SQLite / PostgreSQL / Redis
+**Backend:** Javascript / Express.js / Sequelize / SQLite / PostgreSQL / Redis
 
 **Frontend:** Javascript / Vue.js
 
